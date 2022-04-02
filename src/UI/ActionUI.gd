@@ -1,5 +1,7 @@
 extends Control
 
+signal product_selected
+
 onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/ProductList
 onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 
@@ -11,3 +13,7 @@ func _on_Products_new_product(product):
 	var product_instance = product_ui_scene.instance()	
 	product_list.add_child(product_instance)
 	product_instance.init(product)
+	product_instance.connect("product_selected", self, "on_product_selected")
+
+func on_product_selected(product):
+	emit_signal("product_selected", product)

@@ -40,4 +40,5 @@ texture = ExtResource( 10 )
 product_name = "Product B"
 
 [connection signal="summon_aisle" from="." to="Map" method="_on_Game_summon_aisle"]
+[connection signal="product_selected" from="UI/ActionUI" to="." method="_on_ActionUI_product_selected"]
 [connection signal="new_product" from="Products" to="UI/ActionUI" method="_on_Products_new_product"]

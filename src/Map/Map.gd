@@ -38,13 +38,23 @@ func init_product_locations():
 		if product_locations[id] == null:
 			product_locations[id] = []
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
-	
+
 func get_checkout_locations():
 	return checkout_locations
-	
+
 func get_product_locations(product):
 	return product_locations[product]
-	
+
+func add_product_to_dict(coords, product):
+	if not product_locations.has(product.type):
+		product_locations[product.type] = []
+	product_locations[product.type].append(product_tile_map.map_to_world(coords))
+
+func remove_product_from_dict(coords, product_id):
+	var world_coords = product_tile_map.map_to_world(coords)
+	var index = product_locations[product_id].find(world_coords)
+	product_locations[product_id].remove(index)
+
 func create_client(products):
 	var client = client_scene.instance()
 	client.build_wishlist(products)
@@ -55,11 +65,17 @@ func create_client(products):
 func get_tile_under_cursor():
 	return floor_tile_map.world_to_map(get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin)
 
-func _on_Game_summon_aisle(product):
+func _on_Game_summon_product(product):
 	var tile_pos = get_tile_under_cursor()
 	if tile_pos == null:
 		return
 	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
 	# Can only drop an aisle/product on a floor tile
 	if current_tile == TILE_TYPES.AISLE:
-		product_tile_map.set_cell(tile_pos.x, tile_pos.y, product.type)
+		var current_value = product_tile_map.get_cell(tile_pos.x, tile_pos.y)
+		if current_value != -1:
+			remove_product_from_dict(tile_pos, current_value)
+
+		product_tile_map.set_cell(tile_pos.x, tile_pos.y, product.type)		
+		add_product_to_dict(tile_pos, product)
+		print(product_locations)

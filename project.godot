@@ -65,10 +65,6 @@ config/icon="res://assets/sprites/yannick.png"
 Globals="*res://src/Globals.gd"
 GameState="*res://src/GameState.gd"
 
-[editor_plugins]
-
-enabled=PoolStringArray( "res://addons/color-palette/plugin.cfg" )
-
 [physics]
 
 common/enable_pause_aware_picking=true

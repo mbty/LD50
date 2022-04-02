@@ -1,6 +1,6 @@
 extends Node
 
-signal summon_aisle
+signal summon_product
 
 onready var map = $Map
 
@@ -11,5 +11,5 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.pressed and GameState.selected_product != null:
-			emit_signal("summon_aisle", GameState.selected_product)
+			emit_signal("summon_product", GameState.selected_product)
 

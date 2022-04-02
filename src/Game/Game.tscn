@@ -74,5 +74,5 @@ cost = 3
 price = 7
 frequency = 0.5
 
-[connection signal="summon_aisle" from="." to="Map" method="_on_Game_summon_aisle"]
+[connection signal="summon_product" from="." to="Map" method="_on_Game_summon_product"]
 [connection signal="new_product" from="Products" to="UI/ActionUI" method="_on_Products_new_product"]

@@ -9,13 +9,25 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Strategy",
+"class": "MindOfSteelStrategy",
+"language": "GDScript",
+"path": "res://src/Client/Strategies/MindOfSteelStrategy.gd"
+}, {
 "base": "Node",
 "class": "Product",
 "language": "GDScript",
 "path": "res://src/Product/Product.gd"
+}, {
+"base": "Reference",
+"class": "Strategy",
+"language": "GDScript",
+"path": "res://src/Client/Strategies/Strategy.gd"
 } ]
 _global_script_class_icons={
-"Product": ""
+"MindOfSteelStrategy": "",
+"Product": "",
+"Strategy": ""
 }
 
 [application]

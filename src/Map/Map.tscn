@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/sprites/ugly_tileset.png" type="Texture" id=1]
 [ext_resource path="res://src/Map/Map.gd" type="Script" id=2]

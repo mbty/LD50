@@ -1,8 +1,9 @@
 extends Node2D
 
-onready var product_aisle_scene = preload("res://src/Product/ProductAisle.tscn")
+onready var product_sprite_scene = preload("res://src/Product/ProductSprite.tscn")
 onready var nav = $Navigation2D
 onready var tilemap = $Navigation2D/TileMap
+onready var products = $ProductSprites
 
 func _ready():
 	pass # Replace with function body.
@@ -17,7 +18,7 @@ func _on_Game_summon_aisle(product):
 	var current_tile = tilemap.get_cell(tile_pos.x, tile_pos.y)
 	if current_tile == 0:
 		tilemap.set_cell(tile_pos.x, tile_pos.y, 1)
-		var aisle = product_aisle_scene.instance()
+		var aisle = product_sprite_scene.instance()
 		aisle.position = tilemap.map_to_world(tile_pos)
 		aisle.product = product
-		nav.add_child(aisle)
+		products.add_child(aisle)

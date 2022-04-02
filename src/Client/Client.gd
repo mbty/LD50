@@ -12,6 +12,7 @@ var money = 30
 func _ready():
 	assert(wishlist != null)
 	assert(strategy != null)
+	self.strategy.init(self)
 
 func build_wishlist(available_products):
 	self.wishlist = []
@@ -25,7 +26,6 @@ func build_wishlist(available_products):
 func set_strategy(strategy_type):
 	if strategy_type == Globals.STRATEGY_TYPE.MIND_OF_STEEL:
 		self.strategy = MindOfSteelStrategy.new()
-		self.strategy.init(self)
 
 func _process(delta):
 	self.strategy.next_move()

@@ -7,7 +7,7 @@ var nav
 
 func init(client):
 	self.client = client
-	self.nav = client.get_parent().get_parent()
+	nav = client.get_parent().get_parent()
 
 func next_move():
 	assert(self.client != null)

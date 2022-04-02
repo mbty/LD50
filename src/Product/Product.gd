@@ -2,6 +2,7 @@ extends Node
 
 class_name Product
 
+export var type: int
 export var texture : Texture
 export var product_name : String
 export var cost : int

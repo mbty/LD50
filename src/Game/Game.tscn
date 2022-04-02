@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://src/Map/Map.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Game/Music.gd" type="Script" id=3]
 [ext_resource path="res://assets/musics/example.ogg" type="AudioStream" id=4]
 [ext_resource path="res://src/UI/HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/UI/ActionUI.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Game/Products.gd" type="Script" id=7]
+[ext_resource path="res://src/Product/Product.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/sprites/yannick.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/icon.png" type="Texture" id=10]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -22,4 +27,18 @@ volume_db = -8.0
 
 [node name="HUD" parent="UI" instance=ExtResource( 5 )]
 
+[node name="ActionUI" parent="UI" instance=ExtResource( 6 )]
+
+[node name="Products" type="Node" parent="."]
+script = ExtResource( 7 )
+
+[node name="ProductA" parent="Products" instance=ExtResource( 8 )]
+texture = ExtResource( 9 )
+product_name = "A"
+
+[node name="ProductB" parent="Products" instance=ExtResource( 8 )]
+texture = ExtResource( 10 )
+product_name = "B"
+
 [connection signal="summon_aisle" from="." to="Map" method="_on_Game_summon_aisle"]
+[connection signal="new_product" from="Products" to="UI/ActionUI" method="_on_Products_new_product"]

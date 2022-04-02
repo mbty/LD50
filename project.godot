@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "Product",
+"language": "GDScript",
+"path": "res://src/Product/Product.gd"
+} ]
+_global_script_class_icons={
+"Product": ""
+}
+
 [application]
 
 config/name="LD50"

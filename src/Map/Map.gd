@@ -3,7 +3,8 @@ extends Node2D
 onready var product_sprite_scene = preload("res://src/Product/ProductSprite.tscn")
 onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
-onready var tilemap = $Navigation2D/TileMap
+onready var floor_tile_map = $Navigation2D/FloorTileMap
+onready var product_tile_map = $Navigation2D/ProductTileMap
 onready var products_sprite = $ProductSprites
 onready var clients = $Navigation2D/Clients
 
@@ -28,9 +29,9 @@ func _init_dict():
 		product_dict[product].append(sprite)
 		
 	checkout_locations = []
-	for tile in tilemap.get_used_cells():
-		if tilemap.get_cell(tile.x, tile.y) == TILE_TYPES.CHECK_OUT:
-			checkout_locations.append(tilemap.map_to_world(tile))
+	for tile in floor_tile_map.get_used_cells():
+		if floor_tile_map.get_cell(tile.x, tile.y) == TILE_TYPES.CHECK_OUT:
+			checkout_locations.append(floor_tile_map.map_to_world(tile))
 			
 func get_checkout_locations():
 	return checkout_locations
@@ -48,17 +49,17 @@ func create_client(products):
 	clients.add_child(client)
 
 func get_tile_under_cursor():
-	return tilemap.world_to_map(get_viewport().get_mouse_position() - tilemap.get_global_transform_with_canvas().origin)
+	return floor_tile_map.world_to_map(get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin)
 
 func _on_Game_summon_aisle(product):
 	var tile_pos = get_tile_under_cursor()
 	if tile_pos == null:
 		return
-	var current_tile = tilemap.get_cell(tile_pos.x, tile_pos.y)
+	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
 	# Can only drop an aisle/product on a floor tile
 	if current_tile == TILE_TYPES.GROUND:
-		tilemap.set_cell(tile_pos.x, tile_pos.y, TILE_TYPES.AISLE)
+		floor_tile_map.set_cell(tile_pos.x, tile_pos.y, TILE_TYPES.AISLE)
 		var aisle = product_sprite_scene.instance()
-		aisle.position = tilemap.map_to_world(tile_pos)
+		aisle.position = floor_tile_map.map_to_world(tile_pos)
 		aisle.product = product
 		products_sprite.add_child(aisle)

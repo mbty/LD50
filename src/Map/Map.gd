@@ -9,9 +9,8 @@ onready var clients = $Navigation2D/Clients
 
 enum TILE_TYPES {
 	AISLE = 0,
-	CHECK_OUT_V = 1,
-	CHECK_OUT_H = 2,
-	GROUND = 3
+	CHECK_OUT = 1,
+	GROUND = 2
 }
 
 var product_dict
@@ -30,7 +29,7 @@ func _init_dict():
 		
 	checkout_locations = []
 	for tile in tilemap.get_used_cells():
-		if tilemap.get_cell(tile.x, tile.y) in [TILE_TYPES.CHECK_OUT_V || TILE_TYPES.CHECK_OUT_H]:
+		if tilemap.get_cell(tile.x, tile.y) == TILE_TYPES.CHECK_OUT:
 			checkout_locations.append(tilemap.map_to_world(tile))
 			
 func get_checkout_locations():

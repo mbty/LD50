@@ -4,6 +4,9 @@ class_name Product
 
 export var texture : Texture
 export var product_name : String
+export var cost : int
+export var price : int
+export var frequency : float
 
 func get_name():
 	return product_name

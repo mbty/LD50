@@ -38,22 +38,37 @@ script = ExtResource( 7 )
 [node name="Apple" parent="Products" instance=ExtResource( 8 )]
 texture = ExtResource( 9 )
 product_name = "Apple"
+cost = 2
+price = 3
+frequency = 0.2
 
 [node name="Milk" parent="Products" instance=ExtResource( 8 )]
 texture = ExtResource( 10 )
 product_name = "Milk"
+cost = 3
+price = 5
+frequency = 0.3
 
 [node name="Pasta" parent="Products" instance=ExtResource( 8 )]
 texture = ExtResource( 13 )
 product_name = "Pasta"
+cost = 3
+price = 4
+frequency = 0.6
 
 [node name="Salad" parent="Products" instance=ExtResource( 8 )]
 texture = ExtResource( 12 )
 product_name = "Salad"
+cost = 1
+price = 2
+frequency = 0.1
 
 [node name="Sauce" parent="Products" instance=ExtResource( 8 )]
 texture = ExtResource( 11 )
 product_name = "Sauce"
+cost = 3
+price = 7
+frequency = 0.5
 
 [connection signal="summon_aisle" from="." to="Map" method="_on_Game_summon_aisle"]
 [connection signal="product_selected" from="UI/ActionUI" to="." method="_on_ActionUI_product_selected"]

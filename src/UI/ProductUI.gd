@@ -2,8 +2,8 @@ extends Control
 
 var product
 
-onready var product_texture = $HBoxContainer/ProductTexture
-onready var product_name = $HBoxContainer/ProductName
+onready var product_texture = $ProductTexture
+onready var product_name = $ProductName
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

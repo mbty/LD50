@@ -39,7 +39,6 @@ config/icon="res://assets/sprites/yannick.png"
 [autoload]
 
 Globals="*res://src/Globals.gd"
-GameState="*res://src/GameState.gd"
 
 [physics]
 

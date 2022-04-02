@@ -1,6 +1,6 @@
 extends Control
 
-onready var product_list = $HBoxContainer/VBoxContainer/ProductList
+onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/ProductList
 onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 
 # Called when the node enters the scene tree for the first time.

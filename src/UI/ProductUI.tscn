@@ -1,0 +1,18 @@
+[gd_scene format=2]
+
+[node name="ProductUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="ProductSprite" type="TextureRect" parent="HBoxContainer"]
+margin_bottom = 40.0
+
+[node name="ProductName" type="Label" parent="HBoxContainer"]
+margin_left = 4.0
+margin_top = 13.0
+margin_right = 4.0
+margin_bottom = 27.0

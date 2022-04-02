@@ -4,7 +4,7 @@
 [ext_resource path="res://src/Map/Map.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Game/Music.gd" type="Script" id=3]
 [ext_resource path="res://assets/musics/example.ogg" type="AudioStream" id=4]
-[ext_resource path="res://src/HUD/HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/UI/HUD.tscn" type="PackedScene" id=5]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )

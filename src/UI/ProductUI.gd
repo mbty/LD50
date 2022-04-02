@@ -1,11 +1,9 @@
 extends Control
 
+var product
 signal product_selected
 
-var product
-
 onready var product_texture = $ProductTexture
-onready var product_name = $ProductName
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,9 +12,12 @@ func _ready():
 func init(product):
 	self.product = product
 	product_texture.texture = product.get_texture()
-	product_name.text = product.get_name()
+	self.hint_tooltip = product.get_name()
 
-func _on_ProductUI_gui_input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and event.pressed:
-			emit_signal("product_selected", self.product)
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func _on_ProductUI_pressed():
+	emit_signal("product_selected", product)

@@ -1,3 +1,3 @@
 extends Node
 
-const SAMPLE_GLOBAL_VARIABLE = 1
+const TILE_LENGTH = 32

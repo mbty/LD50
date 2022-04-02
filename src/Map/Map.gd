@@ -16,6 +16,7 @@ func _on_Game_summon_aisle(product):
 	if tile_pos == null:
 		return
 	var current_tile = tilemap.get_cell(tile_pos.x, tile_pos.y)
+	# Can only drop an aisle/product on a floor tile
 	if current_tile == 0:
 		tilemap.set_cell(tile_pos.x, tile_pos.y, 1)
 		var aisle = product_sprite_scene.instance()

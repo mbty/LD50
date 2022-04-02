@@ -70,6 +70,8 @@ cost = 3
 price = 7
 frequency = 0.5
 
+[node name="Clients" type="Node" parent="."]
+
 [connection signal="summon_aisle" from="." to="Map" method="_on_Game_summon_aisle"]
 [connection signal="product_selected" from="UI/ActionUI" to="." method="_on_ActionUI_product_selected"]
 [connection signal="new_product" from="Products" to="UI/ActionUI" method="_on_Products_new_product"]

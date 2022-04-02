@@ -8,6 +8,7 @@ anchor_bottom = 1.0
 margin_right = -960.0
 margin_bottom = -536.0
 rect_min_size = Vector2( 64, 64 )
+toggle_mode = true
 script = ExtResource( 1 )
 
 [node name="ProductTexture" type="TextureRect" parent="."]

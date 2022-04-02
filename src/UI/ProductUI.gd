@@ -9,6 +9,9 @@ onready var product_texture = $ProductTexture
 func _ready():
 	pass # Replace with function body.
 
+func _process(delta):
+	self.pressed = GameState.selected_product == product
+
 func init(product):
 	self.product = product
 	product_texture.texture = product.get_texture()
@@ -20,4 +23,7 @@ func init(product):
 
 
 func _on_ProductUI_pressed():
-	emit_signal("product_selected", product)
+	if product == GameState.selected_product:
+		emit_signal("product_selected", null)
+	else:
+		emit_signal("product_selected", product)

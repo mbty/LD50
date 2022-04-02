@@ -4,11 +4,42 @@ onready var product_sprite_scene = preload("res://src/Product/ProductSprite.tscn
 onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
 onready var tilemap = $Navigation2D/TileMap
-onready var products = $ProductSprites
+onready var products_sprite = $ProductSprites
 onready var clients = $Navigation2D/Clients
 
+enum TILE_TYPES {
+	AISLE = 0,
+	CHECK_OUT_V = 1,
+	CHECK_OUT_H = 2,
+	GROUND = 3
+}
+
+var product_dict
+var checkout_locations
+
 func _ready():
-	pass # Replace with function body.
+	self._init_dict()
+	
+func _init_dict():
+	product_dict = {}
+	for sprite in products_sprite.get_children():
+		var product = sprite.product
+		if product_dict[product] == null:
+			product_dict[product] = []
+		product_dict[product].append(sprite)
+		
+	checkout_locations = []
+	for tile in tilemap.get_used_cells():
+		if tilemap.get_cell(tile.x, tile.y) in [TILE_TYPES.CHECK_OUT_V || TILE_TYPES.CHECK_OUT_H]:
+			checkout_locations.append(tilemap.map_to_world(tile))
+			
+func get_checkout_locations():
+	return checkout_locations
+	
+func get_product_locations(product):
+	var locations = []
+	for sprite in self.product_dict[product]:
+		locations.append(sprite.position + global_position)
 
 func create_client(products):
 	var client = client_scene.instance()
@@ -26,9 +57,9 @@ func _on_Game_summon_aisle(product):
 		return
 	var current_tile = tilemap.get_cell(tile_pos.x, tile_pos.y)
 	# Can only drop an aisle/product on a floor tile
-	if current_tile == 0:
-		tilemap.set_cell(tile_pos.x, tile_pos.y, 1)
+	if current_tile == TILE_TYPES.GROUND:
+		tilemap.set_cell(tile_pos.x, tile_pos.y, TILE_TYPES.AISLE)
 		var aisle = product_sprite_scene.instance()
 		aisle.position = tilemap.map_to_world(tile_pos)
 		aisle.product = product
-		products.add_child(aisle)
+		products_sprite.add_child(aisle)

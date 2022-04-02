@@ -5,6 +5,8 @@ class_name Strategy
 var client
 var nav
 
+var product_location_dict = {}
+
 func init(client):
 	self.client = client
 	nav = client.get_parent().get_parent()

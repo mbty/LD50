@@ -5,13 +5,15 @@ onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
 onready var floor_tile_map = $Navigation2D/FloorTileMap
 onready var product_tile_map = $Navigation2D/ProductTileMap
+onready var door_tile_map = $Navigation2D/DoorTileMap
 onready var products_sprite = $ProductSprites
 onready var clients = $Navigation2D/Clients
 
 enum TILE_TYPES {
 	AISLE = 0,
 	CHECKOUT = 1,
-	GROUND = 2
+	GROUND = 2,
+	DOOR = 3
 }
 
 var product_locations
@@ -59,7 +61,11 @@ func create_client(products):
 	var client = client_scene.instance()
 	client.build_wishlist(products)
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
-	client.position += Vector2(20.0, 20.0)
+
+	var door_cells = door_tile_map.get_used_cells()
+	var cell = door_cells[randi() % door_cells.size()]
+	var to_shift = (door_tile_map.map_to_world(cell) - global_position) + Vector2(16, 16)
+	client.position += to_shift
 	clients.add_child(client)
 
 func get_tile_under_cursor():
@@ -78,4 +84,3 @@ func _on_Game_summon_product(product):
 
 		product_tile_map.set_cell(tile_pos.x, tile_pos.y, product.type)		
 		add_product_to_dict(tile_pos, product)
-		print(product_locations)

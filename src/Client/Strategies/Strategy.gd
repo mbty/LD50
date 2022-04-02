@@ -2,5 +2,15 @@ extends Reference
 
 class_name Strategy
 
+var client
+var nav
+
+func init(client):
+	self.client = client
+	self.nav = client.get_parent().get_parent()
+
 func next_move():
-	pass
+	assert(self.client != null)
+
+func is_accessible(target_node):
+	return not nav.get_simple_path(self.client.position, target_node.position, true).empty()

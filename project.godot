@@ -9,10 +9,30 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "ColorRect",
+"class": "ColorTile",
+"language": "GDScript",
+"path": "res://addons/color-palette/ColorTile.gd"
+}, {
+"base": "Container",
+"class": "FlexGridContainer",
+"language": "GDScript",
+"path": "res://addons/color-palette/utilities/FlexGridContainer.gd"
+}, {
 "base": "Strategy",
 "class": "MindOfSteelStrategy",
 "language": "GDScript",
 "path": "res://src/Client/Strategies/MindOfSteelStrategy.gd"
+}, {
+"base": "Reference",
+"class": "Palette",
+"language": "GDScript",
+"path": "res://addons/color-palette/Palette.gd"
+}, {
+"base": "Reference",
+"class": "PaletteImporter",
+"language": "GDScript",
+"path": "res://addons/color-palette/PaletteImporter.gd"
 }, {
 "base": "Node",
 "class": "Product",
@@ -25,7 +45,11 @@ _global_script_classes=[ {
 "path": "res://src/Client/Strategies/Strategy.gd"
 } ]
 _global_script_class_icons={
+"ColorTile": "",
+"FlexGridContainer": "res://addons/color-palette/utilities/FlexGridContainerIcon.png",
 "MindOfSteelStrategy": "",
+"Palette": "",
+"PaletteImporter": "",
 "Product": "",
 "Strategy": ""
 }
@@ -40,6 +64,10 @@ config/icon="res://assets/sprites/yannick.png"
 
 Globals="*res://src/Globals.gd"
 GameState="*res://src/GameState.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/color-palette/plugin.cfg" )
 
 [physics]
 

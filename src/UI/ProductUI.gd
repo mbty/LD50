@@ -21,7 +21,4 @@ func init(product):
 	self.hint_tooltip = product.get_name()
 
 func _on_ProductUI_pressed():
-	if product == GameState.selected_product:
-		emit_signal("product_selected", null)
-	else:
-		emit_signal("product_selected", product)
+	emit_signal("product_selected", product)

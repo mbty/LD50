@@ -2,7 +2,7 @@ extends Control
 
 signal begin_simulation
 
-onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/VScrollBar/ProductList
+onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
 onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 
 # Called when the node enters the scene tree for the first time.

@@ -6,10 +6,12 @@ onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
 onready var floor_tile_map = $Navigation2D/FloorTileMap
 onready var product_tile_map = $Navigation2D/ProductTileMap
-onready var door_tile_map = $Navigation2D/DoorTileMap
 onready var clients = $Navigation2D/Clients
 onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
+onready var game = get_parent().get_parent()
+
+var door_cells = null
 
 var hover_position = Vector2(0, 0)
 
@@ -32,10 +34,8 @@ func _init_dict():
 	
 func init_checkout_locations():
 	checkout_locations = []
-	for coords in self.floor_tile_map.get_used_cells():
-		var id = floor_tile_map.get_cellv(coords)
-		if id == TILE_TYPES.CHECKOUT:
-			checkout_locations.append(floor_tile_map.map_to_world(coords) + global_position)
+	for coords in self.floor_tile_map.get_used_cells_by_id(TILE_TYPES.CHECKOUT):
+		checkout_locations.append(floor_tile_map.map_to_world(coords) + global_position)
 	
 func init_product_locations():
 	product_locations = {}
@@ -52,9 +52,13 @@ func _process(delta):
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
 	var cell = floor_tile_map.get_cellv(tile_under_cursor)
-	map_hover.show_product = cell == TILE_TYPES.AISLE
 	camera.offset = (get_viewport().get_mouse_position() - get_viewport().size / 2) / 4
 
+	if GameState.selected_tool == GameState.Tool.PRODUCT:
+		map_hover.show_product = cell == TILE_TYPES.AISLE
+	elif GameState.selected_tool == GameState.Tool.AISLE:
+		map_hover.show_product = cell == TILE_TYPES.GROUND
+	
 func get_checkout_locations():
 	return checkout_locations
 
@@ -79,17 +83,25 @@ func create_client(products):
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
 	client.connect("buy_product", self, "product_bought")
 
-	var door_cells = door_tile_map.get_used_cells()
+	var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	var cell = door_cells[randi() % door_cells.size()]
-	var to_shift = (door_tile_map.map_to_world(cell) - global_position) + Vector2(16, 16)
+	var to_shift = (floor_tile_map.map_to_world(cell) - global_position) + Vector2(16, 16)
 	client.position += to_shift
 	clients.add_child(client)
 
 func product_bought(product):
 	emit_signal("product_bought", product)
 
+func get_mouse_world_coords():
+	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom
+
 func get_tile_under_cursor():
-	return floor_tile_map.world_to_map((get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom)
+	var coords = get_mouse_world_coords()
+	if game.drag_line:
+		var line_dir = game.drag_start.direction_to(get_mouse_world_coords())
+		line_dir = line_dir.rotated(-PI / 4.0).sign().rotated(PI / 4.0).normalized()
+		coords = (coords - game.drag_start) * line_dir.abs() + game.drag_start
+	return floor_tile_map.world_to_map(coords)
 
 func re_bake(changed_tile):
 	# Re-bake autotiling

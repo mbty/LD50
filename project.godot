@@ -69,7 +69,7 @@ _global_script_class_icons={
 [application]
 
 config/name="LD50"
-run/main_scene="res://src/Game/Game.tscn"
+run/main_scene="res://src/UI/TitleScreen.tscn"
 config/icon="res://assets/sprites/yannick.png"
 
 [autoload]
@@ -85,6 +85,14 @@ enabled=PoolStringArray( "res://addons/color-palette/plugin.cfg" )
 
 theme/custom="res://assets/design.tres"
 theme/custom_font="res://assets/fonts/Farsan-Regular.tres"
+
+[input]
+
+ui_switch_aisle_product={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777218,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [physics]
 

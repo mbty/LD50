@@ -1,11 +1,17 @@
 extends Node
 
 var money = 0
-onready var map = $Map
+onready var map = null
+onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
+onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller
 
 var drag_build = false
 var drag_destroy = false
+var drag_line = false
+var drag_start = null
 var last_drag_deleted_tile = null
+
+var clients_per_sec = 2e-1
 
 func not_dragging():
 	return !drag_build and !drag_destroy
@@ -17,6 +23,12 @@ func _ready():
 	for product in $Products.get_children():
 		product.type = i
 		i+=1
+
+	GameState.selected_product = $Products.get_child(0)
+	map = $Maps/Map1
+	map.show()
+	
+
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:
@@ -31,38 +43,36 @@ func destroy():
 		map.remove_tile()
 		last_drag_deleted_tile = tile_pos
 
+func _change_tool(next_product_id):
+	if next_product_id < 0:
+		next_product_id = $Products.get_child_count() - 1
+	GameState.on_product_selected($Products.get_child(next_product_id))
+	scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
+
 func _previous_tool():
 	if GameState.selected_tool == GameState.Tool.PRODUCT:
-		var next_product_id = GameState.selected_product.type - 1
-		if next_product_id < 0:
-			GameState.on_tool_selected(GameState.Tool.AISLE)
-		else:
-			var next_prod = $Products.get_child(
-				GameState.selected_product.type-1%$Products.get_child_count()
-			)
-			GameState.on_product_selected(next_prod)
-	elif GameState.selected_tool == GameState.Tool.AISLE:
-		var next_prod = $Products.get_child($Products.get_child_count()-1)
-		GameState.on_product_selected(next_prod)
+		_change_tool(GameState.selected_product.type - 1)
 
 func _next_tool():
 	if GameState.selected_tool == GameState.Tool.PRODUCT:
-		var next_product_id = GameState.selected_product.type + 1
-		if next_product_id >= $Products.get_child_count():
-			GameState.on_tool_selected(GameState.Tool.AISLE)
-		else:
-			var next_prod = $Products.get_child(next_product_id)
-			GameState.on_product_selected(next_prod)
-	elif GameState.selected_tool == GameState.Tool.AISLE:
-		var next_prod = $Products.get_child(0)
-		GameState.on_product_selected(next_prod)
+		_change_tool((GameState.selected_product.type + 1) % $Products.get_child_count())
 
 func _input(event):
 	if GameState.game_mode != GameState.GameMode.DESIGN:
 		return
 
+	if event.is_action_pressed("ui_switch_aisle_product"):
+		if GameState.selected_tool == GameState.Tool.AISLE:
+			GameState.on_tool_selected(GameState.Tool.PRODUCT)
+			scroller.ensure_control_visible(product_ui_list.get_child(GameState.selected_product.type))
+		else:
+			GameState.on_tool_selected(GameState.Tool.AISLE)
+
 	if event is InputEventMouseButton:
 		if event.pressed:
+			drag_start = map.get_mouse_world_coords()
+			if event.shift:
+				drag_line = true
 			if event.button_index == BUTTON_LEFT and not_dragging():
 				drag_build = true
 				build()
@@ -74,6 +84,7 @@ func _input(event):
 			elif event.button_index == BUTTON_WHEEL_DOWN:
 				_next_tool()
 		else:
+			drag_line = false
 			if event.button_index == BUTTON_LEFT:
 				drag_build = false
 			elif event.button_index == BUTTON_RIGHT:
@@ -90,15 +101,23 @@ func _input(event):
 			destroy()
 
 func _on_ActionUI_begin_simulation():
+	drag_build = false
+	drag_destroy = false
 	GameState.game_mode = GameState.GameMode.SIMULATION
 	$UI/ActionUI.hide()
 	$SimulationModeTimer.start()
-	map.create_client($Products.get_children())
+	$ClientSpawnTimer.start(randf() / clients_per_sec)
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN
 	$UI/ActionUI.show()
+	$ClientSpawnTimer.stop()
 
 func _on_Map_product_bought(product):
 	money += product
 	$UI/HUD.update_money(money)
+
+func _on_ClientSpawnTimer_timeout():
+	if GameState.game_mode == GameState.GameMode.SIMULATION:
+		map.create_client($Products.get_children())
+		$ClientSpawnTimer.start(randf() / clients_per_sec)

@@ -5,20 +5,21 @@ const LOOP = "loop"
 const END = "end"
 
 const MENU = "musicMenu"
+const DSOTM = "DSOTM"
 
 const MUSIC_ATTENUATION_STOP = -20
 
-onready var currentIntroMusic = null
-onready var currentLoopMusic = $Music1
-onready var currentEndMusic = null
+onready var currentIntroMusic = $DSOTM_start
+onready var currentLoopMusic = $DSOTM
+onready var currentEndMusic = $DSOTM_end
 onready var nextIntroMusic = null
 onready var nextLoopMusic = null
 onready var nextEndMusic = null
 onready var currentMusic = null
 onready var menuMusic = null
 
-onready var currentMusicType = LOOP
-onready var currentMusicName = MENU
+onready var currentMusicType = INTRO
+onready var currentMusicName = DSOTM
 onready var nextMusicName = null
 onready var musicToAttenuate = null
 onready var musicAttenuationStart = 0
@@ -26,10 +27,9 @@ onready var musicAttenuationStart = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	currentMusic = $Music1
+	currentMusic = $DSOTM_start
 	currentMusic.play()
 	currentMusic.connect("finished", self, "_on_CurrentMusic_finished")
-	currentMusic
 	
 	
 func _on_CurrentMusic_finished():

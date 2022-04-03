@@ -103,11 +103,11 @@ func summon_aisle():
 func summon_product(product):
 	var tile_pos = get_tile_under_cursor()
 	var current_tile = floor_tile_map.get_cellv(tile_pos)
+	var current_product = product_tile_map.get_cellv(tile_pos)
 	# Can only drop an product on an aisle
-	if current_tile == TILE_TYPES.AISLE:
-		var current_value = product_tile_map.get_cellv(tile_pos)
-		if current_value != -1:
-			remove_product_from_dict(tile_pos, current_value)
+	if current_tile == TILE_TYPES.AISLE and current_product != product.type:
+		if current_product != -1:
+			remove_product_from_dict(tile_pos, current_product)
 
 		product_tile_map.set_cellv(tile_pos, product.type)		
 		add_product_to_dict(tile_pos, product)

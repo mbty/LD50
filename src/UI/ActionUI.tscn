@@ -17,21 +17,32 @@ margin_right = 1024.0
 margin_bottom = 15.0
 rect_min_size = Vector2( 0, 15 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="PlayContainer" type="CenterContainer" parent="VBoxContainer"]
 margin_top = 19.0
+margin_right = 1024.0
+margin_bottom = 45.0
+
+[node name="PlayBtn" type="Button" parent="VBoxContainer/PlayContainer"]
+margin_left = 491.0
+margin_right = 533.0
+margin_bottom = 26.0
+text = "Play"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 49.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 3
 
 [node name="Left" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 margin_right = 956.0
-margin_bottom = 581.0
+margin_bottom = 551.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 960.0
 margin_right = 1005.0
-margin_bottom = 581.0
+margin_bottom = 551.0
 
 [node name="ShopLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_right = 45.0
@@ -47,5 +58,7 @@ margin_bottom = 34.0
 [node name="Right" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 1009.0
 margin_right = 1024.0
-margin_bottom = 581.0
+margin_bottom = 551.0
 rect_min_size = Vector2( 15, 0 )
+
+[connection signal="button_down" from="VBoxContainer/PlayContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]

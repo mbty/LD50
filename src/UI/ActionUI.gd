@@ -1,5 +1,7 @@
 extends Control
 
+signal begin_simulation
+
 onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/ProductList
 onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 
@@ -12,3 +14,6 @@ func _on_Products_new_product(product):
 	product_list.add_child(product_instance)
 	product_instance.init(product)
 	product_instance.connect("product_selected", GameState, "on_product_selected")
+
+func _on_PlayBtn_button_down():
+	emit_signal("begin_simulation")

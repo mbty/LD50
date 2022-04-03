@@ -17,11 +17,11 @@ func _input(event):
 		map.summon_product(GameState.selected_product)
 
 func _on_ActionUI_begin_simulation():
-	building_mode = false
+	GameState.game_mode = GameState.GameMode.SIMULATION
 	$UI/ActionUI.hide()
 	$SimulationModeTimer.start()
 	map.create_client($Products.get_children())
 
 func _on_SimulationModeTimer_timeout():
-	building_mode = true
+	GameState.game_mode = GameState.GameMode.DESIGN
 	$UI/ActionUI.show()

@@ -13,6 +13,10 @@ func not_dragging():
 func _ready():
 	randomize()
 	$UI/HUD.update_money(money)
+	var i = 0
+	for product in $Products.get_children():
+		product.type = i
+		i+=1
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:

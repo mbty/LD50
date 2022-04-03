@@ -58,10 +58,15 @@ margin_top = 34.0
 margin_right = 72.0
 margin_bottom = 106.0
 
-[node name="ProductList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="VScrollBar" type="VScrollBar" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 110.0
+margin_right = 12.0
+margin_bottom = 122.0
+
+[node name="ProductList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/VScrollBar"]
+margin_top = -4.0
 margin_right = 72.0
-margin_bottom = 110.0
+margin_bottom = -4.0
 
 [node name="Right" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 1009.0

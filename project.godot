@@ -84,6 +84,7 @@ enabled=PoolStringArray( "res://addons/color-palette/plugin.cfg" )
 [gui]
 
 theme/custom="res://assets/design.tres"
+theme/custom_font="res://assets/fonts/Farsan-Regular.tres"
 
 [input]
 

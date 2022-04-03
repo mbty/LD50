@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/Map/MapHover.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/map_hover.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/products/apple.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/aisle.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -25,6 +26,7 @@ margin_right = 32.0
 margin_bottom = 32.0
 mouse_filter = 2
 script = ExtResource( 1 )
+aisle_texture = ExtResource( 4 )
 
 [node name="ProductSprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.392157 )
@@ -40,3 +42,8 @@ frames = SubResource( 3 )
 speed_scale = 0.33
 playing = true
 centered = false
+
+[node name="AisleSprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 16, 16 )
+texture = ExtResource( 4 )

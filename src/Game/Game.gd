@@ -22,6 +22,8 @@ func _ready():
 		product.type = i
 		i+=1
 
+	GameState.selected_product = $Products.get_child(0)
+
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:
 		map.summon_aisle()
@@ -35,34 +37,30 @@ func destroy():
 		map.remove_tile()
 		last_drag_deleted_tile = tile_pos
 
+func _change_tool(next_product_id):
+	if next_product_id < 0:
+		next_product_id = $Products.get_child_count() - 1
+	GameState.on_product_selected($Products.get_child(next_product_id))
+	scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
+
 func _previous_tool():
 	if GameState.selected_tool == GameState.Tool.PRODUCT:
-		var next_product_id = GameState.selected_product.type - 1
-		if next_product_id < 0:
-			GameState.on_tool_selected(GameState.Tool.AISLE)
-		else:
-			GameState.on_product_selected($Products.get_child(next_product_id))
-			scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
-	elif GameState.selected_tool == GameState.Tool.AISLE:
-		var next_prod = $Products.get_child($Products.get_child_count()-1)
-		GameState.on_product_selected(next_prod)
+		_change_tool(GameState.selected_product.type - 1)
 
 func _next_tool():
 	if GameState.selected_tool == GameState.Tool.PRODUCT:
-		var next_product_id = GameState.selected_product.type + 1
-		if next_product_id >= $Products.get_child_count():
-			GameState.on_tool_selected(GameState.Tool.AISLE)
-		else:
-			var next_prod = $Products.get_child(next_product_id)
-			GameState.on_product_selected(next_prod)
-			scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
-	elif GameState.selected_tool == GameState.Tool.AISLE:
-		var next_prod = $Products.get_child(0)
-		GameState.on_product_selected(next_prod)
+		_change_tool((GameState.selected_product.type + 1) % $Products.get_child_count())
 
 func _input(event):
 	if GameState.game_mode != GameState.GameMode.DESIGN:
 		return
+
+	if event.is_action_pressed("ui_switch_aisle_product"):
+		if GameState.selected_tool == GameState.Tool.AISLE:
+			GameState.on_tool_selected(GameState.Tool.PRODUCT)
+			scroller.ensure_control_visible(product_ui_list.get_child(GameState.selected_product.type))
+		else:
+			GameState.on_tool_selected(GameState.Tool.AISLE)
 
 	if event is InputEventMouseButton:
 		if event.pressed:

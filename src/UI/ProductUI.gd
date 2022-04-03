@@ -10,17 +10,15 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
-	self.pressed = GameState.selected_product == product
+	self.pressed = (
+		GameState.selected_tool == GameState.Tool.PRODUCT and
+		GameState.selected_product == product
+	)
 
 func init(product):
 	self.product = product
 	product_texture.texture = product.get_texture()
 	self.hint_tooltip = product.get_name()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
 
 func _on_ProductUI_pressed():
 	if product == GameState.selected_product:

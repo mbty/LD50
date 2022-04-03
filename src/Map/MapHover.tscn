@@ -33,7 +33,7 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
 centered = false
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="Frame" type="AnimatedSprite" parent="."]
 position = Vector2( -16, -16 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 3 )

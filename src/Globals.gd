@@ -5,3 +5,4 @@ enum STRATEGY_TYPE {
 	MIND_OF_STEEL,
 	CHECK_OUT
 }
+

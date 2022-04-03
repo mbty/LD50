@@ -9,6 +9,8 @@ onready var clients = $Navigation2D/Clients
 onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
 
+var hover_position = Vector2(0, 0)
+
 enum TILE_TYPES {
 	AISLE = 0,
 	CHECKOUT = 1,
@@ -43,7 +45,10 @@ func init_product_locations():
 
 func _process(delta):
 	var tile_under_cursor = get_tile_under_cursor()
-	map_hover.rect_position = product_tile_map.map_to_world(tile_under_cursor)
+	$Tween.interpolate_property(map_hover, "rect_position",
+		map_hover.rect_position, product_tile_map.map_to_world(tile_under_cursor), .05,
+		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$Tween.start()
 	var cell = floor_tile_map.get_cell(tile_under_cursor.x, tile_under_cursor.y)
 	map_hover.show_product = cell == TILE_TYPES.AISLE
 	camera.offset = ((get_viewport().get_mouse_position() - get_viewport().size / 2) / 4).round()

@@ -56,8 +56,10 @@ func _process(delta):
 func get_checkout_locations():
 	return checkout_locations
 
-func get_product_locations(product):
-	return product_locations[product]
+func get_product_locations(product_type):
+	if not product_locations.has(product_type):
+		return []
+	return product_locations[product_type]
 
 func add_product_to_dict(coords, product):
 	if not product_locations.has(product.type):
@@ -73,6 +75,7 @@ func create_client(products):
 	var client = client_scene.instance()
 	client.build_wishlist(products)
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
+	# client.set_strategy(Globals.STRATEGY_TYPE.CHECK_OUT)
 
 	var door_cells = door_tile_map.get_used_cells()
 	var cell = door_cells[randi() % door_cells.size()]

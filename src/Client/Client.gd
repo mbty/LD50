@@ -1,13 +1,16 @@
-extends Node2D
+extends KinematicBody2D
 
 onready var in_store_timer = $in_store_timer
 onready var nav = get_parent().get_parent()
+onready var map = get_parent().get_parent().get_parent()
 
 var wishlist
 var strategy
 
-var in_cart = []
+var in_cart = {}
 var money = 30
+
+var speed = 1e4
 
 func _ready():
 	assert(wishlist != null)
@@ -26,9 +29,12 @@ func build_wishlist(available_products):
 func set_strategy(strategy_type):
 	if strategy_type == Globals.STRATEGY_TYPE.MIND_OF_STEEL:
 		self.strategy = MindOfSteelStrategy.new()
+	elif strategy_type == Globals.STRATEGY_TYPE.CHECK_OUT:
+		self.strategy = CheckOutStrategy.new()
 
-func _process(delta):
-	self.strategy.next_move()
+func _physics_process(_delta):
+	var move = self.strategy.next_move()
+	move_and_slide(move * _delta)
 
 func enters_range(var product):
 	pass

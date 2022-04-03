@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Strategy",
+"class": "CheckOutStrategy",
+"language": "GDScript",
+"path": "res://src/Client/Strategies/CheckOutStrategy.gd"
+}, {
 "base": "ColorRect",
 "class": "ColorTile",
 "language": "GDScript",
@@ -45,6 +50,7 @@ _global_script_classes=[ {
 "path": "res://src/Client/Strategies/Strategy.gd"
 } ]
 _global_script_class_icons={
+"CheckOutStrategy": "",
 "ColorTile": "",
 "FlexGridContainer": "res://addons/color-palette/utilities/FlexGridContainerIcon.png",
 "MindOfSteelStrategy": "",

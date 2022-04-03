@@ -1,6 +1,6 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=6 format=2]
 
-[ext_resource path="res://assets/fonts/Farsan-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/fonts/Farsan-Regular.tres" type="DynamicFont" id=1]
 
 [sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 8.0
@@ -50,12 +50,8 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="DynamicFont" id=1]
-size = 29
-font_data = ExtResource( 1 )
-
 [resource]
-default_font = SubResource( 1 )
+default_font = ExtResource( 1 )
 Button/styles/disabled = SubResource( 4 )
 Button/styles/hover = SubResource( 5 )
 Button/styles/normal = SubResource( 3 )

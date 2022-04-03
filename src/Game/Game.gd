@@ -96,6 +96,8 @@ func _input(event):
 			destroy()
 
 func _on_ActionUI_begin_simulation():
+	drag_build = false
+	drag_destroy = false
 	GameState.game_mode = GameState.GameMode.SIMULATION
 	$UI/ActionUI.hide()
 	$SimulationModeTimer.start()

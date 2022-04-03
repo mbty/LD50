@@ -8,7 +8,6 @@ enum GameMode {
 enum Tool {
 	AISLE,
 	PRODUCT,
-	NONE,
 }
 
 var game_mode = GameMode.DESIGN
@@ -19,8 +18,5 @@ func on_tool_selected(selected):
 	self.selected_tool = selected
 
 func on_product_selected(product):
-	if product == null:
-		self.selected_tool = Tool.NONE
-	else:
-		self.selected_tool = Tool.PRODUCT
+	self.selected_tool = Tool.PRODUCT
 	self.selected_product = product

@@ -1,7 +1,7 @@
 extends Node
 
 var money = 0
-onready var map = $Map
+onready var map = null
 onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
 onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller
 
@@ -23,6 +23,10 @@ func _ready():
 		i+=1
 
 	GameState.selected_product = $Products.get_child(0)
+	map = $Maps/Map1
+	map.show()
+	
+
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:

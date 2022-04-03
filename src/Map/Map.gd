@@ -10,7 +10,7 @@ onready var door_tile_map = $Navigation2D/DoorTileMap
 onready var clients = $Navigation2D/Clients
 onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
-onready var game = get_parent()
+onready var game = get_parent().get_parent()
 
 var hover_position = Vector2(0, 0)
 

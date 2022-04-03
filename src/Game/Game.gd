@@ -4,6 +4,7 @@ onready var map = $Map
 
 var drag_build = false
 var drag_destroy = false
+var last_drag_deleted_tile = null
 
 func not_dragging():
 	return !drag_build and !drag_destroy
@@ -19,7 +20,10 @@ func build():
 		map.summon_product(GameState.selected_product)
 	
 func destroy():
-	map.remove_tile()
+	var tile_pos = map.get_tile_under_cursor()
+	if tile_pos != last_drag_deleted_tile:
+		map.remove_tile()
+		last_drag_deleted_tile = tile_pos
 
 func _input(event):
 	if GameState.game_mode != GameState.GameMode.DESIGN:
@@ -38,6 +42,7 @@ func _input(event):
 				drag_build = false
 			elif event.button_index == BUTTON_RIGHT:
 				drag_destroy = false
+				last_drag_deleted_tile = null
 
 	if (
 		event is InputEventMouseMotion

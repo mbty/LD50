@@ -1,6 +1,7 @@
 extends Node2D
 
 signal product_bought
+signal cost_changed
 
 onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
@@ -27,7 +28,23 @@ var checkout_locations
 
 func _ready():
 	self._init_dict()
-	
+	save_aisle_setup()
+
+var original_aisle_setup
+func save_aisle_setup():
+	original_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
+
+func assess_cost():
+	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
+	var cost = 0
+	for original_tile in original_aisle_setup:
+		if current_aisle_setup.find(original_tile) == -1:
+			cost -= Globals.AISLE_COST
+	return cost + max(
+		0,
+		Globals.AISLE_COST*(current_aisle_setup.size() - original_aisle_setup.size())
+	)
+
 func _init_dict():
 	init_checkout_locations()
 	init_product_locations()
@@ -116,6 +133,7 @@ func summon_aisle():
 	if current_tile == TILE_TYPES.GROUND || current_tile == TILE_TYPES.DOOR:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.AISLE)
 		re_bake(tile_pos)
+		emit_signal("cost_changed", assess_cost())
 	
 func summon_product(product):
 	var tile_pos = get_tile_under_cursor()
@@ -137,6 +155,7 @@ func remove_tile():
 	elif floor_tile_map.get_cellv(tile_pos) == TILE_TYPES.AISLE:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.GROUND)
 		re_bake(tile_pos)
+		emit_signal("cost_changed", assess_cost())
 
 const diag_factor = 1.4142;
 const diag_avoid_wall_factor = 1.5;

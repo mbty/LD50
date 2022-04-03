@@ -1,6 +1,6 @@
 extends Node
 
-var money = 0
+var money = 50
 onready var map = null
 onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
 onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller
@@ -110,6 +110,7 @@ func _on_ActionUI_begin_simulation():
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN
+	map.save_aisle_setup()
 	$UI/ActionUI.show()
 	$ClientSpawnTimer.stop()
 
@@ -121,3 +122,6 @@ func _on_ClientSpawnTimer_timeout():
 	if GameState.game_mode == GameState.GameMode.SIMULATION:
 		map.create_client($Products.get_children())
 		$ClientSpawnTimer.start(randf() / clients_per_sec)
+
+func _on_Map_cost_changed(new_cost):
+	$UI/HUD.update_cost(new_cost)

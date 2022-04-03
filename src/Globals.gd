@@ -1,6 +1,9 @@
 extends Node
 
 const TILE_LENGTH = 32
+
+const AISLE_COST = 5
+
 enum STRATEGY_TYPE {
 	MIND_OF_STEEL,
 	CHECK_OUT

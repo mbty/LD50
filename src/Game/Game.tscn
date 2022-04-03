@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/Game/Game.gd" type="Script" id=1]
 [ext_resource path="res://src/Map/Map.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/sprites/products/sauce.png" type="Texture" id=11]
 [ext_resource path="res://assets/sprites/products/salad.png" type="Texture" id=12]
 [ext_resource path="res://assets/sprites/products/pasta.png" type="Texture" id=13]
+[ext_resource path="res://assets/sprites/icon.png" type="Texture" id=14]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -69,6 +70,12 @@ product_name = "Sauce"
 cost = 3
 price = 7
 frequency = 0.5
+
+[node name="Product" parent="Products" instance=ExtResource( 8 )]
+texture = ExtResource( 14 )
+
+[node name="Product2" parent="Products" instance=ExtResource( 8 )]
+texture = ExtResource( 14 )
 
 [node name="SimulationModeTimer" type="Timer" parent="."]
 wait_time = 10.0

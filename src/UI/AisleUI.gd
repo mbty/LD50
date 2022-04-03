@@ -8,4 +8,5 @@ func _process(delta):
 	self.pressed = GameState.selected_tool == GameState.Tool.AISLE
 
 func _on_AisleUI_pressed():	
-	GameState.on_tool_selected(GameState.Tool.AISLE)
+	var selected = GameState.Tool.AISLE if GameState.selected_tool != GameState.Tool.AISLE else null
+	GameState.on_tool_selected(selected)

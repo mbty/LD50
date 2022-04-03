@@ -5,6 +5,8 @@ onready var map = $Map
 
 var drag_build = false
 var drag_destroy = false
+var drag_line = false
+var drag_start = null
 var last_drag_deleted_tile = null
 
 func not_dragging():
@@ -63,6 +65,9 @@ func _input(event):
 
 	if event is InputEventMouseButton:
 		if event.pressed:
+			drag_start = map.get_mouse_world_coords()
+			if event.shift:
+				drag_line = true
 			if event.button_index == BUTTON_LEFT and not_dragging():
 				drag_build = true
 				build()
@@ -74,6 +79,7 @@ func _input(event):
 			elif event.button_index == BUTTON_WHEEL_DOWN:
 				_next_tool()
 		else:
+			drag_line = false
 			if event.button_index == BUTTON_LEFT:
 				drag_build = false
 			elif event.button_index == BUTTON_RIGHT:

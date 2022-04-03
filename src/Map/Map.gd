@@ -10,6 +10,7 @@ onready var door_tile_map = $Navigation2D/DoorTileMap
 onready var clients = $Navigation2D/Clients
 onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
+onready var game = get_parent()
 
 var hover_position = Vector2(0, 0)
 
@@ -88,8 +89,16 @@ func create_client(products):
 func product_bought(product):
 	emit_signal("product_bought", product)
 
+func get_mouse_world_coords():
+	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom
+
 func get_tile_under_cursor():
-	return floor_tile_map.world_to_map((get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom)
+	var coords = get_mouse_world_coords()
+	if game.drag_line:
+		var line_dir = game.drag_start.direction_to(get_mouse_world_coords())
+		line_dir = line_dir.rotated(-PI / 4.0).sign().rotated(PI / 4.0).normalized()
+		coords = (coords - game.drag_start) * line_dir.abs() + game.drag_start
+	return floor_tile_map.world_to_map(coords)
 
 func re_bake(changed_tile):
 	# Re-bake autotiling

@@ -2,6 +2,8 @@ extends Node
 
 var money = 0
 onready var map = $Map
+onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
+onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller
 
 var drag_build = false
 var drag_destroy = false
@@ -39,10 +41,8 @@ func _previous_tool():
 		if next_product_id < 0:
 			GameState.on_tool_selected(GameState.Tool.AISLE)
 		else:
-			var next_prod = $Products.get_child(
-				GameState.selected_product.type-1%$Products.get_child_count()
-			)
-			GameState.on_product_selected(next_prod)
+			GameState.on_product_selected($Products.get_child(next_product_id))
+			scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		var next_prod = $Products.get_child($Products.get_child_count()-1)
 		GameState.on_product_selected(next_prod)
@@ -55,6 +55,7 @@ func _next_tool():
 		else:
 			var next_prod = $Products.get_child(next_product_id)
 			GameState.on_product_selected(next_prod)
+			scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		var next_prod = $Products.get_child(0)
 		GameState.on_product_selected(next_prod)
@@ -96,6 +97,8 @@ func _input(event):
 			destroy()
 
 func _on_ActionUI_begin_simulation():
+	drag_build = false
+	drag_destroy = false
 	GameState.game_mode = GameState.GameMode.SIMULATION
 	$UI/ActionUI.hide()
 	$SimulationModeTimer.start()

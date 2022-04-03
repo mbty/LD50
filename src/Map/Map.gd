@@ -31,14 +31,14 @@ func _init_dict():
 func init_checkout_locations():
 	checkout_locations = []
 	for coords in self.floor_tile_map.get_used_cells():
-		var id = floor_tile_map.get_cell(coords.x, coords.y)
+		var id = floor_tile_map.get_cellv(coords)
 		if id == TILE_TYPES.CHECKOUT:
 			checkout_locations.append(floor_tile_map.map_to_world(coords) + global_position)
 	
 func init_product_locations():
 	product_locations = {}
 	for coords in self.product_tile_map.get_used_cells():
-		var id = product_tile_map.get_cell(coords.x, coords.y)
+		var id = product_tile_map.get_cellv(coords)
 		if product_locations[id] == null:
 			product_locations[id] = []
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
@@ -49,7 +49,7 @@ func _process(delta):
 		map_hover.rect_position, product_tile_map.map_to_world(tile_under_cursor), .05,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
-	var cell = floor_tile_map.get_cell(tile_under_cursor.x, tile_under_cursor.y)
+	var cell = floor_tile_map.get_cellv(tile_under_cursor)
 	map_hover.show_product = cell == TILE_TYPES.AISLE
 	camera.offset = (get_viewport().get_mouse_position() - get_viewport().size / 2) / 4
 
@@ -95,21 +95,21 @@ func re_bake(changed_tile):
 
 func summon_aisle():
 	var tile_pos = get_tile_under_cursor()
-	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
+	var current_tile = floor_tile_map.get_cellv(tile_pos)
 	if current_tile == TILE_TYPES.GROUND:
-		floor_tile_map.set_cell(tile_pos.x, tile_pos.y, TILE_TYPES.AISLE)
+		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.AISLE)
 		re_bake(tile_pos)
 	
 func summon_product(product):
 	var tile_pos = get_tile_under_cursor()
-	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
+	var current_tile = floor_tile_map.get_cellv(tile_pos)
 	# Can only drop an product on an aisle
 	if current_tile == TILE_TYPES.AISLE:
-		var current_value = product_tile_map.get_cell(tile_pos.x, tile_pos.y)
+		var current_value = product_tile_map.get_cellv(tile_pos)
 		if current_value != -1:
 			remove_product_from_dict(tile_pos, current_value)
 
-		product_tile_map.set_cell(tile_pos.x, tile_pos.y, product.type)		
+		product_tile_map.set_cellv(tile_pos, product.type)		
 		add_product_to_dict(tile_pos, product)
 
 func remove_tile():

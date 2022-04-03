@@ -6,11 +6,12 @@ onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
 onready var floor_tile_map = $Navigation2D/FloorTileMap
 onready var product_tile_map = $Navigation2D/ProductTileMap
-onready var door_tile_map = $Navigation2D/DoorTileMap
 onready var clients = $Navigation2D/Clients
 onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
 onready var game = get_parent().get_parent()
+
+var door_cells = null
 
 var hover_position = Vector2(0, 0)
 
@@ -84,9 +85,9 @@ func create_client(products):
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
 	client.connect("buy_product", self, "product_bought")
 
-	var door_cells = door_tile_map.get_used_cells()
+	var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	var cell = door_cells[randi() % door_cells.size()]
-	var to_shift = (door_tile_map.map_to_world(cell) - global_position) + Vector2(16, 16)
+	var to_shift = (floor_tile_map.map_to_world(cell) - global_position) + Vector2(16, 16)
 	client.position += to_shift
 	clients.add_child(client)
 

@@ -2,6 +2,8 @@ extends Node
 
 var money = 0
 onready var map = $Map
+onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
+onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller
 
 var drag_build = false
 var drag_destroy = false
@@ -40,6 +42,7 @@ func _previous_tool():
 			GameState.on_tool_selected(GameState.Tool.AISLE)
 		else:
 			GameState.on_product_selected($Products.get_child(next_product_id))
+			scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		var next_prod = $Products.get_child($Products.get_child_count()-1)
 		GameState.on_product_selected(next_prod)
@@ -52,6 +55,7 @@ func _next_tool():
 		else:
 			var next_prod = $Products.get_child(next_product_id)
 			GameState.on_product_selected(next_prod)
+			scroller.ensure_control_visible(product_ui_list.get_child(next_product_id))
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		var next_prod = $Products.get_child(0)
 		GameState.on_product_selected(next_prod)

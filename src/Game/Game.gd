@@ -1,7 +1,6 @@
 extends Node
 
 onready var map = $Map
-var building_mode = true
 
 func _ready():
 	randomize()
@@ -12,7 +11,7 @@ func _input(event):
 		and event.button_index == BUTTON_LEFT
 		and event.pressed
 		and GameState.selected_product != null
-		and self.building_mode
+		and GameState.game_mode == GameState.GameMode.DESIGN
 	):
 		map.summon_product(GameState.selected_product)
 

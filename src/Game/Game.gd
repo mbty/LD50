@@ -1,7 +1,5 @@
 extends Node
 
-signal summon_product
-
 onready var map = $Map
 var building_mode = true
 
@@ -16,7 +14,7 @@ func _input(event):
 		and GameState.selected_product != null
 		and self.building_mode
 	):
-		emit_signal("summon_product", GameState.selected_product)
+		map.summon_product(GameState.selected_product)
 
 func _on_ActionUI_begin_simulation():
 	building_mode = false

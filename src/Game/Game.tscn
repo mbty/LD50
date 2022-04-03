@@ -78,7 +78,6 @@ frequency = 0.5
 wait_time = 10.0
 one_shot = true
 
-[connection signal="summon_product" from="." to="Map" method="_on_Game_summon_product"]
 [connection signal="begin_simulation" from="UI/ActionUI" to="." method="_on_ActionUI_begin_simulation"]
 [connection signal="new_product" from="Products" to="UI/ActionUI" method="_on_Products_new_product"]
 [connection signal="timeout" from="SimulationModeTimer" to="." method="_on_SimulationModeTimer_timeout"]

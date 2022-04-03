@@ -86,7 +86,7 @@ func create_client(products):
 func get_tile_under_cursor():
 	return floor_tile_map.world_to_map((get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom)
 
-func _on_Game_summon_product(product):
+func summon_product(product):
 	var tile_pos = get_tile_under_cursor()
 	if tile_pos == null:
 		return

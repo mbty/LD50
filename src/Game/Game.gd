@@ -22,6 +22,8 @@ func _ready():
 		product.type = i
 		i+=1
 
+	GameState.selected_product = $Products.get_child(0)
+
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:
 		map.summon_aisle()
@@ -52,6 +54,13 @@ func _next_tool():
 func _input(event):
 	if GameState.game_mode != GameState.GameMode.DESIGN:
 		return
+
+	if event.is_action_pressed("ui_switch_aisle_product"):
+		if GameState.selected_tool == GameState.Tool.AISLE:
+			GameState.on_tool_selected(GameState.Tool.PRODUCT)
+			scroller.ensure_control_visible(product_ui_list.get_child(GameState.selected_product.type))
+		else:
+			GameState.on_tool_selected(GameState.Tool.AISLE)
 
 	if event is InputEventMouseButton:
 		if event.pressed:

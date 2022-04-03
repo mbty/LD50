@@ -126,3 +126,88 @@ func remove_tile():
 	elif floor_tile_map.get_cellv(tile_pos) == TILE_TYPES.AISLE:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.GROUND)
 		re_bake(tile_pos)
+
+const diag_factor = 1.4142;
+const diag_avoid_wall_factor = 1.5;
+
+func is_navigable_type(tile_type):
+	return tile_type == Globals.TILE_TYPES.GROUND
+
+func is_navigable_simple(tile):
+	return is_navigable_type(floor_tile_map.get_cell(tile.x, tile.y))
+
+# Cost of 0 = unreachable
+func get_navigation_cost_corner(tile, direct1, direct2):
+	if !is_navigable_type(floor_tile_map.get_cell(tile.x, tile.y)) || !is_navigable_type(floor_tile_map.get_cell(direct1.x, direct1.y)) && !is_navigable_type(floor_tile_map.get_cell(direct2.x, direct2.y)):
+		return 0
+	if is_navigable_type(floor_tile_map.get_cell(direct1.x, direct1.y)) && is_navigable_type(floor_tile_map.get_cell(direct2.x, direct2.y)):
+		return diag_factor
+	return diag_avoid_wall_factor
+
+# Returns [tile * factor]
+func get_navigable_neighbors(x, y):
+	var up = Vector2(x, y + 1)
+	var down = Vector2(x, y - 1)
+	var left = Vector2(x - 1, y)
+	var right = Vector2(x + 1, y)
+	var ul = Vector2(x - 1, y + 1)
+	var ur = Vector2(x + 1, y + 1)
+	var dl = Vector2(x - 1, y - 1)
+	var dr = Vector2(x + 1, y - 1)
+	var ul_cost = get_navigation_cost_corner(ul, up, left)
+	var ur_cost = get_navigation_cost_corner(ur, up, right)
+	var dl_cost = get_navigation_cost_corner(dl, down, left)
+	var dr_cost = get_navigation_cost_corner(dr, down, right)
+	
+	var res = []
+	if is_navigable_simple(up):
+		res.append(up, 1)
+	if is_navigable_simple(down):
+		res.append(down, 1)
+	if is_navigable_simple(left):
+		res.append(left, 1)
+	if is_navigable_simple(right):
+		res.append(right, 1)
+	if ul_cost != 0.0:
+		res.append(ul, ul_cost)
+	if ur_cost != 0.0:
+		res.append(ur, ur_cost)
+	if dl_cost != 0.0:
+		res.append(dl, dl_cost)
+	if dr_cost != 0.0:
+		res.append(dr, dr_cost)
+		
+	return res
+
+func heuristic(current, goal):
+	return sqrt(pow(current.x - goal.x, 2) + pow(current.y - goal.y, 2))
+
+# TODO memoize paths
+func get_path_raw(origin, destination):
+	var origin_tile = floor_tile_map.world_to_map(origin)
+	var destination_tile = floor_tile_map.world_to_map(destination)
+	
+	var frontier = PriorityQueue.new()
+	var backtrack_map = {}
+	var computed_costs = {}
+	computed_costs[origin_tile] = 0
+	frontier.push(Vector2(origin_tile, 0), heuristic(origin_tile, destination))
+	
+	while frontier.size != 0:
+		var current = frontier.pop()
+		if current == destination_tile:
+			return backtrack_map
+		
+		for candidate in get_navigable_neighbors(current.x, current.y):
+			var cost = computed_costs[current] + candidate.y
+			if computed_costs[candidate.x] == null or cost < computed_costs[candidate.x]:
+				computed_costs[candidate.x] = cost
+				backtrack_map[candidate] = current
+				frontier.push(Vector2(candidate, cost + heuristic(current, destination_tile)))
+
+# TODO
+func smooth_path(path):
+	return path
+
+func get_path_(origin, destination):
+	return get_path_raw(origin, destination)

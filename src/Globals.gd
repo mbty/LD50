@@ -6,3 +6,9 @@ enum STRATEGY_TYPE {
 	CHECK_OUT
 }
 
+enum TILE_TYPES {
+	AISLE = 0,
+	CHECKOUT = 1,
+	GROUND = 2,
+	DOOR = 3
+}

@@ -90,13 +90,16 @@ func summon_aisle():
 	var tile_pos = get_tile_under_cursor()
 	if tile_pos == null:
 		return
+	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
+	if current_tile == TILE_TYPES.GROUND:
+		floor_tile_map.set_cell(tile_pos.x, tile_pos.y, TILE_TYPES.AISLE)
 	
 func summon_product(product):
 	var tile_pos = get_tile_under_cursor()
 	if tile_pos == null:
 		return
 	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
-	# Can only drop an aisle/product on a floor tile
+	# Can only drop an product on an aisle
 	if current_tile == TILE_TYPES.AISLE:
 		var current_value = product_tile_map.get_cell(tile_pos.x, tile_pos.y)
 		if current_value != -1:

@@ -69,7 +69,7 @@ _global_script_class_icons={
 [application]
 
 config/name="LD50"
-run/main_scene="res://src/Game/Game.tscn"
+run/main_scene="res://src/UI/TitleScreen.tscn"
 config/icon="res://assets/sprites/yannick.png"
 
 [autoload]

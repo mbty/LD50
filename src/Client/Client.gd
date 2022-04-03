@@ -17,6 +17,7 @@ func _ready():
 	assert(strategy != null)
 	self.strategy.init(self)
 
+
 func build_wishlist(available_products):
 	self.wishlist = []
 	var available_copy = [] + available_products
@@ -41,3 +42,9 @@ func enters_range(var product):
 
 func is_interested(var product):
 	pass
+
+func _on_ZenTimer_timeout():
+	$Sprite.modulate = Color(255, 0, 0, 1.0)
+
+func is_angry():
+	return $ZenTimer.time_left == 0

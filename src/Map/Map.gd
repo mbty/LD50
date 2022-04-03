@@ -7,6 +7,7 @@ onready var product_tile_map = $Navigation2D/ProductTileMap
 onready var door_tile_map = $Navigation2D/DoorTileMap
 onready var clients = $Navigation2D/Clients
 onready var map_hover = $Navigation2D/MapHover
+onready var camera = $Camera2D
 
 enum TILE_TYPES {
 	AISLE = 0,
@@ -45,6 +46,7 @@ func _process(delta):
 	map_hover.rect_position = product_tile_map.map_to_world(tile_under_cursor)
 	var cell = floor_tile_map.get_cell(tile_under_cursor.x, tile_under_cursor.y)
 	map_hover.show_product = cell == TILE_TYPES.AISLE
+	camera.offset = ((get_viewport().get_mouse_position() - get_viewport().size / 2) / 4).round()
 
 func get_checkout_locations():
 	return checkout_locations
@@ -74,7 +76,7 @@ func create_client(products):
 	clients.add_child(client)
 
 func get_tile_under_cursor():
-	return floor_tile_map.world_to_map(get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin)
+	return floor_tile_map.world_to_map((get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom)
 
 func _on_Game_summon_product(product):
 	var tile_pos = get_tile_under_cursor()

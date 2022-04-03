@@ -94,8 +94,10 @@ func summon_aisle():
 	if current_tile == TILE_TYPES.GROUND:
 		floor_tile_map.set_cell(tile_pos.x, tile_pos.y, TILE_TYPES.AISLE)
 		# Re-bake autotiling
-		var used_rect = floor_tile_map.get_used_rect()
-		floor_tile_map.update_bitmask_region(used_rect.position, used_rect.end)
+		floor_tile_map.update_bitmask_region(
+			Vector2(tile_pos.x-1, tile_pos.y-1),
+			Vector2(tile_pos.x+1, tile_pos.y+1)
+		)
 	
 func summon_product(product):
 	var tile_pos = get_tile_under_cursor()

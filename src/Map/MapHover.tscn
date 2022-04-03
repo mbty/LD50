@@ -21,8 +21,8 @@ animations = [ {
 } ]
 
 [node name="MapHover" type="Control"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 32.0
+margin_bottom = 32.0
 mouse_filter = 2
 script = ExtResource( 1 )
 

@@ -51,7 +51,7 @@ func _process(delta):
 	$Tween.start()
 	var cell = floor_tile_map.get_cell(tile_under_cursor.x, tile_under_cursor.y)
 	map_hover.show_product = cell == TILE_TYPES.AISLE
-	camera.offset = ((get_viewport().get_mouse_position() - get_viewport().size / 2) / 4).round()
+	camera.offset = ((get_viewport().get_mouse_position() - get_viewport().size / 2) / 2).round() / 2
 
 func get_checkout_locations():
 	return checkout_locations

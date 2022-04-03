@@ -1,5 +1,7 @@
 extends Node2D
 
+signal product_bought
+
 onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
 onready var floor_tile_map = $Navigation2D/FloorTileMap
@@ -75,13 +77,16 @@ func create_client(products):
 	var client = client_scene.instance()
 	client.build_wishlist(products)
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
-	# client.set_strategy(Globals.STRATEGY_TYPE.CHECK_OUT)
+	client.connect("buy_product", self, "product_bought")
 
 	var door_cells = door_tile_map.get_used_cells()
 	var cell = door_cells[randi() % door_cells.size()]
 	var to_shift = (door_tile_map.map_to_world(cell) - global_position) + Vector2(16, 16)
 	client.position += to_shift
 	clients.add_child(client)
+
+func product_bought(product):
+	emit_signal("product_bought", product)
 
 func get_tile_under_cursor():
 	return floor_tile_map.world_to_map((get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom)

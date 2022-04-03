@@ -1,5 +1,6 @@
 extends Node
 
+var money = 0
 onready var map = $Map
 
 var drag_build = false
@@ -11,6 +12,7 @@ func not_dragging():
 
 func _ready():
 	randomize()
+	$UI/HUD.update_money(money)
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:
@@ -62,3 +64,7 @@ func _on_ActionUI_begin_simulation():
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN
 	$UI/ActionUI.show()
+
+func _on_Map_product_bought(product):
+	money += product
+	$UI/HUD.update_money(money)

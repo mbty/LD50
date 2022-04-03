@@ -1,26 +1,28 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/fonts/Jokerman.ttf" type="DynamicFontData" id=1]
-
-[sub_resource type="DynamicFont" id=1]
-size = 40
-font_data = ExtResource( 1 )
-
-[sub_resource type="Theme" id=2]
-default_font = SubResource( 1 )
+[ext_resource path="res://assets/design.tres" type="Theme" id=1]
+[ext_resource path="res://src/UI/HUD.gd" type="Script" id=2]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 2 )
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-anchor_right = 1.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Label" type="Label" parent="CenterContainer"]
-margin_left = 380.0
-margin_right = 684.0
-margin_bottom = 62.0
-theme = SubResource( 2 )
-text = "Ludum Dare 50"
+[node name="Dollar" type="Label" parent="HBoxContainer"]
+margin_top = 5.0
+margin_right = 11.0
+margin_bottom = 35.0
+theme = ExtResource( 1 )
+text = "$"
+
+[node name="Ammount" type="Label" parent="HBoxContainer"]
+margin_left = 15.0
+margin_top = 5.0
+margin_right = 28.0
+margin_bottom = 35.0
+theme = ExtResource( 1 )
+text = "/"

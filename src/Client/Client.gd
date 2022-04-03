@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal buy_product
+
 onready var in_store_timer = $in_store_timer
 onready var nav = get_parent().get_parent()
 onready var map = get_parent().get_parent().get_parent()
@@ -48,3 +50,6 @@ func _on_ZenTimer_timeout():
 
 func is_angry():
 	return $ZenTimer.time_left == 0
+
+func buy_product(product):
+	emit_signal("buy_product", product)

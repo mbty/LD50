@@ -21,29 +21,29 @@ rect_min_size = Vector2( 0, 15 )
 [node name="PlayContainer" type="CenterContainer" parent="VBoxContainer"]
 margin_top = 19.0
 margin_right = 1024.0
-margin_bottom = 45.0
+margin_bottom = 61.0
 
 [node name="PlayBtn" type="Button" parent="VBoxContainer/PlayContainer"]
-margin_left = 491.0
-margin_right = 533.0
-margin_bottom = 26.0
+margin_left = 483.0
+margin_right = 540.0
+margin_bottom = 42.0
 text = "Play"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 49.0
+margin_top = 65.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 3
 
 [node name="Left" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 margin_right = 929.0
-margin_bottom = 551.0
+margin_bottom = 535.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 933.0
 margin_right = 1005.0
-margin_bottom = 551.0
+margin_bottom = 535.0
 
 [node name="ShopLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_right = 72.0
@@ -57,11 +57,18 @@ anchor_bottom = 0.0
 margin_top = 34.0
 margin_right = 72.0
 margin_bottom = 106.0
+size_flags_horizontal = 0
 
-[node name="Scroller" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 110.0
 margin_right = 72.0
-margin_bottom = 551.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="Scroller" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 129.0
+margin_right = 72.0
+margin_bottom = 535.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
@@ -70,7 +77,7 @@ scroll_horizontal_enabled = false
 [node name="Right" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 1009.0
 margin_right = 1024.0
-margin_bottom = 551.0
+margin_bottom = 535.0
 rect_min_size = Vector2( 15, 0 )
 
 [connection signal="button_down" from="VBoxContainer/PlayContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]

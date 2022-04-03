@@ -11,6 +11,8 @@ var drag_line = false
 var drag_start = null
 var last_drag_deleted_tile = null
 
+var clients_per_sec = 2e-1
+
 func not_dragging():
 	return !drag_build and !drag_destroy
 
@@ -104,12 +106,18 @@ func _on_ActionUI_begin_simulation():
 	GameState.game_mode = GameState.GameMode.SIMULATION
 	$UI/ActionUI.hide()
 	$SimulationModeTimer.start()
-	map.create_client($Products.get_children())
+	$ClientSpawnTimer.start(randf() / clients_per_sec)
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN
 	$UI/ActionUI.show()
+	$ClientSpawnTimer.stop()
 
 func _on_Map_product_bought(product):
 	money += product
 	$UI/HUD.update_money(money)
+
+func _on_ClientSpawnTimer_timeout():
+	if GameState.game_mode == GameState.GameMode.SIMULATION:
+		map.create_client($Products.get_children())
+		$ClientSpawnTimer.start(randf() / clients_per_sec)

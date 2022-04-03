@@ -53,9 +53,13 @@ func _process(delta):
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
 	var cell = floor_tile_map.get_cellv(tile_under_cursor)
-	map_hover.show_product = cell == TILE_TYPES.AISLE
 	camera.offset = (get_viewport().get_mouse_position() - get_viewport().size / 2) / 4
 
+	if GameState.selected_tool == GameState.Tool.PRODUCT:
+		map_hover.show_product = cell == TILE_TYPES.AISLE
+	elif GameState.selected_tool == GameState.Tool.AISLE:
+		map_hover.show_product = cell == TILE_TYPES.GROUND
+	
 func get_checkout_locations():
 	return checkout_locations
 

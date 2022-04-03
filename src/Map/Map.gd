@@ -1,13 +1,12 @@
 extends Node2D
 
-onready var product_sprite_scene = preload("res://src/Product/ProductSprite.tscn")
 onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
 onready var floor_tile_map = $Navigation2D/FloorTileMap
 onready var product_tile_map = $Navigation2D/ProductTileMap
 onready var door_tile_map = $Navigation2D/DoorTileMap
-onready var products_sprite = $ProductSprites
 onready var clients = $Navigation2D/Clients
+onready var map_hover = $Navigation2D/MapHover
 
 enum TILE_TYPES {
 	AISLE = 0,
@@ -40,6 +39,12 @@ func init_product_locations():
 		if product_locations[id] == null:
 			product_locations[id] = []
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
+
+func _process(delta):
+	var tile_under_cursor = get_tile_under_cursor()
+	map_hover.rect_position = product_tile_map.map_to_world(tile_under_cursor)
+	var cell = floor_tile_map.get_cell(tile_under_cursor.x, tile_under_cursor.y)
+	map_hover.show_product = cell == TILE_TYPES.AISLE
 
 func get_checkout_locations():
 	return checkout_locations

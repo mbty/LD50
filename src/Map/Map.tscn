@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Map/Map.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/products/products_tileset.tres" type="TileSet" id=3]
+[ext_resource path="res://src/Map/MapHover.tscn" type="PackedScene" id=4]
 
 [node name="Map" type="Node2D"]
 script = ExtResource( 2 )
@@ -28,7 +29,7 @@ cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( -7, 3, 0, 65529, 3, 0, 131065, 3, 0 )
 
+[node name="MapHover" parent="Navigation2D" instance=ExtResource( 4 )]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-
-[node name="ProductSprites" type="Node" parent="."]

@@ -28,6 +28,9 @@ onready var musicAttenuationStart = 0
 func _ready():
 	currentMusic = $Music1
 	currentMusic.play()
+	currentMusic.connect("finished", self, "_on_CurrentMusic_finished")
+	currentMusic
+	
 	
 func _on_CurrentMusic_finished():
 	match currentMusicType:
@@ -91,8 +94,3 @@ func changeMusic(next):
 	currentMusic = next
 	currentMusic.play()
 	currentMusic.connect("finished", self, "_on_CurrentMusic_finished")
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

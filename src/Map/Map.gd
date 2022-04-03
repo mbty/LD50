@@ -86,23 +86,22 @@ func create_client(products):
 func get_tile_under_cursor():
 	return floor_tile_map.world_to_map((get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom)
 
+func re_bake(changed_tile):
+	# Re-bake autotiling
+	floor_tile_map.update_bitmask_region(
+		Vector2(changed_tile.x-1, changed_tile.y-1),
+		Vector2(changed_tile.x+1, changed_tile.y+1)
+	)
+
 func summon_aisle():
 	var tile_pos = get_tile_under_cursor()
-	if tile_pos == null:
-		return
 	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
 	if current_tile == TILE_TYPES.GROUND:
 		floor_tile_map.set_cell(tile_pos.x, tile_pos.y, TILE_TYPES.AISLE)
-		# Re-bake autotiling
-		floor_tile_map.update_bitmask_region(
-			Vector2(tile_pos.x-1, tile_pos.y-1),
-			Vector2(tile_pos.x+1, tile_pos.y+1)
-		)
+		re_bake(tile_pos)
 	
 func summon_product(product):
 	var tile_pos = get_tile_under_cursor()
-	if tile_pos == null:
-		return
 	var current_tile = floor_tile_map.get_cell(tile_pos.x, tile_pos.y)
 	# Can only drop an product on an aisle
 	if current_tile == TILE_TYPES.AISLE:
@@ -112,3 +111,13 @@ func summon_product(product):
 
 		product_tile_map.set_cell(tile_pos.x, tile_pos.y, product.type)		
 		add_product_to_dict(tile_pos, product)
+
+func remove_tile():
+	var tile_pos = get_tile_under_cursor()
+	var product_type = product_tile_map.get_cellv(tile_pos)
+	if product_type != -1:
+		product_tile_map.set_cellv(tile_pos, -1)
+		remove_product_from_dict(tile_pos, product_type)
+	elif floor_tile_map.get_cellv(tile_pos) == TILE_TYPES.AISLE:
+		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.GROUND)
+		re_bake(tile_pos)

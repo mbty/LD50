@@ -8,15 +8,17 @@ func _ready():
 func _input(event):
 	if (
 		event is InputEventMouseButton
-		and event.button_index == BUTTON_LEFT
 		and event.pressed
 		and GameState.game_mode == GameState.GameMode.DESIGN
 	):
-		if GameState.selected_tool == GameState.Tool.AISLE:
-			map.summon_aisle()
-		elif GameState.selected_tool == GameState.Tool.PRODUCT:
-			assert(GameState.selected_product != null)
-			map.summon_product(GameState.selected_product)
+		if event.button_index == BUTTON_LEFT:
+			if GameState.selected_tool == GameState.Tool.AISLE:
+				map.summon_aisle()
+			elif GameState.selected_tool == GameState.Tool.PRODUCT:
+				assert(GameState.selected_product != null)
+				map.summon_product(GameState.selected_product)
+		elif event.button_index == BUTTON_RIGHT:
+			map.remove_tile()
 
 func _on_ActionUI_begin_simulation():
 	GameState.game_mode = GameState.GameMode.SIMULATION

@@ -215,7 +215,6 @@ func get_path_raw(origin, destination):
 	
 	while not frontier.is_empty():
 		current = frontier.pop()
-		floor_tile_map.set_cell(current.x, current.y, 2)
 		if (current - destination_tile).length() < 2:
 			return path_from_backtrack_map(backtrack_map, current)
 		for candidate in get_navigable_neighbors(current.x, current.y):

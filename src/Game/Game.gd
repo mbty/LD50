@@ -39,10 +39,7 @@ func _previous_tool():
 		if next_product_id < 0:
 			GameState.on_tool_selected(GameState.Tool.AISLE)
 		else:
-			var next_prod = $Products.get_child(
-				GameState.selected_product.type-1%$Products.get_child_count()
-			)
-			GameState.on_product_selected(next_prod)
+			GameState.on_product_selected($Products.get_child(next_product_id))
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		var next_prod = $Products.get_child($Products.get_child_count()-1)
 		GameState.on_product_selected(next_prod)

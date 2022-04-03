@@ -3,12 +3,14 @@ class_name PriorityQueue
 
 var data = []
 
-func pop():
-	data.pop_front()
+func is_empty():
+	return data.size() == 0
 
-func push(item):
+func pop():
+	return (data.pop_front())[0]
+
+func push(item, priority):
 	var i = 0
-	while i < data.size() && data[i].y < item.y:
+	while i < data.size() && data[i][1] < priority:
 		i += 1
-	data.insert(i, item)
-	print(data)
+	data.insert(i, [item, priority])

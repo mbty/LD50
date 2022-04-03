@@ -101,7 +101,7 @@ func re_bake(changed_tile):
 func summon_aisle():
 	var tile_pos = get_tile_under_cursor()
 	var current_tile = floor_tile_map.get_cellv(tile_pos)
-	if current_tile == TILE_TYPES.GROUND:
+	if current_tile == TILE_TYPES.GROUND || current_tile == TILE_TYPES.DOOR:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.AISLE)
 		re_bake(tile_pos)
 	
@@ -113,8 +113,7 @@ func summon_product(product):
 	if current_tile == TILE_TYPES.AISLE and current_product != product.type:
 		if current_product != -1:
 			remove_product_from_dict(tile_pos, current_product)
-
-		product_tile_map.set_cellv(tile_pos, product.type)		
+		product_tile_map.set_cellv(tile_pos, product.type)
 		add_product_to_dict(tile_pos, product)
 
 func remove_tile():
@@ -161,26 +160,33 @@ func get_navigable_neighbors(x, y):
 	
 	var res = []
 	if is_navigable_simple(up):
-		res.append(up, 1)
+		res.append([up, 1])
 	if is_navigable_simple(down):
-		res.append(down, 1)
+		res.append([down, 1])
 	if is_navigable_simple(left):
-		res.append(left, 1)
+		res.append([left, 1])
 	if is_navigable_simple(right):
-		res.append(right, 1)
+		res.append([right, 1])
 	if ul_cost != 0.0:
-		res.append(ul, ul_cost)
+		res.append([ul, ul_cost])
 	if ur_cost != 0.0:
-		res.append(ur, ur_cost)
+		res.append([ur, ur_cost])
 	if dl_cost != 0.0:
-		res.append(dl, dl_cost)
+		res.append([dl, dl_cost])
 	if dr_cost != 0.0:
-		res.append(dr, dr_cost)
-		
+		res.append([dr, dr_cost])
 	return res
 
 func heuristic(current, goal):
 	return sqrt(pow(current.x - goal.x, 2) + pow(current.y - goal.y, 2))
+
+func path_from_backtrack_map(bm, current):
+	var path = []
+	while bm.has(current):
+		path.append(floor_tile_map.map_to_world(current))
+		current = bm[current]
+	path.invert()
+	return path
 
 # TODO memoize paths
 func get_path_raw(origin, destination):
@@ -191,19 +197,22 @@ func get_path_raw(origin, destination):
 	var backtrack_map = {}
 	var computed_costs = {}
 	computed_costs[origin_tile] = 0
-	frontier.push(Vector2(origin_tile, 0), heuristic(origin_tile, destination))
+	frontier.push(origin_tile, heuristic(origin_tile, destination))
+
+	var current
 	
-	while frontier.size != 0:
-		var current = frontier.pop()
-		if current == destination_tile:
-			return backtrack_map
-		
+	while not frontier.is_empty():
+		current = frontier.pop()
+		floor_tile_map.set_cell(current.x, current.y, 2)
+		if (current - destination_tile).length() < 2:
+			return path_from_backtrack_map(backtrack_map, current)
 		for candidate in get_navigable_neighbors(current.x, current.y):
-			var cost = computed_costs[current] + candidate.y
-			if computed_costs[candidate.x] == null or cost < computed_costs[candidate.x]:
-				computed_costs[candidate.x] = cost
-				backtrack_map[candidate] = current
-				frontier.push(Vector2(candidate, cost + heuristic(current, destination_tile)))
+			var cost = computed_costs[current] + candidate[1]
+			if !computed_costs.has(candidate[0]) || cost < computed_costs[candidate[0]]:
+				computed_costs[candidate[0]] = cost
+				backtrack_map[candidate[0]] = current
+				frontier.push(candidate[0], cost + heuristic(current, destination_tile))
+	return path_from_backtrack_map(backtrack_map, current)
 
 # TODO
 func smooth_path(path):

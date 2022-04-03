@@ -22,17 +22,13 @@ func get_path_direction_to(target_loc):
 	if (target_loc - position).length_squared() < pow(40 * 64, 2):
 		path_update_counter = path_update_counter + 1
 		if (path_update_counter % path_update_frames_delay == 0):
-			path = nav.get_simple_path(position, target_loc, false)
-
-		while not path.empty() and position.distance_to(path[0]) < 1:
+			path = client.map.get_path_(position, target_loc)
+		while not path.size() == 0 and position.distance_to(path[0]) < 1:
 			path.remove(0)
-
 		if path.empty():
 			# We are really close from the target, go directly to it
 			return (target_loc - position).normalized() * self.client.speed
-
 		return (path[0] - position).normalized() * self.client.speed
-
 	return Vector2(0, 0)
 
 # func get_distance_to_node(node):

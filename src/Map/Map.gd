@@ -34,10 +34,8 @@ func _init_dict():
 	
 func init_checkout_locations():
 	checkout_locations = []
-	for coords in self.floor_tile_map.get_used_cells():
-		var id = floor_tile_map.get_cellv(coords)
-		if id == TILE_TYPES.CHECKOUT:
-			checkout_locations.append(floor_tile_map.map_to_world(coords) + global_position)
+	for coords in self.floor_tile_map.get_used_cells_by_id(TILE_TYPES.CHECKOUT):
+		checkout_locations.append(floor_tile_map.map_to_world(coords) + global_position)
 	
 func init_product_locations():
 	product_locations = {}

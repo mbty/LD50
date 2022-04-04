@@ -3,6 +3,7 @@ extends Node
 enum GameMode {
 	DESIGN,
 	SIMULATION,
+	WAITING,
 }
 
 enum Tool {

@@ -314,7 +314,7 @@ func update_clients():
 		client.update()
 
 func _on_Clients_no_more_clients():
-	if GameState.game_mode == GameState.GameMode.DESIGN:
+	if GameState.game_mode == GameState.GameMode.WAITING:
 		emit_signal("simulation_ended")
 
 func handle_ambiance_timer(timer, wait_time):

@@ -109,14 +109,13 @@ func update():
 	# Otherwise, move
 	if !bought:
 		var next = self.strategy.path.pop_front()
-		if next == null:
+		while next == null:
 			if self.wishlist.empty() and can_checkout:
 				buy_cart()
 				return
 			else:
 				self.strategy.gen_path(self.strategy.get_next_focus())
 				next = self.strategy.path.pop_front()
-				assert(next != null)
 		$Tween.interpolate_property(
 			self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
 		)

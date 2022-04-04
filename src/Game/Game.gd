@@ -27,8 +27,6 @@ func _ready():
 	GameState.selected_product = $Products.get_child(0)
 	map = $Maps/Map1
 	map.show()
-	
-
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:

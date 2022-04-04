@@ -26,7 +26,7 @@ func build_wishlist(available_products):
 	var n_wishes = min(randi() % 2 + 1, available_copy.size())
 	for i in range(n_wishes):
 		var choice_index = randi() % available_copy.size()
-		self.wishlist.append(available_copy[choice_index])
+		self.wishlist.append(available_copy[choice_index].type)
 		available_copy.remove(choice_index)
 
 func set_strategy(strategy_type):
@@ -35,9 +35,19 @@ func set_strategy(strategy_type):
 	elif strategy_type == Globals.STRATEGY_TYPE.CHECK_OUT:
 		self.strategy = CheckOutStrategy.new()
 
+func get_neighbours():
+	var pos = (self.position / 32).floor()
+	return [pos, pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
+
 func _physics_process(_delta):
 	var move = self.strategy.next_move()
 	move_and_slide(move * _delta)
+
+	for nei in self.get_neighbours():
+		if map.product_per_location.has(nei):
+			var p = map.product_per_location[nei]
+			if p in self.wishlist and not (p in self.in_cart):
+				self.buy_product(p)
 
 func enters_range(var product):
 	pass

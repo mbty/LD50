@@ -24,6 +24,7 @@ enum TILE_TYPES {
 }
 
 var product_locations
+var product_per_location = {}
 var checkout_locations
 
 func _ready():
@@ -107,6 +108,7 @@ func get_product_locations(product_type):
 	return product_locations[product_type]
 
 func add_product_to_dict(coords, product):
+	product_per_location[coords] = product.type
 	if not product_locations.has(product.type):
 		product_locations[product.type] = []
 	product_locations[product.type].append(product_tile_map.map_to_world(coords))
@@ -115,6 +117,7 @@ func remove_product_from_dict(coords, product_id):
 	var world_coords = product_tile_map.map_to_world(coords)
 	var index = product_locations[product_id].find(world_coords)
 	product_locations[product_id].remove(index)
+	product_per_location.erase(coords)
 
 func create_client(products):
 	var client = client_scene.instance()
@@ -128,8 +131,14 @@ func create_client(products):
 	client.position += to_shift
 	clients.add_child(client)
 
-func product_bought(product):
-	emit_signal("product_bought", product)
+func product_bought(client, product):
+	var in_stock = true;
+	if in_stock:
+		if not client.in_cart.has(product.type):
+			client.in_cart[product.type] = 0
+		client.in_cart[product.type] += 1
+		print("product_bought", product)
+		emit_signal("product_bought", product)
 
 func get_mouse_world_coords():
 	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom

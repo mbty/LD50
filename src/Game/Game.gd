@@ -11,7 +11,7 @@ var drag_line = false
 var drag_start = null
 var last_drag_deleted_tile = null
 
-var clients_per_sec = 2e-1
+var clients_per_sec = 2e-2
 
 var levels = [
 	Level.new("Level 1", 1, 50, 100, "Map1"),

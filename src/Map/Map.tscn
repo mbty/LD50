@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Map/Map.gd" type="Script" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://assets/sounds/sliding0.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/sounds/sliding1.ogg" type="AudioStream" id=7]
 [ext_resource path="res://assets/sounds/sliding2.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/argent0.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sounds/argent1.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/sounds/argent2.ogg" type="AudioStream" id=11]
+[ext_resource path="res://assets/sounds/argent3.ogg" type="AudioStream" id=12]
+[ext_resource path="res://assets/sounds/checkout.ogg" type="AudioStream" id=13]
 
 [node name="Map" type="Node2D"]
 script = ExtResource( 2 )
@@ -50,3 +55,7 @@ smoothing_speed = 0.1
 [node name="SlidingDoorsSound" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 5 )
 sounds = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
+
+[node name="CheckoutSound" type="AudioStreamPlayer" parent="Sounds"]
+script = ExtResource( 5 )
+sounds = [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ]

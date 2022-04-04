@@ -27,6 +27,7 @@ enum TILE_TYPES {
 var product_locations
 var product_per_location = {}
 var checkout_locations
+var checkout_loc_dic = {}
 
 func _ready():
 	self._init_dict()
@@ -94,8 +95,13 @@ func _init_dict():
 
 func init_checkout_locations():
 	checkout_locations = []
+	checkout_loc_dic = {}
 	for coords in self.floor_tile_map.get_used_cells_by_id(TILE_TYPES.CHECKOUT):
-		checkout_locations.append(floor_tile_map.map_to_world(coords) + global_position)
+		var pos = floor_tile_map.map_to_world(coords) + global_position
+		checkout_locations.append(pos)
+		pos = (pos / 32).floor()
+		checkout_loc_dic[pos] = 1
+		checkout_loc_dic[pos + Vector2.DOWN] = 1
 	
 func init_product_locations():
 	product_locations = {}
@@ -149,6 +155,7 @@ func create_client(products):
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
 	client.connect("add_to_cart", self, "added_to_cart")
 	client.connect("buy", self, "bought")
+	client.connect("left", self, "client_left")
 
 	var cell = door_cells[randi() % door_cells.size()]
 	var to_shift = (floor_tile_map.map_to_world(cell) - global_position)
@@ -169,6 +176,10 @@ func bought(client):
 		var n = client.in_cart[k]
 		game.money += 1 * n
 	client.in_cart.clear()
+
+func client_left(client):
+	client.in_cart.empty()
+	client.queue_free()
 
 func get_mouse_world_coords():
 	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom

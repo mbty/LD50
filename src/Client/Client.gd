@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 signal add_to_cart
 signal buy
+signal left
 
 onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
@@ -46,9 +47,10 @@ func _physics_process(_delta):
 			var p = map.product_per_location[nei]
 			if p in self.wishlist and not (p in self.in_cart):
 				self.add_to_cart(p)
-		elif nei in map.checkout_locations and not self.in_cart.empty():
+		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
 			buy_cart()
-			
+		elif nei in map.checkout_loc_dic and self.in_cart.empty():
+			print('checkout but empty !')
 
 #func enters_range(var product):
 #	pass
@@ -58,6 +60,7 @@ func _physics_process(_delta):
 
 func _on_ZenTimer_timeout():
 	$Sprite.modulate = Color(255, 0, 0, 1.0)
+	emit_signal("left", self)
 
 func is_angry():
 	return zen_timer.time_left == 0

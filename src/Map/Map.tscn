@@ -47,6 +47,6 @@ smoothing_speed = 0.1
 
 [node name="Sounds" type="Node" parent="."]
 
-[node name="SlidingDoors" type="AudioStreamPlayer" parent="Sounds"]
+[node name="SlidingDoorsSound" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 5 )
 sounds = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]

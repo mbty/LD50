@@ -193,8 +193,8 @@ func bought(client):
 	client_left(client)
 
 func play_door_sound():
-	if not $Sounds/SlidingDoors.playing:
-		$Sounds/SlidingDoors.play_sound()
+	if not $Sounds/SlidingDoorsSound.playing:
+		$Sounds/SlidingDoorsSound.play_sound()
 
 func client_left(client):
 	play_door_sound()

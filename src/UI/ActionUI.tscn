@@ -23,11 +23,21 @@ margin_top = 19.0
 margin_right = 1024.0
 margin_bottom = 61.0
 
-[node name="PlayBtn" type="Button" parent="VBoxContainer/PlayContainer"]
-margin_left = 483.0
-margin_right = 540.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PlayContainer"]
+margin_left = 447.0
+margin_right = 576.0
+margin_bottom = 42.0
+
+[node name="PlayBtn" type="Button" parent="VBoxContainer/PlayContainer/HBoxContainer"]
+margin_right = 57.0
 margin_bottom = 42.0
 text = "Play"
+
+[node name="ResetBtn" type="Button" parent="VBoxContainer/PlayContainer/HBoxContainer"]
+margin_left = 61.0
+margin_right = 129.0
+margin_bottom = 42.0
+text = "Reset"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 65.0
@@ -36,24 +46,24 @@ margin_bottom = 600.0
 size_flags_vertical = 3
 
 [node name="Left" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 902.0
+margin_right = 897.0
 margin_bottom = 535.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 906.0
+margin_left = 901.0
 margin_right = 1005.0
 margin_bottom = 535.0
 
 [node name="ShopLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 99.0
+margin_right = 104.0
 margin_bottom = 30.0
 theme = ExtResource( 2 )
 text = "  Shop"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 34.0
-margin_right = 99.0
+margin_right = 104.0
 margin_bottom = 106.0
 
 [node name="AisleUI" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
@@ -63,22 +73,29 @@ margin_right = 72.0
 margin_bottom = 72.0
 size_flags_horizontal = 0
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="AislePrice" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 76.0
 margin_top = 21.0
-margin_right = 99.0
+margin_right = 89.0
 margin_bottom = 51.0
-text = "5$"
+text = "/"
+
+[node name="Dollar" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 93.0
+margin_top = 21.0
+margin_right = 104.0
+margin_bottom = 51.0
+text = "$"
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 110.0
-margin_right = 99.0
+margin_right = 104.0
 margin_bottom = 125.0
 rect_min_size = Vector2( 0, 15 )
 
 [node name="Scroller" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 129.0
-margin_right = 99.0
+margin_right = 104.0
 margin_bottom = 531.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -87,7 +104,7 @@ scroll_horizontal_enabled = false
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 535.0
-margin_right = 99.0
+margin_right = 104.0
 margin_bottom = 535.0
 
 [node name="Right" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
@@ -96,4 +113,5 @@ margin_right = 1024.0
 margin_bottom = 535.0
 rect_min_size = Vector2( 15, 0 )
 
-[connection signal="button_down" from="VBoxContainer/PlayContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]
+[connection signal="button_down" from="VBoxContainer/PlayContainer/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]
+[connection signal="pressed" from="VBoxContainer/PlayContainer/HBoxContainer/ResetBtn" to="." method="_on_ResetBtn_pressed"]

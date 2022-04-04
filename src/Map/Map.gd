@@ -1,6 +1,7 @@
 extends Node2D
 
-signal product_bought
+signal add_to_cart
+signal cost_changed
 
 onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
@@ -23,15 +24,54 @@ enum TILE_TYPES {
 }
 
 var product_locations
+var product_per_location = {}
 var checkout_locations
 
 func _ready():
 	self._init_dict()
-	
+	save_aisle_setup()
+
+var original_aisle_setup
+func save_aisle_setup():
+	original_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
+
+func assess_cost():
+	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
+	var cost = 0
+	for original_tile in original_aisle_setup:
+		if current_aisle_setup.find(original_tile) == -1:
+			cost -= Globals.AISLE_COST
+	return cost + max(
+		0,
+		Globals.AISLE_COST*(current_aisle_setup.size() - original_aisle_setup.size())
+	)
+
+func _find_extra_aisles():
+	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
+	for tile in original_aisle_setup:
+		var index = current_aisle_setup.find(tile)
+		if index != -1:
+			current_aisle_setup.remove(index)
+	return current_aisle_setup
+
+func reset_aisles():
+	for original_tile in original_aisle_setup:
+		floor_tile_map.set_cellv(original_tile, TILE_TYPES.AISLE)
+	for tile in _find_extra_aisles():
+		floor_tile_map.set_cellv(tile, TILE_TYPES.GROUND)
+		product_tile_map.set_cellv(tile, -1)
+		
+	var rect = floor_tile_map.get_used_rect()
+	floor_tile_map.update_bitmask_region(
+		rect.position,
+		rect.end
+	)
+	emit_signal("cost_changed", 0)
+
 func _init_dict():
 	init_checkout_locations()
 	init_product_locations()
-	
+
 func init_checkout_locations():
 	checkout_locations = []
 	for coords in self.floor_tile_map.get_used_cells_by_id(TILE_TYPES.CHECKOUT):
@@ -58,7 +98,7 @@ func _process(delta):
 		map_hover.show_product = cell == TILE_TYPES.AISLE
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		map_hover.show_product = cell == TILE_TYPES.GROUND
-	
+
 func get_checkout_locations():
 	return checkout_locations
 
@@ -68,6 +108,7 @@ func get_product_locations(product_type):
 	return product_locations[product_type]
 
 func add_product_to_dict(coords, product):
+	product_per_location[coords] = product.type
 	if not product_locations.has(product.type):
 		product_locations[product.type] = []
 	product_locations[product.type].append(product_tile_map.map_to_world(coords))
@@ -76,12 +117,14 @@ func remove_product_from_dict(coords, product_id):
 	var world_coords = product_tile_map.map_to_world(coords)
 	var index = product_locations[product_id].find(world_coords)
 	product_locations[product_id].remove(index)
+	product_per_location.erase(coords)
 
 func create_client(products):
 	var client = client_scene.instance()
 	client.build_wishlist(products)
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
-	client.connect("buy_product", self, "product_bought")
+	client.connect("add_to_cart", self, "added_to_cart")
+	client.connect("buy", self, "bought")
 
 	var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	var cell = door_cells[randi() % door_cells.size()]
@@ -89,8 +132,20 @@ func create_client(products):
 	client.position += to_shift + Vector2(16, 16)
 	clients.add_child(client)
 
-func product_bought(product):
-	emit_signal("product_bought", product)
+func added_to_cart(client, product):
+	var in_stock = true;
+	if in_stock:
+		if not client.in_cart.has(product):
+			client.in_cart[product] = 0
+		client.in_cart[product] += 1
+		print("add_to_cart", product)
+		emit_signal("add_to_cart", product)
+
+func bought(client):
+	for k in client.in_cart:
+		var n = client.in_cart[k]
+		game.money += 1 * n
+	client.in_cart.clear()
 
 func get_mouse_world_coords():
 	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom
@@ -116,6 +171,7 @@ func summon_aisle():
 	if current_tile == TILE_TYPES.GROUND || current_tile == TILE_TYPES.DOOR:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.AISLE)
 		re_bake(tile_pos)
+		emit_signal("cost_changed", assess_cost())
 	
 func summon_product(product):
 	var tile_pos = get_tile_under_cursor()
@@ -137,6 +193,7 @@ func remove_tile():
 	elif floor_tile_map.get_cellv(tile_pos) == TILE_TYPES.AISLE:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.GROUND)
 		re_bake(tile_pos)
+		emit_signal("cost_changed", assess_cost())
 
 const diag_factor = 1.4142;
 const diag_avoid_wall_factor = 1.5;

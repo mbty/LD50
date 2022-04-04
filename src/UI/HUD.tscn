@@ -26,3 +26,10 @@ margin_right = 28.0
 margin_bottom = 35.0
 theme = ExtResource( 1 )
 text = "/"
+
+[node name="Cost" type="Label" parent="HBoxContainer"]
+margin_left = 32.0
+margin_top = 5.0
+margin_right = 49.0
+margin_bottom = 35.0
+text = "()"

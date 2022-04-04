@@ -1,6 +1,6 @@
 extends Node2D
 
-signal product_bought
+signal add_to_cart
 signal cost_changed
 
 onready var client_scene = preload("res://src/Client/Client.tscn")
@@ -71,7 +71,7 @@ func reset_aisles():
 func _init_dict():
 	init_checkout_locations()
 	init_product_locations()
-	
+
 func init_checkout_locations():
 	checkout_locations = []
 	for coords in self.floor_tile_map.get_used_cells_by_id(TILE_TYPES.CHECKOUT):
@@ -98,7 +98,7 @@ func _process(delta):
 		map_hover.show_product = cell == TILE_TYPES.AISLE
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		map_hover.show_product = cell == TILE_TYPES.GROUND
-	
+
 func get_checkout_locations():
 	return checkout_locations
 
@@ -123,7 +123,8 @@ func create_client(products):
 	var client = client_scene.instance()
 	client.build_wishlist(products)
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
-	client.connect("buy_product", self, "product_bought")
+	client.connect("add_to_cart", self, "added_to_cart")
+	client.connect("buy", self, "bought")
 
 	var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	var cell = door_cells[randi() % door_cells.size()]
@@ -131,14 +132,20 @@ func create_client(products):
 	client.position += to_shift
 	clients.add_child(client)
 
-func product_bought(client, product):
+func added_to_cart(client, product):
 	var in_stock = true;
 	if in_stock:
-		if not client.in_cart.has(product.type):
-			client.in_cart[product.type] = 0
-		client.in_cart[product.type] += 1
-		print("product_bought", product)
-		emit_signal("product_bought", product)
+		if not client.in_cart.has(product):
+			client.in_cart[product] = 0
+		client.in_cart[product] += 1
+		print("add_to_cart", product)
+		emit_signal("add_to_cart", product)
+
+func bought(client):
+	for k in client.in_cart:
+		var n = client.in_cart[k]
+		game.money += 1 * n
+	client.in_cart.clear()
 
 func get_mouse_world_coords():
 	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom

@@ -112,10 +112,6 @@ func _on_SimulationModeTimer_timeout():
 	$UI/ActionUI.show()
 	$ClientSpawnTimer.stop()
 
-func _on_Map_product_bought(product):
-	money += product
-	$UI/HUD.update_money(money)
-
 func _on_ClientSpawnTimer_timeout():
 	if GameState.game_mode == GameState.GameMode.SIMULATION:
 		map.create_client($Products.get_children())

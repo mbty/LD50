@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-signal buy_product
+signal add_to_cart
+signal buy
 
 onready var in_store_timer = $in_store_timer
 onready var nav = get_parent().get_parent()
@@ -47,7 +48,10 @@ func _physics_process(_delta):
 		if map.product_per_location.has(nei):
 			var p = map.product_per_location[nei]
 			if p in self.wishlist and not (p in self.in_cart):
-				self.buy_product(p)
+				self.add_to_cart(p)
+		elif nei in map.checkout_locations and not self.in_cart.empty():
+			buy_cart()
+			
 
 func enters_range(var product):
 	pass
@@ -61,5 +65,11 @@ func _on_ZenTimer_timeout():
 func is_angry():
 	return $ZenTimer.time_left == 0
 
-func buy_product(product):
-	emit_signal("buy_product", product)
+func add_to_cart(product):
+	emit_signal("add_to_cart", self, product)
+
+func buy_cart():
+	emit_signal("buy", self)
+
+func _on_Client_buy_product():
+	pass # Replace with function body.

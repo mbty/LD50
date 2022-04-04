@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/angry4.ogg-d481f0d2fffc41685b01a05bddbfe806.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/angry4.ogg"
+dest_files=[ "res://.import/angry4.ogg-d481f0d2fffc41685b01a05bddbfe806.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

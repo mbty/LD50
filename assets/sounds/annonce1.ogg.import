@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/annonce1.ogg-0d30a16f2741328ee8ba163fc7461d18.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/annonce1.ogg"
+dest_files=[ "res://.import/annonce1.ogg-0d30a16f2741328ee8ba163fc7461d18.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

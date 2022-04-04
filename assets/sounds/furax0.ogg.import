@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/furax0.ogg-fd669ab7a8c451477205f975d95b4f10.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/furax0.ogg"
+dest_files=[ "res://.import/furax0.ogg-fd669ab7a8c451477205f975d95b4f10.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

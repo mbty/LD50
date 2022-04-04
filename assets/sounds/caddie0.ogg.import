@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/caddie0.ogg-050dbe589341234538ed4a795620b099.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/caddie0.ogg"
+dest_files=[ "res://.import/caddie0.ogg-050dbe589341234538ed4a795620b099.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

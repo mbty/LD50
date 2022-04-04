@@ -1,6 +1,6 @@
 extends Node2D
 
-signal product_bought
+signal add_to_cart
 signal cost_changed
 
 onready var client_scene = preload("res://src/Client/Client.tscn")
@@ -12,7 +12,7 @@ onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
 onready var game = get_parent().get_parent()
 
-var door_cells = null
+onready var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 
 var hover_position = Vector2(0, 0)
 
@@ -71,7 +71,7 @@ func reset_aisles():
 func _init_dict():
 	init_checkout_locations()
 	init_product_locations()
-	
+
 func init_checkout_locations():
 	checkout_locations = []
 	for coords in self.floor_tile_map.get_used_cells_by_id(TILE_TYPES.CHECKOUT):
@@ -85,7 +85,7 @@ func init_product_locations():
 			product_locations[id] = []
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
 
-func _process(delta):
+func _process(_delta):
 	var tile_under_cursor = get_tile_under_cursor()
 	$Tween.interpolate_property(map_hover, "rect_position",
 		map_hover.rect_position, product_tile_map.map_to_world(tile_under_cursor), .05,
@@ -98,7 +98,7 @@ func _process(delta):
 		map_hover.show_product = cell == TILE_TYPES.AISLE
 	elif GameState.selected_tool == GameState.Tool.AISLE:
 		map_hover.show_product = cell == TILE_TYPES.GROUND
-	
+
 func get_checkout_locations():
 	return checkout_locations
 
@@ -123,22 +123,28 @@ func create_client(products):
 	var client = client_scene.instance()
 	client.build_wishlist(products)
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
-	client.connect("buy_product", self, "product_bought")
+	client.connect("add_to_cart", self, "added_to_cart")
+	client.connect("buy", self, "bought")
 
-	var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	var cell = door_cells[randi() % door_cells.size()]
-	var to_shift = (floor_tile_map.map_to_world(cell) - global_position) + Vector2(16, 16)
-	client.position += to_shift
+	var to_shift = (floor_tile_map.map_to_world(cell) - global_position)
+	client.position += to_shift + Vector2(16, 16)
 	clients.add_child(client)
 
-func product_bought(client, product):
+func added_to_cart(client, product):
 	var in_stock = true;
 	if in_stock:
-		if not client.in_cart.has(product.type):
-			client.in_cart[product.type] = 0
-		client.in_cart[product.type] += 1
-		print("product_bought", product)
-		emit_signal("product_bought", product)
+		if not client.in_cart.has(product):
+			client.in_cart[product] = 0
+		client.in_cart[product] += 1
+		print("add_to_cart", product)
+		emit_signal("add_to_cart", product)
+
+func bought(client):
+	for k in client.in_cart:
+		var n = client.in_cart[k]
+		game.money += 1 * n
+	client.in_cart.clear()
 
 func get_mouse_world_coords():
 	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom
@@ -205,38 +211,16 @@ func get_navigation_cost_corner(tile, direct1, direct2):
 		return diag_factor
 	return diag_avoid_wall_factor
 
-# Returns [tile * factor]
 func get_navigable_neighbors(x, y):
-	var up = Vector2(x, y + 1)
-	var down = Vector2(x, y - 1)
-	var left = Vector2(x - 1, y)
-	var right = Vector2(x + 1, y)
-	var ul = Vector2(x - 1, y + 1)
-	var ur = Vector2(x + 1, y + 1)
-	var dl = Vector2(x - 1, y - 1)
-	var dr = Vector2(x + 1, y - 1)
-	var ul_cost = get_navigation_cost_corner(ul, up, left)
-	var ur_cost = get_navigation_cost_corner(ur, up, right)
-	var dl_cost = get_navigation_cost_corner(dl, down, left)
-	var dr_cost = get_navigation_cost_corner(dr, down, right)
-	
 	var res = []
-	if is_navigable_simple(up):
-		res.append([up, 1])
-	if is_navigable_simple(down):
-		res.append([down, 1])
-	if is_navigable_simple(left):
-		res.append([left, 1])
-	if is_navigable_simple(right):
-		res.append([right, 1])
-	if ul_cost != 0.0:
-		res.append([ul, ul_cost])
-	if ur_cost != 0.0:
-		res.append([ur, ur_cost])
-	if dl_cost != 0.0:
-		res.append([dl, dl_cost])
-	if dr_cost != 0.0:
-		res.append([dr, dr_cost])
+	if is_navigable_simple(Vector2(x, y + 1)):
+		res.append(Vector2(x, y + 1))
+	if is_navigable_simple(Vector2(x, y - 1)):
+		res.append(Vector2(x, y - 1))
+	if is_navigable_simple(Vector2(x - 1, y)):
+		res.append(Vector2(x - 1, y))
+	if is_navigable_simple(Vector2(x + 1, y)):
+		res.append(Vector2(x + 1, y))
 	return res
 
 func heuristic(current, goal):
@@ -245,13 +229,12 @@ func heuristic(current, goal):
 func path_from_backtrack_map(bm, current):
 	var path = []
 	while bm.has(current):
-		path.append(floor_tile_map.map_to_world(current))
+		path.append(floor_tile_map.map_to_world(current) + Vector2(16, 16))
 		current = bm[current]
 	path.invert()
 	return path
 
-# TODO memoize paths
-func get_path_raw(origin, destination):
+func get_path_(origin, destination):
 	var origin_tile = floor_tile_map.world_to_map(origin)
 	var destination_tile = floor_tile_map.world_to_map(destination)
 	
@@ -260,24 +243,19 @@ func get_path_raw(origin, destination):
 	var computed_costs = {}
 	computed_costs[origin_tile] = 0
 	frontier.push(origin_tile, heuristic(origin_tile, destination))
-
-	var current
 	
 	while not frontier.is_empty():
-		current = frontier.pop()
+		var current = frontier.pop()
 		if (current - destination_tile).length() < 2:
 			return path_from_backtrack_map(backtrack_map, current)
 		for candidate in get_navigable_neighbors(current.x, current.y):
-			var cost = computed_costs[current] + candidate[1]
-			if !computed_costs.has(candidate[0]) || cost < computed_costs[candidate[0]]:
-				computed_costs[candidate[0]] = cost
-				backtrack_map[candidate[0]] = current
-				frontier.push(candidate[0], cost + heuristic(current, destination_tile))
-	return path_from_backtrack_map(backtrack_map, current)
+			var cost = computed_costs[current] + 1
+			if !computed_costs.has(candidate) || cost < computed_costs[candidate]:
+				computed_costs[candidate] = cost
+				backtrack_map[candidate] = current
+				frontier.push(candidate, cost + heuristic(current, destination_tile))
+	return []
 
-# TODO
-func smooth_path(path):
-	return path
-
-func get_path_(origin, destination):
-	return get_path_raw(origin, destination)
+func update_clients():
+	for client in clients.get_children():
+		client.move()

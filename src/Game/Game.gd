@@ -23,7 +23,6 @@ func _ready():
 	for product in $Products.get_children():
 		product.type = i
 		i+=1
-
 	GameState.selected_product = $Products.get_child(0)
 	map = $Maps/Map1
 	map.show()
@@ -112,18 +111,16 @@ func _on_SimulationModeTimer_timeout():
 	$UI/ActionUI.show()
 	$ClientSpawnTimer.stop()
 
-func _on_Map_product_bought(product):
-	money += product
-	$UI/HUD.update_money(money)
-
 func _on_ClientSpawnTimer_timeout():
 	if GameState.game_mode == GameState.GameMode.SIMULATION:
 		map.create_client($Products.get_children())
 		$ClientSpawnTimer.start(randf() / clients_per_sec)
 
+func _on_TickTimer_timeout():
+	map.update_clients()
+
 func _on_Map_cost_changed(new_cost):
 	$UI/HUD.update_cost(new_cost)
-
 
 func _on_ActionUI_reset_map():
 	map.reset_aisles()

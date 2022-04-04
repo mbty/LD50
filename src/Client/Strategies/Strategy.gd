@@ -9,34 +9,25 @@ var product_location_dict = {}
 var path_update_counter = 0
 var path_update_frames_delay = 20
 var path = []
+var path_cp = []
 
-func init(client):
-	self.client = client
+func init(new_client):
+	client = new_client
 	nav = client.get_parent().get_parent()
 
 func find_path():
 	return self.client.position
 
-func get_path_direction_to(target_loc):
-	var position = self.client.position
-	if (target_loc - position).length_squared() < pow(40 * 64, 2):
-		path_update_counter = path_update_counter + 1
-		if (path_update_counter % path_update_frames_delay == 0):
-			path = client.map.get_path_(position, target_loc)
-		while not path.size() == 0 and position.distance_to(path[0]) < 1:
-			path.remove(0)
-		if path.empty():
-			# We are really close from the target, go directly to it
-			return (target_loc - position).normalized() * self.client.speed
-		return (path[0] - position).normalized() * self.client.speed
-	return Vector2(0, 0)
+func path_pop():
+	return path.pop_front()
 
-# func get_distance_to_node(node):
-# 	var vec_target = node.position - position
-# 	vec_target.y /= 2;
-# 	return vec_target.length_squared()
+func gen_path(target_loc):
+	path = client.map.get_path_(self.client.position, target_loc)
 
 func next_move():
+	assert(self.client != null)
+
+func get_current_focus():
 	assert(self.client != null)
 
 func is_accessible(target_node):

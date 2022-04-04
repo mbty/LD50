@@ -7,7 +7,7 @@ onready var frame = $Frame
 export var show_product = false
 export var aisle_texture: Texture
 
-func _process(delta):
+func _process(_delta):
 	product_sprite.hide()
 	aisle_sprite.hide()
 	if GameState.game_mode == GameState.GameMode.DESIGN and self.show_product:

@@ -107,7 +107,7 @@ func init_product_locations():
 	product_locations = {}
 	for coords in self.product_tile_map.get_used_cells():
 		var id = product_tile_map.get_cellv(coords)
-		if product_locations[id] == null:
+		if !product_locations.has(id):
 			product_locations[id] = []
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
 
@@ -294,7 +294,7 @@ func get_path_(origin, destination):
 	
 	while not frontier.is_empty():
 		var current = frontier.pop()
-		if (current - destination_tile).length() < 2:
+		if (current - destination_tile).length() < 1.2:
 			return path_from_backtrack_map(backtrack_map, current)
 		for candidate in get_navigable_neighbors(current.x, current.y):
 			var cost = computed_costs[current] + 1

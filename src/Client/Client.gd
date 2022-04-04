@@ -73,8 +73,8 @@ func set_strategy(strategy_type):
 		self.strategy = CheckOutStrategy.new()
 
 func get_neighbours():
-	var pos = (self.position / 32).floor()
-	return [pos, pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
+	var pos = (self.position / 32).floor() + Vector2(0, 0)
+	return [pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
 func _on_ZenTimer_timeout():
 	emit_signal("left", self)
@@ -97,13 +97,14 @@ func update():
 			var p = map.product_per_location[nei]
 			if p in self.wishlist and not (p in self.in_cart):
 				self.add_to_cart(p)
+				#map.product_animation(p, player.position())
 				bought = true
 				break
 		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
 			buy_cart()
 		elif nei in map.checkout_loc_dic and self.in_cart.empty():
 			emit_signal("buy", self)
-	# If can't, move
+	# Otherwise, move
 	if !bought:
 		var next = self.strategy.path.pop_front()
 		if next != null:

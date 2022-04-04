@@ -84,7 +84,7 @@ func _next_tool():
 		_change_tool((GameState.selected_product.type + 1) % $Products.get_child_count())
 
 func _input(event):
-	if GameState.game_mode != GameState.GameMode.DESIGN:
+	if GameState.game_mode != GameState.GameMode.DESIGN or not GameState.can_interact():
 		return
 
 	if event.is_action_pressed("ui_play"):

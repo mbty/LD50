@@ -58,7 +58,7 @@ func get_camera_bounds():
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_MIDDLE:
-		self.dragging_camera = event.is_pressed()
+		self.dragging_camera = event.is_pressed() and GameState.can_interact()
 	if event is InputEventMouseMotion and self.dragging_camera:
 		self._drag_camera(event.relative)
 

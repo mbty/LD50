@@ -13,6 +13,8 @@ onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	aisle_price.text = str(Globals.AISLE_COST)
+	GameState.add_gui_rect($VBoxContainer/BottomBar)
+	GameState.add_gui_rect($VBoxContainer/HBoxContainer/VBoxContainer)
 
 func _process(_delta):
 	play_btn.disabled = !can_play

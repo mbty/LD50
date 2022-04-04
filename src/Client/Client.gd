@@ -46,7 +46,6 @@ func _ready():
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)
-	self.strategy.gen_path(self.strategy.get_next_focus())
 	update_animation()
 
 func _process(delta):
@@ -114,18 +113,11 @@ func update():
 	# Otherwise, move
 	if !bought:
 		$Sounds/WalkSounds.play_sound()
-		var next = self.strategy.path.pop_front()
-		while next == null:
-			if self.wishlist.empty() and can_checkout:
-				buy_cart()
-				return
-			else:
-				self.strategy.gen_path(self.strategy.get_next_focus())
-				next = self.strategy.path.pop_front()
-		$Tween.interpolate_property(
-			self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
-		)
-		$Tween.start()
+		var next = strategy.get_next_move()
+		if next == null:
+			next = self.position
+			animation_state = CharacterAnimationState.IDLE
+			print("NULL")
 		if next != null:
 			$Tween.interpolate_property(
 				self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT

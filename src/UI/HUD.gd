@@ -3,6 +3,10 @@ extends Control
 onready var ammount = $HBoxContainer/Ammount
 onready var cost = $HBoxContainer/Cost
 
+onready var goal = $GoalDiplay/Objective
+onready var current_day = $DaysDisplay/CurrentDay
+onready var total_days = $DaysDisplay/NbDaysTotal
+
 func _ready():
 	update_cost(0)
 
@@ -20,3 +24,12 @@ func update_cost(new_cost):
 		cost.modulate.g = 1.0
 	elif new_cost > 0:
 		cost.modulate.r = 1.0
+		
+func update_current_day(new_value):
+	current_day.text = str(new_value)
+	
+func update_total_days(new_value):
+	total_days.text = str(new_value)
+	
+func update_goal(new_value):
+	goal.text = str(new_value)

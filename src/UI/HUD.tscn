@@ -33,3 +33,53 @@ margin_top = 5.0
 margin_right = 49.0
 margin_bottom = 35.0
 text = "()"
+
+[node name="GoalDisplay" type="HBoxContainer" parent="."]
+margin_top = 32.0
+margin_right = 133.0
+margin_bottom = 72.0
+
+[node name="Goal" type="Label" parent="GoalDisplay"]
+margin_top = 5.0
+margin_right = 100.0
+margin_bottom = 35.0
+text = "Objective : "
+
+[node name="Dollar" type="Label" parent="GoalDisplay"]
+margin_left = 104.0
+margin_top = 5.0
+margin_right = 115.0
+margin_bottom = 35.0
+text = "$"
+
+[node name="Objective" type="Label" parent="GoalDisplay"]
+margin_left = 119.0
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 35.0
+text = "X"
+
+[node name="DaysDisplay" type="HBoxContainer" parent="."]
+margin_top = 67.0
+margin_right = 115.0
+margin_bottom = 107.0
+
+[node name="Day" type="Label" parent="DaysDisplay"]
+margin_top = 5.0
+margin_right = 55.0
+margin_bottom = 35.0
+text = "Day : "
+
+[node name="CurrentDay" type="Label" parent="DaysDisplay"]
+margin_left = 59.0
+margin_top = 5.0
+margin_right = 73.0
+margin_bottom = 35.0
+text = "X"
+
+[node name="NbDaysTotal" type="Label" parent="DaysDisplay"]
+margin_left = 77.0
+margin_top = 5.0
+margin_right = 102.0
+margin_bottom = 35.0
+text = "/5"

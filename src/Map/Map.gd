@@ -137,7 +137,7 @@ func _process(_delta):
 	if displ != Vector2(0, 0):
 		_drag_camera(displ)
 
-func mode_changed(new_gm):
+func mode_changed(_new_gm):
 	emit_signal("cost_changed", 0)
 	save_aisle_setup()
 

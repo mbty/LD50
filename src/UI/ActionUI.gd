@@ -14,7 +14,7 @@ onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 func _ready():
 	aisle_price.text = str(Globals.AISLE_COST)
 
-func _process(delta):
+func _process(_delta):
 	play_btn.disabled = !can_play
 
 func _on_Products_new_product(product):

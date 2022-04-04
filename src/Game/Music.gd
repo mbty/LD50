@@ -9,7 +9,7 @@ const MENU = "musicMenu"
 const MUSIC_ATTENUATION_STOP = -20
 
 onready var currentMusic = null
-onready var menuMusic = [null, $bossa1, null]
+onready var menuMusic = [null, $bossax, null]
 onready var simuMusic = [$DSOTM_start, $DSOTM, $DSOTM_end]
 
 onready var currentIntroMusic = menuMusic[0]
@@ -20,7 +20,7 @@ onready var nextLoopMusic = simuMusic[1]
 onready var nextEndMusic = simuMusic[2]
 
 onready var currentMusicType = LOOP
-onready var currentMusicName = Globals.BOSSA1
+onready var currentMusicName = Globals.BOSSAX
 onready var nextMusicName = Globals.DSOTM
 onready var musicToAttenuate = null
 onready var musicAttenuationStart = 0
@@ -91,7 +91,7 @@ func menuExit():
 	currentMusic.stream.set_stream_paused(false)
 	
 func cutCurrentMusic():
-	if (currentMusicName == Globals.DSOTM || currentMusicName == Globals.BOSSA1):
+	if (currentMusicName == Globals.DSOTM || currentMusicName == Globals.BOSSAX):
 		currentMusic.disconnect("finished", self, "_on_CurrentMusic_finished")
 		musicToAttenuate = currentMusic
 		musicAttenuationStart = currentMusic.get_volume_db()
@@ -122,7 +122,7 @@ func chargeNextMusic(name):
 		nextIntroMusic = simuMusic[0]
 		nextLoopMusic = simuMusic[1]
 		nextEndMusic = simuMusic[2]
-	elif (name == Globals.BOSSA1):
+	elif (name == Globals.BOSSAX):
 		nextIntroMusic = menuMusic[0]
 		nextLoopMusic = menuMusic[1]
 		nextEndMusic = menuMusic[2]

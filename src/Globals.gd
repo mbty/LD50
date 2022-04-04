@@ -6,7 +6,7 @@ const AISLE_COST = 5
 const TRANSITION = 3
 
 const DSOTM = "DSOTM"
-const BOSSA1 = "BOSSA1"
+const BOSSAX = "BOSSAX"
 
 enum STRATEGY_TYPE {
 	MIND_OF_STEEL,

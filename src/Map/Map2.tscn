@@ -32,3 +32,5 @@ smoothing_enabled = true
 smoothing_speed = 0.1
 
 [node name="Tween" type="Tween" parent="."]
+playback_speed = 18.29
+playback/speed = 18.29

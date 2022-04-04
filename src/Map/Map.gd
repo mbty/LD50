@@ -124,6 +124,18 @@ func _process(_delta):
 			map_hover.show_product = cell == TILE_TYPES.AISLE
 		elif GameState.selected_tool == GameState.Tool.AISLE:
 			map_hover.show_product = cell == TILE_TYPES.GROUND
+	
+	var displ = Vector2(0, 0)
+	if Input.is_key_pressed(KEY_LEFT):
+		displ += Vector2(_delta * 800, 0)
+	if Input.is_key_pressed(KEY_RIGHT):
+		displ -= Vector2(_delta * 800, 0)
+	if Input.is_key_pressed(KEY_UP):
+		displ += Vector2(0, _delta * 800)
+	if Input.is_key_pressed(KEY_DOWN):
+		displ -= Vector2(0, _delta * 800)
+	if displ != Vector2(0, 0):
+		_drag_camera(displ)
 
 func mode_changed(new_gm):
 	emit_signal("cost_changed", 0)

@@ -15,6 +15,7 @@ onready var game = get_parent().get_parent()
 onready var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 
 var hover_position = Vector2(0, 0)
+var dragging_camera = false
 
 enum TILE_TYPES {
 	AISLE = 0,
@@ -30,6 +31,15 @@ var checkout_locations
 func _ready():
 	self._init_dict()
 	save_aisle_setup()
+
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == BUTTON_MIDDLE:
+		self.dragging_camera = event.is_pressed()
+	if event is InputEventMouseMotion and self.dragging_camera:
+		self._drag_camera(event.relative)
+
+func _drag_camera(relative):
+	camera.offset -= relative * camera.zoom
 
 var original_aisle_setup
 func save_aisle_setup():
@@ -92,7 +102,6 @@ func _process(_delta):
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
 	var cell = floor_tile_map.get_cellv(tile_under_cursor)
-	camera.offset = (get_viewport().get_mouse_position() - get_viewport().size / 2) / 4
 
 	if GameState.selected_tool == GameState.Tool.PRODUCT:
 		map_hover.show_product = cell == TILE_TYPES.AISLE

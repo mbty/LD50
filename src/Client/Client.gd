@@ -3,7 +3,7 @@ extends KinematicBody2D
 signal add_to_cart
 signal buy
 
-onready var in_store_timer = $in_store_timer
+onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
 onready var map = get_parent().get_parent().get_parent()
 
@@ -40,6 +40,7 @@ func get_neighbours():
 	var pos = (self.position / 32).floor()
 	return [pos, pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
+func _physics_process(_delta):
 	for nei in self.get_neighbours():
 		if map.product_per_location.has(nei):
 			var p = map.product_per_location[nei]
@@ -59,7 +60,7 @@ func _on_ZenTimer_timeout():
 	$Sprite.modulate = Color(255, 0, 0, 1.0)
 
 func is_angry():
-	return $ZenTimer.time_left == 0
+	return zen_timer.time_left == 0
 
 func buy_product(product):
 	emit_signal("buy_product", product)

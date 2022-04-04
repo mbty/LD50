@@ -41,6 +41,7 @@ func _ready():
 func load_nav(nav_name):
 	if nav:
 		nav.hide()
+		clients.disconnect("no_more_clients", self, "_on_Clients_no_more_clients")
 	nav = get_node("Navigations/" + nav_name)
 	nav.show()
 	floor_tile_map = nav.get_node("FloorTileMap")

@@ -67,12 +67,9 @@ func _process(_delta):
 
 func build_wishlist(available_products):
 	self.wishlist = []
-	var available_copy = [] + available_products
-	var n_wishes = min(randi() % 2 + 1, available_copy.size())
-	for _i in range(n_wishes):
-		var choice_index = randi() % available_copy.size()
-		self.wishlist.append(available_copy[choice_index].type)
-		available_copy.remove(choice_index)
+	for p in available_products:
+		if randf() < p.frequency:
+			self.wishlist.append(p.type)
 
 func set_strategy(strategy_type):
 	if strategy_type == Globals.STRATEGY_TYPE.MIND_OF_STEEL:

@@ -220,7 +220,7 @@ func re_bake(changed_tile):
 func summon_aisle():
 	var tile_pos = get_tile_under_cursor()
 	var current_tile = floor_tile_map.get_cellv(tile_pos)
-	if current_tile == TILE_TYPES.GROUND || current_tile == TILE_TYPES.DOOR:
+	if current_tile == TILE_TYPES.GROUND:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.AISLE)
 		re_bake(tile_pos)
 		emit_signal("cost_changed", assess_cost())

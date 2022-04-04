@@ -89,6 +89,7 @@ func is_angry():
 	return zen_timer.time_left == 0
 
 func buy_product(product):
+	$Sounds/GrabSounds.play_sound()
 	zen_timer.time_left += 5
 	emit_signal("buy_product", product)
 

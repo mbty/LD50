@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://src/Client/Client.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/client.png" type="Texture" id=2]
@@ -20,6 +20,9 @@
 [ext_resource path="res://assets/sounds/walk2.ogg" type="AudioStream" id=18]
 [ext_resource path="res://assets/sounds/walk4.ogg" type="AudioStream" id=19]
 [ext_resource path="res://assets/sounds/walk3.ogg" type="AudioStream" id=20]
+[ext_resource path="res://assets/sounds/woosh1.ogg" type="AudioStream" id=21]
+[ext_resource path="res://assets/sounds/woosh2.ogg" type="AudioStream" id=22]
+[ext_resource path="res://assets/sounds/woosh0.ogg" type="AudioStream" id=23]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.30116
@@ -180,6 +183,10 @@ sounds = [ ExtResource( 15 ), ExtResource( 12 ), ExtResource( 6 ), ExtResource( 
 [node name="WalkSounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )
 sounds = [ ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="GrabSounds" type="AudioStreamPlayer" parent="Sounds"]
+script = ExtResource( 3 )
+sounds = [ ExtResource( 23 ), ExtResource( 21 ), ExtResource( 22 ) ]
 
 [node name="ZenTimer" type="Timer" parent="."]
 wait_time = 10.0

@@ -104,6 +104,8 @@ func _on_ActionUI_begin_simulation():
 	$UI/ActionUI.hide()
 	$SimulationModeTimer.start()
 	$ClientSpawnTimer.start(randf() / clients_per_sec)
+	$Music.chargeNextMusic(Globals.DSOTM)
+	$Music.cutCurrentMusic()
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN

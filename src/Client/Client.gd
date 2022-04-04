@@ -108,6 +108,12 @@ func update():
 				buy_animation(p, nei)
 				bought = true
 				break
+			elif not (p in self.in_cart):
+				if randf() < products.get_child(p).frequency:
+					self.add_to_cart(p)
+					buy_animation(p, nei)
+					bought = true
+					break
 		elif nei in map.checkout_loc_dic:
 			can_checkout = true
 	# Otherwise, move

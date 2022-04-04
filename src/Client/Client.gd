@@ -48,7 +48,7 @@ func _ready():
 	self.strategy.init(self)
 	update_animation()
 
-func _process(delta):
+func _process(_delta):
 	self.modulate = animated_modulate
 
 func build_wishlist(available_products):

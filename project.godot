@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/color-palette/utilities/FlexGridContainer.gd"
 }, {
+"base": "Node",
+"class": "Level",
+"language": "GDScript",
+"path": "res://src/Game/Level.gd"
+}, {
 "base": "Strategy",
 "class": "MindOfSteelStrategy",
 "language": "GDScript",
@@ -58,6 +63,7 @@ _global_script_class_icons={
 "CheckOutStrategy": "",
 "ColorTile": "",
 "FlexGridContainer": "res://addons/color-palette/utilities/FlexGridContainerIcon.png",
+"Level": "",
 "MindOfSteelStrategy": "",
 "Palette": "",
 "PaletteImporter": "",

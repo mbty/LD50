@@ -13,19 +13,47 @@ var last_drag_deleted_tile = null
 
 var clients_per_sec = 2e-1
 
+var levels = [
+	Level.new("Level 1", 1, 50, 100, "Map1"),
+	Level.new("Level 2", 5, 50, 200, "Map2"),
+	Level.new("Level 3", 5, 50, 300, "Map2"),
+]
+
+var level_index = -1
+
+func get_level():
+	return levels[level_index]
+
 func not_dragging():
 	return !drag_build and !drag_destroy
 
 func _ready():
 	randomize()
+	on_next_level()
+
+func on_next_level():
+	level_index += 1
+	var level = get_level()
+	money = level.start_money
+	$UI/HUD.update_current_day(0)
+	$UI/HUD.update_total_days(level.days)
+	$UI/HUD.update_goal(level.goal)
 	$UI/HUD.update_money(money)
+
+	level.connect("end_level", self, "on_end_level")
+
 	var i = 0
 	for product in $Products.get_children():
 		product.type = i
 		i+=1
 	GameState.selected_product = $Products.get_child(0)
-	map = $Maps/Map1
+	map = get_node('Maps/'+ level.map)
+	map.connect("simulation_ended", self, "_on_simulation_ended")
 	map.show()
+
+func on_end_level():
+	# todo end screen
+	on_next_level()
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:
@@ -130,7 +158,12 @@ func _on_ActionUI_begin_simulation():
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN
+
+func _on_simulation_ended():
 	map.mode_changed(GameState.GameMode.DESIGN)
+	get_level().next_day()
+	$UI/HUD.update_current_day(get_level().current_day)
+	
 	$UI/ActionUI.show()
 	$ClientSpawnTimer.stop()
 

@@ -16,4 +16,7 @@ func get_name():
 	return product_name
 
 func get_texture():
-	return texture 
+	return texture
+
+func is_enculade():
+	return price >= 5

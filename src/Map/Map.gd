@@ -2,6 +2,7 @@ extends Node2D
 
 signal add_to_cart
 signal cost_changed
+signal simulation_ended
 
 onready var client_scene = preload("res://src/Client/Client.tscn")
 onready var nav = $Navigation2D
@@ -61,9 +62,7 @@ func assess_cost():
 	var cost = 0
 	for original_tile in original_aisle_setup:
 		var index = current_aisle_setup.find(original_tile)
-		if index == -1:
-			cost -= Globals.AISLE_COST
-		else:
+		if index >= 0:
 			current_aisle_setup.remove(index)
 	return cost + Globals.AISLE_COST*current_aisle_setup.size()
 
@@ -173,7 +172,7 @@ func create_client(products):
 	var cell = door_cells[randi() % door_cells.size()]
 	var to_shift = (floor_tile_map.map_to_world(cell) - global_position)
 	client.position += to_shift + Vector2(16, 16)
-	clients.add_child(client)
+	clients.add_child_client(client)
 
 func added_to_cart(client, product):
 	var in_stock = true;
@@ -311,3 +310,8 @@ func get_path_(origin, destination):
 func update_clients():
 	for client in clients.get_children():
 		client.update()
+
+
+func _on_Clients_no_more_clients():
+	if GameState.game_mode == GameState.GameMode.DESIGN:
+		emit_signal("simulation_ended")

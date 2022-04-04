@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/client.png-b02856384d799698f461f06127683f4f.stex"
+path="res://.import/client3.png-332d4067bd2b0e76ba1ef63544ad1430.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/client.png"
-dest_files=[ "res://.import/client.png-b02856384d799698f461f06127683f4f.stex" ]
+source_file="res://assets/sprites/client3.png"
+dest_files=[ "res://.import/client3.png-332d4067bd2b0e76ba1ef63544ad1430.stex" ]
 
 [params]
 
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

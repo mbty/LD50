@@ -15,6 +15,12 @@ onready var tick_timer = game.get_node("TickTimer")
 onready var products = game.get_node("Products")
 onready var sprite = $AnimatedSprite
 
+const FRAMES_VARIANTS = [
+	preload("res://assets/sprites/client1.tres"),
+	preload("res://assets/sprites/client2.tres"),
+	preload("res://assets/sprites/client3.tres"),
+]
+
 var animated_modulate = MODULATE_WHITE
 
 var wishlist
@@ -49,6 +55,7 @@ func _ready():
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)
+	sprite.frames = FRAMES_VARIANTS[randi() % FRAMES_VARIANTS.size()]
 	update_animation()
 	$Emoji.z_index = sprite.z_index + 1
 

@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/UI/ActionUI.gd" type="Script" id=1]
 [ext_resource path="res://assets/design.tres" type="Theme" id=2]
 [ext_resource path="res://src/UI/AisleUI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/ui/mouse_left.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/mouse_right.png" type="Texture" id=5]
+[ext_resource path="res://assets/ui/keyboard_tab.png" type="Texture" id=6]
+[ext_resource path="res://assets/ui/mouse_middle.png" type="Texture" id=7]
 
 [node name="ActionUI" type="Control"]
 anchor_right = 1.0
@@ -18,42 +22,21 @@ margin_right = 1024.0
 margin_bottom = 15.0
 rect_min_size = Vector2( 0, 15 )
 
-[node name="PlayContainer" type="CenterContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 19.0
 margin_right = 1024.0
-margin_bottom = 61.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PlayContainer"]
-margin_left = 447.0
-margin_right = 576.0
-margin_bottom = 42.0
-
-[node name="PlayBtn" type="Button" parent="VBoxContainer/PlayContainer/HBoxContainer"]
-margin_right = 57.0
-margin_bottom = 42.0
-text = "Play"
-
-[node name="ResetBtn" type="Button" parent="VBoxContainer/PlayContainer/HBoxContainer"]
-margin_left = 61.0
-margin_right = 129.0
-margin_bottom = 42.0
-text = "Reset"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 65.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 532.0
 size_flags_vertical = 3
 
 [node name="Left" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 margin_right = 897.0
-margin_bottom = 535.0
+margin_bottom = 513.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 901.0
 margin_right = 1005.0
-margin_bottom = 535.0
+margin_bottom = 513.0
 
 [node name="ShopLabel" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_right = 104.0
@@ -96,22 +79,142 @@ rect_min_size = Vector2( 0, 15 )
 [node name="Scroller" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 129.0
 margin_right = 104.0
-margin_bottom = 531.0
+margin_bottom = 509.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="ProductList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/Scroller"]
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 535.0
+margin_top = 513.0
 margin_right = 104.0
-margin_bottom = 535.0
+margin_bottom = 513.0
 
 [node name="Right" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 1009.0
 margin_right = 1024.0
-margin_bottom = 535.0
+margin_bottom = 513.0
 rect_min_size = Vector2( 15, 0 )
 
-[connection signal="button_down" from="VBoxContainer/PlayContainer/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]
-[connection signal="pressed" from="VBoxContainer/PlayContainer/HBoxContainer/ResetBtn" to="." method="_on_ResetBtn_pressed"]
+[node name="BottomBar" type="ColorRect" parent="VBoxContainer"]
+margin_top = 536.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 0, 64 )
+color = Color( 0.101961, 0.109804, 0.14902, 1 )
+
+[node name="PlayContainer" type="HBoxContainer" parent="VBoxContainer/BottomBar"]
+anchor_right = 1.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = 52.0
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/BottomBar/PlayContainer"]
+margin_left = 885.0
+margin_right = 1014.0
+margin_bottom = 42.0
+
+[node name="PlayBtn" type="Button" parent="VBoxContainer/BottomBar/PlayContainer/HBoxContainer"]
+margin_right = 57.0
+margin_bottom = 42.0
+text = "Play"
+
+[node name="ResetBtn" type="Button" parent="VBoxContainer/BottomBar/PlayContainer/HBoxContainer"]
+margin_left = 61.0
+margin_right = 129.0
+margin_bottom = 42.0
+text = "Reset"
+
+[node name="Controls" type="HBoxContainer" parent="VBoxContainer/BottomBar"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 791.0
+margin_bottom = 50.0
+custom_constants/separation = 16
+
+[node name="PlaceSelection" type="HBoxContainer" parent="VBoxContainer/BottomBar/Controls"]
+margin_right = 172.0
+margin_bottom = 40.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BottomBar/Controls/PlaceSelection"]
+margin_right = 32.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 40 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/BottomBar/Controls/PlaceSelection"]
+margin_left = 36.0
+margin_top = 5.0
+margin_right = 172.0
+margin_bottom = 35.0
+text = "Place Selection"
+
+[node name="DeleteObject" type="HBoxContainer" parent="VBoxContainer/BottomBar/Controls"]
+margin_left = 188.0
+margin_right = 346.0
+margin_bottom = 40.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BottomBar/Controls/DeleteObject"]
+margin_right = 32.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 40 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/BottomBar/Controls/DeleteObject"]
+margin_left = 36.0
+margin_top = 5.0
+margin_right = 158.0
+margin_bottom = 35.0
+text = "Delete Object"
+
+[node name="MoveCamera" type="HBoxContainer" parent="VBoxContainer/BottomBar/Controls"]
+margin_left = 362.0
+margin_right = 589.0
+margin_bottom = 40.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BottomBar/Controls/MoveCamera"]
+margin_right = 96.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 96, 32 )
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/BottomBar/Controls/MoveCamera"]
+margin_left = 100.0
+margin_top = 5.0
+margin_right = 227.0
+margin_bottom = 35.0
+text = "Move Camera"
+
+[node name="SelectOther" type="HBoxContainer" parent="VBoxContainer/BottomBar/Controls"]
+margin_left = 605.0
+margin_right = 845.0
+margin_bottom = 40.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/BottomBar/Controls/SelectOther"]
+margin_right = 32.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 40 )
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="VBoxContainer/BottomBar/Controls/SelectOther"]
+margin_left = 36.0
+margin_top = 5.0
+margin_right = 240.0
+margin_bottom = 35.0
+text = "Select aisles/products"
+
+[connection signal="button_down" from="VBoxContainer/BottomBar/PlayContainer/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]
+[connection signal="pressed" from="VBoxContainer/BottomBar/PlayContainer/HBoxContainer/ResetBtn" to="." method="_on_ResetBtn_pressed"]

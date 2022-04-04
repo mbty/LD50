@@ -7,7 +7,7 @@ var can_play = true
 
 onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
 onready var aisle_price = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/AislePrice
-onready var play_btn = $VBoxContainer/PlayContainer/HBoxContainer/PlayBtn
+onready var play_btn = $VBoxContainer/BottomBar/PlayContainer/HBoxContainer/PlayBtn
 onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 
 # Called when the node enters the scene tree for the first time.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Map/Map.gd" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://src/Map/Clients.gd" type="Script" id=21]
 [ext_resource path="res://assets/sounds/annonce2.ogg" type="AudioStream" id=22]
 [ext_resource path="res://assets/sounds/glass1.ogg" type="AudioStream" id=23]
+[ext_resource path="res://assets/sounds/build_aisle.ogg" type="AudioStream" id=24]
 
 [node name="Map" type="Node2D"]
 script = ExtResource( 2 )
@@ -83,6 +84,11 @@ sounds = [ ExtResource( 16 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource(
 volume_db = -10.0
 script = ExtResource( 5 )
 sounds = [ ExtResource( 15 ), ExtResource( 14 ), ExtResource( 22 ) ]
+
+[node name="BuildAisleSound" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = -12.0
+script = ExtResource( 5 )
+sounds = [ ExtResource( 24 ) ]
 
 [node name="AmbianceTimers" type="Node" parent="."]
 

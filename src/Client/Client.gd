@@ -9,8 +9,10 @@ const MODULATE_RED = Color("f73831")
 
 onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
-onready var map = get_parent().get_parent().get_parent()
-onready var tick_timer = get_parent().get_parent().get_parent().get_parent().get_parent().get_node("TickTimer")
+onready var map = nav.get_parent()
+onready var game = map.get_parent().get_parent()
+onready var tick_timer = game.get_node("TickTimer")
+onready var products = game.get_node("Products")
 onready var sprite = $AnimatedSprite
 
 var animated_modulate = MODULATE_WHITE
@@ -92,28 +94,33 @@ func get_player_speed():
 func update():
 	# If can buy, buy and don't move
 	var bought = false
+	var can_checkout = false
 	for nei in self.get_neighbours():
 		if map.product_per_location.has(nei):
 			var p = map.product_per_location[nei]
 			if p in self.wishlist and not (p in self.in_cart):
+				self.wishlist.erase(p)
 				self.add_to_cart(p)
-				#map.product_animation(p, player.position())
+				buy_animation(p, nei)
 				bought = true
 				break
-		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
-			buy_cart()
-		elif nei in map.checkout_loc_dic and self.in_cart.empty():
-			emit_signal("buy", self)
+		elif nei in map.checkout_loc_dic:
+			can_checkout = true
 	# Otherwise, move
 	if !bought:
 		var next = self.strategy.path.pop_front()
-		if next != null:
-			$Tween.interpolate_property(
-				self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
-			)
-			$Tween.start()
-		else:
-			self.strategy.gen_path(self.strategy.get_next_focus())
+		if next == null:
+			if self.wishlist.empty() and can_checkout:
+				buy_cart()
+				return
+			else:
+				self.strategy.gen_path(self.strategy.get_next_focus())
+				next = self.strategy.path.pop_front()
+				assert(next != null)
+		$Tween.interpolate_property(
+			self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+		)
+		$Tween.start()
 
 func add_to_cart(product):
 	emit_signal("add_to_cart", self, product)
@@ -122,4 +129,15 @@ func buy_cart():
 	emit_signal("buy", self)
 
 func _on_Client_buy_product():
+	pass
+
+func buy_animation(product, from):
+	$Emoji.position = from
+	$Emoji.visible = true
+	$Emoji.texture = products.get_child(product).get_texture()
+#	$Tween.interpolate_property(
+#		self, "position", from, , 1, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+#	)
+
+func checkout_animation():
 	pass

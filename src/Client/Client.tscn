@@ -149,4 +149,9 @@ playing = true
 
 [node name="Tween" type="Tween" parent="."]
 
+[node name="Emoji" type="Sprite" parent="."]
+visible = false
+
+[node name="EmojiTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="ZenTimer" to="." method="_on_ZenTimer_timeout"]

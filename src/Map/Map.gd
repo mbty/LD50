@@ -108,6 +108,7 @@ func init_product_locations():
 		var id = product_tile_map.get_cellv(coords)
 		if !product_locations.has(id):
 			product_locations[id] = []
+		product_per_location[coords] = id
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
 
 func _process(_delta):

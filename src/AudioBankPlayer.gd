@@ -13,3 +13,7 @@ func _ready():
 func play_sound():
 	stream = sounds[randi()%len(sounds)]
 	.play()
+
+func play_exclusive():
+	if !self.playing:
+		play_sound()

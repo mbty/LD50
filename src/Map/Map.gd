@@ -322,7 +322,7 @@ func handle_ambiance_timer(timer, wait_time):
 	timer.start()
 
 func _on_RareAmbianceSoundTimer_timeout(first_time=false):
-	if not first_time:
+	if not first_time && GameState.game_mode == GameState.GameMode.SIMULATION:
 		$Sounds/RareAmbianceSound.play_sound()
 	handle_ambiance_timer(
 		$AmbianceTimers/RareAmbianceSoundTimer,
@@ -330,7 +330,7 @@ func _on_RareAmbianceSoundTimer_timeout(first_time=false):
 	)
 	
 func _on_AmbianceSoundTimer_timeout(first_time=false):
-	if not first_time:
+	if not first_time && GameState.game_mode == GameState.GameMode.SIMULATION:
 		$Sounds/AmbianceSound.play_sound()
 	handle_ambiance_timer(
 		$AmbianceTimers/AmbianceSoundTimer,

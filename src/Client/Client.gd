@@ -84,6 +84,7 @@ var angry_timer = 0
 func _on_ZenTimer_timeout():
 	angry_timer += 1
 	if angry_timer == 1:
+		$Angryindicator.show()
 		$Sounds/AngrySounds.play_sound()
 		$Tween.interpolate_property(
 			self, "animated_modulate", animated_modulate, MODULATE_RED,

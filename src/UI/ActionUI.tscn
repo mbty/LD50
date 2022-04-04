@@ -56,19 +56,19 @@ margin_right = 72.0
 margin_bottom = 72.0
 size_flags_horizontal = 0
 
-[node name="AislePrice" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Dollar" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 76.0
 margin_top = 21.0
-margin_right = 89.0
+margin_right = 87.0
 margin_bottom = 51.0
-text = "/"
+text = "$"
 
-[node name="Dollar" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 93.0
+[node name="AislePrice" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 91.0
 margin_top = 21.0
 margin_right = 104.0
 margin_bottom = 51.0
-text = "$"
+text = "/"
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 110.0

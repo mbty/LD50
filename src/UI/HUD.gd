@@ -17,7 +17,7 @@ func update_cost(new_cost):
 	cost.show()
 	cost.modulate = Color(0.0, 0.0, 0.0, 1.0)
 	var sign_str = "+" if new_cost < 0 else "-"
-	cost.text = "(" + sign_str + str(abs(new_cost)) + "$)"
+	cost.text = "(" + sign_str + "$" + str(abs(new_cost)) + ")"
 	if new_cost == 0:
 		cost.hide()
 	elif new_cost < 0:

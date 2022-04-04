@@ -73,6 +73,7 @@ func is_angry():
 	return zen_timer.time_left == 0
 
 func buy_product(product):
+	zen_timer.time_left += 5
 	emit_signal("buy_product", product)
 
 func get_player_speed():

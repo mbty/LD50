@@ -76,7 +76,7 @@ _global_script_class_icons={
 
 config/name="LD50"
 run/main_scene="res://src/UI/TitleScreen.tscn"
-config/icon="res://assets/sprites/yannick.png"
+config/icon="res://assets/sprites/products/sandwich.png"
 
 [autoload]
 

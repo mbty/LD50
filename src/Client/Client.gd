@@ -4,10 +4,15 @@ signal add_to_cart
 signal buy
 signal left
 
+const MODULATE_WHITE = Color("ffffff")
+const MODULATE_RED = Color("f73831")
+
 onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
 onready var map = get_parent().get_parent().get_parent()
 onready var tick_timer = get_parent().get_parent().get_parent().get_parent().get_parent().get_node("TickTimer")
+
+var animated_modulate = MODULATE_WHITE
 
 var wishlist
 var strategy
@@ -21,6 +26,15 @@ func _ready():
 	assert(strategy != null)
 	self.strategy.init(self)
 	self.strategy.gen_path(self.strategy.get_next_focus())
+
+	$Tween.interpolate_property(
+		self, "animated_modulate", animated_modulate, MODULATE_RED,
+		zen_timer.wait_time*(2.0/3.0), Tween.TRANS_LINEAR,Tween.EASE_IN_OUT
+	)
+	$Tween.start()
+	
+func _process(delta):
+	self.modulate = animated_modulate
 
 func build_wishlist(available_products):
 	self.wishlist = []
@@ -53,7 +67,6 @@ func _physics_process(_delta):
 			print('checkout but empty !')
 
 func _on_ZenTimer_timeout():
-	$Sprite.modulate = Color(255, 0, 0, 1.0)
 	emit_signal("left", self)
 
 func is_angry():

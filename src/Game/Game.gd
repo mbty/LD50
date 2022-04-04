@@ -53,8 +53,13 @@ func on_next_level():
 	map.load_nav(level.nav)
 
 func on_end_level():
-	# todo end screen
+	$UI/EndLevel.display_screen(money, get_level().goal)
+
+func _on_EndLevel_next_level():
 	on_next_level()
+
+func _on_EndLevel_restart():
+	get_tree().change_scene("res://src/UI/TitleScreen.tscn")
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:

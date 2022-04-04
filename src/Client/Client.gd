@@ -40,6 +40,7 @@ func get_neighbours():
 	var pos = (self.position / 32).floor()
 	return [pos, pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
+func _physics_process(_delta):
 	for nei in self.get_neighbours():
 		if map.product_per_location.has(nei):
 			var p = map.product_per_location[nei]

@@ -4,10 +4,7 @@ var product
 signal product_selected
 
 onready var product_texture = $ProductTexture
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+onready var enculade_theme = preload("res://assets/design2.tres")
 
 func _process(_delta):
 	self.pressed = (
@@ -19,6 +16,8 @@ func init(new_product):
 	self.product = new_product
 	product_texture.texture = product.get_texture()
 	self.hint_tooltip = product.get_name()
+	if product.is_enculade():
+		self.theme = enculade_theme
 
 func _on_ProductUI_pressed():
 	emit_signal("product_selected", product)

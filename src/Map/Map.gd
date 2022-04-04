@@ -58,6 +58,7 @@ func reset_aisles():
 		floor_tile_map.set_cellv(original_tile, TILE_TYPES.AISLE)
 	for tile in _find_extra_aisles():
 		floor_tile_map.set_cellv(tile, TILE_TYPES.GROUND)
+		product_tile_map.set_cellv(tile, -1)
 		
 	var rect = floor_tile_map.get_used_rect()
 	floor_tile_map.update_bitmask_region(

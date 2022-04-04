@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/argent2.ogg-2b57b2a4e13ac9dbdd07d81651a0114d.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/argent2.ogg"
+dest_files=[ "res://.import/argent2.ogg-2b57b2a4e13ac9dbdd07d81651a0114d.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

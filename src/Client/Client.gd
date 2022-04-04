@@ -47,13 +47,6 @@ func _ready():
 	assert(strategy != null)
 	self.strategy.init(self)
 	self.strategy.gen_path(self.strategy.get_next_focus())
-
-	$Tween.interpolate_property(
-		self, "animated_modulate", animated_modulate, MODULATE_RED,
-		zen_timer.wait_time*(2.0/3.0), Tween.TRANS_LINEAR,Tween.EASE_IN_OUT
-	)
-	$Tween.start()
-
 	update_animation()
 
 func _process(delta):
@@ -78,8 +71,19 @@ func get_neighbours():
 	var pos = (self.position / 32).floor() + Vector2(0, 0)
 	return [pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
+var angry_timer = 0
 func _on_ZenTimer_timeout():
-	emit_signal("left", self)
+	angry_timer += 1
+	if angry_timer == 1:
+		$Sounds/AngrySounds.play_sound()
+		$Tween.interpolate_property(
+			self, "animated_modulate", animated_modulate, MODULATE_RED,
+			zen_timer.wait_time*(2.0/3.0), Tween.TRANS_LINEAR,Tween.EASE_IN_OUT
+		)
+		$Tween.start()
+	elif angry_timer == 2:
+		$Sounds/FuraxSounds.play_sound()
+		emit_signal("left", self)
 
 func is_angry():
 	return zen_timer.time_left == 0
@@ -108,6 +112,7 @@ func update():
 			can_checkout = true
 	# Otherwise, move
 	if !bought:
+		$Sounds/WalkSounds.play_sound()
 		var next = self.strategy.path.pop_front()
 		while next == null:
 			if self.wishlist.empty() and can_checkout:
@@ -120,6 +125,28 @@ func update():
 			self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
 		)
 		$Tween.start()
+		if next != null:
+			$Tween.interpolate_property(
+				self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+			)
+			$Tween.start()
+			if next.x > self.position.x:
+				self.direction = CharacterDirection.RIGHT
+			elif next.x < self.position.x:
+				self.direction = CharacterDirection.LEFT
+
+			if next.y > self.position.y:
+				self.direction = CharacterDirection.DOWN
+			elif next.y < self.position.y:
+				self.direction = CharacterDirection.UP
+
+			if next.x == self.position.x && next.y == self.position.y:
+				self.animation_state = CharacterAnimationState.IDLE
+			else:
+				self.animation_state = CharacterAnimationState.WALK
+		else:
+			self.strategy.gen_path(self.strategy.get_next_focus())
+			self.animation_state = CharacterAnimationState.IDLE
 
 func add_to_cart(product):
 	emit_signal("add_to_cart", self, product)

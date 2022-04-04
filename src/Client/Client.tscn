@@ -1,7 +1,25 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://src/Client/Client.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/client.png" type="Texture" id=2]
+[ext_resource path="res://src/AudioBankPlayer.gd" type="Script" id=3]
+[ext_resource path="res://assets/sounds/angry0.ogg" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/angry3.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/furax2.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/sounds/angry1.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/angry7.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/angry6.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/sounds/angry5.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/sounds/angry4.ogg" type="AudioStream" id=11]
+[ext_resource path="res://assets/sounds/furax1.ogg" type="AudioStream" id=12]
+[ext_resource path="res://assets/sounds/angry2.ogg" type="AudioStream" id=13]
+[ext_resource path="res://assets/sounds/furax3.ogg" type="AudioStream" id=14]
+[ext_resource path="res://assets/sounds/furax0.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/sounds/walk0.ogg" type="AudioStream" id=16]
+[ext_resource path="res://assets/sounds/walk1.ogg" type="AudioStream" id=17]
+[ext_resource path="res://assets/sounds/walk2.ogg" type="AudioStream" id=18]
+[ext_resource path="res://assets/sounds/walk4.ogg" type="AudioStream" id=19]
+[ext_resource path="res://assets/sounds/walk3.ogg" type="AudioStream" id=20]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.30116
@@ -133,11 +151,6 @@ animations = [ {
 collision_layer = 2
 script = ExtResource( 1 )
 
-[node name="ZenTimer" type="Timer" parent="."]
-wait_time = 20.0
-one_shot = true
-autostart = true
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
@@ -153,5 +166,23 @@ playing = true
 visible = false
 
 [node name="EmojiTimer" type="Timer" parent="."]
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="AngrySounds" type="AudioStreamPlayer" parent="Sounds"]
+script = ExtResource( 3 )
+sounds = [ ExtResource( 4 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ]
+
+[node name="FuraxSounds" type="AudioStreamPlayer" parent="Sounds"]
+script = ExtResource( 3 )
+sounds = [ ExtResource( 15 ), ExtResource( 12 ), ExtResource( 6 ), ExtResource( 14 ) ]
+
+[node name="WalkSounds" type="AudioStreamPlayer" parent="Sounds"]
+script = ExtResource( 3 )
+sounds = [ ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="ZenTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
 
 [connection signal="timeout" from="ZenTimer" to="." method="_on_ZenTimer_timeout"]

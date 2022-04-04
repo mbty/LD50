@@ -120,6 +120,28 @@ func update():
 			self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
 		)
 		$Tween.start()
+		if next != null:
+			$Tween.interpolate_property(
+				self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+			)
+			$Tween.start()
+			if next.x > self.position.x:
+				self.direction = CharacterDirection.RIGHT
+			elif next.x < self.position.x:
+				self.direction = CharacterDirection.LEFT
+
+			if next.y > self.position.y:
+				self.direction = CharacterDirection.DOWN
+			elif next.y < self.position.y:
+				self.direction = CharacterDirection.UP
+
+			if next.x == self.position.x && next.y == self.position.y:
+				self.animation_state = CharacterAnimationState.IDLE
+			else:
+				self.animation_state = CharacterAnimationState.WALK
+		else:
+			self.strategy.gen_path(self.strategy.get_next_focus())
+			self.animation_state = CharacterAnimationState.IDLE
 
 func add_to_cart(product):
 	emit_signal("add_to_cart", self, product)

@@ -76,17 +76,6 @@ func get_neighbours():
 	var pos = (self.position / 32).floor()
 	return [pos, pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
-func _physics_process(_delta):
-	for nei in self.get_neighbours():
-		if map.product_per_location.has(nei):
-			var p = map.product_per_location[nei]
-			if p in self.wishlist and not (p in self.in_cart):
-				self.add_to_cart(p)
-		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
-			buy_cart()
-		elif nei in map.checkout_loc_dic and self.in_cart.empty():
-			emit_signal("buy", self)
-
 func _on_ZenTimer_timeout():
 	emit_signal("left", self)
 
@@ -100,15 +89,30 @@ func buy_product(product):
 func get_player_speed():
 	return tick_timer.wait_time
 
-func move():
-	var next = self.strategy.path.pop_front()
-	if next != null:
-		$Tween.interpolate_property(
-			self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
-		)
-		$Tween.start()
-	else:
-		self.strategy.gen_path(self.strategy.get_next_focus())
+func update():
+	# If can buy, buy and don't move
+	var bought = false
+	for nei in self.get_neighbours():
+		if map.product_per_location.has(nei):
+			var p = map.product_per_location[nei]
+			if p in self.wishlist and not (p in self.in_cart):
+				self.add_to_cart(p)
+				bought = true
+				break
+		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
+			buy_cart()
+		elif nei in map.checkout_loc_dic and self.in_cart.empty():
+			emit_signal("buy", self)
+	# If can't, move
+	if !bought:
+		var next = self.strategy.path.pop_front()
+		if next != null:
+			$Tween.interpolate_property(
+				self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+			)
+			$Tween.start()
+		else:
+			self.strategy.gen_path(self.strategy.get_next_focus())
 
 func add_to_cart(product):
 	emit_signal("add_to_cart", self, product)

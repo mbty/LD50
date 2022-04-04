@@ -306,4 +306,4 @@ func get_path_(origin, destination):
 
 func update_clients():
 	for client in clients.get_children():
-		client.move()
+		client.update()

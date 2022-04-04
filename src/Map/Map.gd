@@ -50,7 +50,7 @@ func _input(event):
 
 func _drag_camera(relative):
 	camera.offset -= relative * camera.zoom
-	
+
 	var bounds = get_camera_bounds()
 	camera.offset.x = clamp(camera.offset.x, bounds.position.x, bounds.position.x + bounds.size.x)
 	camera.offset.y = clamp(camera.offset.y, bounds.position.y, bounds.position.y + bounds.size.y)

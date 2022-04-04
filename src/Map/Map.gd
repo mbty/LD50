@@ -198,7 +198,7 @@ const diag_factor = 1.4142;
 const diag_avoid_wall_factor = 1.5;
 
 func is_navigable_type(tile_type):
-	return tile_type == Globals.TILE_TYPES.GROUND
+	return tile_type == Globals.TILE_TYPES.GROUND || tile_type == Globals.TILE_TYPES.DOOR
 
 func is_navigable_simple(tile):
 	return is_navigable_type(floor_tile_map.get_cell(tile.x, tile.y))

@@ -7,16 +7,9 @@ var target
 func init(client):
 	.init(client)
 
-func get_current_focus():
+func get_next_focus():
+	while self.client.wishlist.size() != 0:
+		var locations = self.client.map.get_product_locations(self.client.wishlist.pop_front())
+		if locations.size() != 0:
+			return locations[0]
 	return self.client.map.get_checkout_locations()[0]
-
-func next_move():
-	var next_product_location = self.client.map.get_checkout_locations()[0]
-	for p in self.client.wishlist:
-		if self.client.in_cart.has(p.type):
-			continue
-		var next_product_locations = self.client.map.get_product_locations(p.type)
-		if (next_product_locations.size() > 0):
-			next_product_location = next_product_locations[0]
-			break
-	return .get_path_direction_to(next_product_location)

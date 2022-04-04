@@ -19,7 +19,7 @@ func _ready():
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)
-	self.strategy.gen_path(self.strategy.get_current_focus())
+	self.strategy.gen_path(self.strategy.get_next_focus())
 
 func build_wishlist(available_products):
 	self.wishlist = []
@@ -47,13 +47,6 @@ func get_neighbours():
 				self.add_to_cart(p)
 		elif nei in map.checkout_locations and not self.in_cart.empty():
 			buy_cart()
-			
-
-#func enters_range(var product):
-#	pass
-
-#func is_interested(var product):
-#	pass
 
 func _on_ZenTimer_timeout():
 	$Sprite.modulate = Color(255, 0, 0, 1.0)
@@ -68,6 +61,8 @@ func move():
 	var next = self.strategy.path.pop_front()
 	if next != null:
 		self.position = next
+	else:
+		self.strategy.gen_path(self.strategy.get_next_focus())
 
 func add_to_cart(product):
 	emit_signal("add_to_cart", self, product)

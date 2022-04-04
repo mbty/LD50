@@ -90,7 +90,7 @@ func _input(event):
 			elif event.button_index == BUTTON_RIGHT:
 				drag_destroy = false
 				last_drag_deleted_tile = null
-
+	
 	if (
 		event is InputEventMouseMotion
 		and GameState.game_mode == GameState.GameMode.DESIGN

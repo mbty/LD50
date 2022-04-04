@@ -60,12 +60,12 @@ func assess_cost():
 	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
 	var cost = 0
 	for original_tile in original_aisle_setup:
-		if current_aisle_setup.find(original_tile) == -1:
+		var index = current_aisle_setup.find(original_tile)
+		if index == -1:
 			cost -= Globals.AISLE_COST
-	return cost + max(
-		0,
-		Globals.AISLE_COST*(current_aisle_setup.size() - original_aisle_setup.size())
-	)
+		else:
+			current_aisle_setup.remove(index)
+	return cost + Globals.AISLE_COST*current_aisle_setup.size()
 
 func _find_extra_aisles():
 	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
@@ -124,6 +124,18 @@ func _process(_delta):
 			map_hover.show_product = cell == TILE_TYPES.AISLE
 		elif GameState.selected_tool == GameState.Tool.AISLE:
 			map_hover.show_product = cell == TILE_TYPES.GROUND
+	
+	var displ = Vector2(0, 0)
+	if Input.is_key_pressed(KEY_LEFT):
+		displ += Vector2(_delta * 800, 0)
+	if Input.is_key_pressed(KEY_RIGHT):
+		displ -= Vector2(_delta * 800, 0)
+	if Input.is_key_pressed(KEY_UP):
+		displ += Vector2(0, _delta * 800)
+	if Input.is_key_pressed(KEY_DOWN):
+		displ -= Vector2(0, _delta * 800)
+	if displ != Vector2(0, 0):
+		_drag_camera(displ)
 
 func mode_changed(new_gm):
 	emit_signal("cost_changed", 0)
@@ -176,6 +188,7 @@ func bought(client):
 		var n = client.in_cart[k]
 		game.money += 1 * n
 	client.in_cart.clear()
+	client_left(client)
 
 func client_left(client):
 	client.in_cart.empty()
@@ -293,4 +306,4 @@ func get_path_(origin, destination):
 
 func update_clients():
 	for client in clients.get_children():
-		client.move()
+		client.update()

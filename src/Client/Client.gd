@@ -130,7 +130,6 @@ func update():
 	if !bought:
 		if can_checkout and wishlist.size() == 0:
 			buy_cart()
-		$Sounds/WalkSounds.play_sound()
 		var next = strategy.get_next_move()
 		if next == null:
 			next = self.position

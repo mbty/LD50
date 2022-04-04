@@ -7,19 +7,11 @@
 [ext_resource path="res://assets/sounds/angry3.ogg" type="AudioStream" id=5]
 [ext_resource path="res://assets/sounds/furax2.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/sounds/angry1.ogg" type="AudioStream" id=7]
-[ext_resource path="res://assets/sounds/angry7.ogg" type="AudioStream" id=8]
-[ext_resource path="res://assets/sounds/angry6.ogg" type="AudioStream" id=9]
 [ext_resource path="res://assets/sounds/angry5.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/sounds/angry4.ogg" type="AudioStream" id=11]
 [ext_resource path="res://assets/sounds/furax1.ogg" type="AudioStream" id=12]
 [ext_resource path="res://assets/sounds/angry2.ogg" type="AudioStream" id=13]
-[ext_resource path="res://assets/sounds/furax3.ogg" type="AudioStream" id=14]
 [ext_resource path="res://assets/sounds/furax0.ogg" type="AudioStream" id=15]
-[ext_resource path="res://assets/sounds/walk0.ogg" type="AudioStream" id=16]
-[ext_resource path="res://assets/sounds/walk1.ogg" type="AudioStream" id=17]
-[ext_resource path="res://assets/sounds/walk2.ogg" type="AudioStream" id=18]
-[ext_resource path="res://assets/sounds/walk4.ogg" type="AudioStream" id=19]
-[ext_resource path="res://assets/sounds/walk3.ogg" type="AudioStream" id=20]
 [ext_resource path="res://assets/sounds/woosh1.ogg" type="AudioStream" id=21]
 [ext_resource path="res://assets/sounds/woosh2.ogg" type="AudioStream" id=22]
 [ext_resource path="res://assets/sounds/woosh0.ogg" type="AudioStream" id=23]
@@ -51,15 +43,11 @@ visible = false
 
 [node name="AngrySounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )
-sounds = [ ExtResource( 4 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ]
+sounds = [ ExtResource( 4 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 10 ) ]
 
 [node name="FuraxSounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )
-sounds = [ ExtResource( 15 ), ExtResource( 12 ), ExtResource( 6 ), ExtResource( 14 ) ]
-
-[node name="WalkSounds" type="AudioStreamPlayer" parent="Sounds"]
-script = ExtResource( 3 )
-sounds = [ ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 20 ), ExtResource( 19 ) ]
+sounds = [ ExtResource( 15 ), ExtResource( 12 ), ExtResource( 6 ) ]
 
 [node name="GrabSounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )

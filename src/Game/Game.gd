@@ -158,12 +158,14 @@ func _on_ActionUI_begin_simulation():
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN
+	if map.get_node("Navigation2D/Clients").n == 0:
+		_on_simulation_ended()
 
 func _on_simulation_ended():
 	map.mode_changed(GameState.GameMode.DESIGN)
 	get_level().next_day()
 	$UI/HUD.update_current_day(get_level().current_day)
-	
+
 	$UI/ActionUI.show()
 	$ClientSpawnTimer.stop()
 

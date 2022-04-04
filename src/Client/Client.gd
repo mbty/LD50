@@ -47,13 +47,6 @@ func _ready():
 	assert(strategy != null)
 	self.strategy.init(self)
 	self.strategy.gen_path(self.strategy.get_next_focus())
-
-	$Tween.interpolate_property(
-		self, "animated_modulate", animated_modulate, MODULATE_RED,
-		zen_timer.wait_time*(2.0/3.0), Tween.TRANS_LINEAR,Tween.EASE_IN_OUT
-	)
-	$Tween.start()
-
 	update_animation()
 
 func _process(delta):
@@ -78,8 +71,19 @@ func get_neighbours():
 	var pos = (self.position / 32).floor() + Vector2(0, 0)
 	return [pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
+var angry_timer = 0
 func _on_ZenTimer_timeout():
-	emit_signal("left", self)
+	angry_timer += 1
+	if angry_timer == 1:
+		$Sounds/AngrySounds.play_sound()
+		$Tween.interpolate_property(
+			self, "animated_modulate", animated_modulate, MODULATE_RED,
+			zen_timer.wait_time*(2.0/3.0), Tween.TRANS_LINEAR,Tween.EASE_IN_OUT
+		)
+		$Tween.start()
+	elif angry_timer == 2:
+		$Sounds/FuraxSounds.play_sound()
+		emit_signal("left", self)
 
 func is_angry():
 	return zen_timer.time_left == 0

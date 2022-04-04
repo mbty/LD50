@@ -146,11 +146,6 @@ animations = [ {
 collision_layer = 2
 script = ExtResource( 1 )
 
-[node name="ZenTimer" type="Timer" parent="."]
-wait_time = 20.0
-one_shot = true
-autostart = true
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
@@ -167,12 +162,18 @@ visible = false
 
 [node name="EmojiTimer" type="Timer" parent="."]
 
-[node name="AngrySounds" type="AudioStreamPlayer" parent="."]
+[node name="Sounds" type="Node" parent="."]
+
+[node name="AngrySounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )
 sounds = [ ExtResource( 4 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ]
 
-[node name="FuraxSounds" type="AudioStreamPlayer" parent="."]
+[node name="FuraxSounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )
 sounds = [ ExtResource( 15 ), ExtResource( 12 ), ExtResource( 6 ), ExtResource( 14 ) ]
+
+[node name="ZenTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
 
 [connection signal="timeout" from="ZenTimer" to="." method="_on_ZenTimer_timeout"]

@@ -6,7 +6,7 @@ export(Array, AudioStream) var sounds
 func _ready():
 	for i in range(len(sounds)):
 		sounds[i] = sounds[i]
-		#sounds[i].set_loop(false)
+		sounds[i].set_loop(false)
 
 func play_sound():
 	stream = sounds[randi()%len(sounds)]

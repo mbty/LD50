@@ -60,12 +60,12 @@ func assess_cost():
 	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
 	var cost = 0
 	for original_tile in original_aisle_setup:
-		if current_aisle_setup.find(original_tile) == -1:
+		var index = current_aisle_setup.find(original_tile)
+		if index == -1:
 			cost -= Globals.AISLE_COST
-	return cost + max(
-		0,
-		Globals.AISLE_COST*(current_aisle_setup.size() - original_aisle_setup.size())
-	)
+		else:
+			current_aisle_setup.remove(index)
+	return cost + Globals.AISLE_COST*current_aisle_setup.size()
 
 func _find_extra_aisles():
 	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)

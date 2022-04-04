@@ -11,9 +11,8 @@ func _ready():
 		sounds[i].set_loop(loop)
 
 func play_sound():
-	if GameState.game_mode != GameState.GameMode.DESIGN:
-		stream = sounds[randi()%len(sounds)]
-		.play()
+	stream = sounds[randi()%len(sounds)]
+	.play()
 
 func play_exclusive():
 	if !self.playing && GameState.game_mode != GameState.GameMode.DESIGN:

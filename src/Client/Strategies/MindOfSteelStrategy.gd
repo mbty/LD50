@@ -16,17 +16,15 @@ func locations_attempt(locations):
 func get_next_path():
 	path = null
 	while self.client.wishlist.size() != 0:
-		print("wish")
 		locations_attempt(self.client.map.get_product_locations(self.client.wishlist[0]))
 		if path == null:
 			client.wishlist.pop()
 		else:
 			return
-	print("attempt")
 	locations_attempt(self.client.map.get_checkout_locations())
 
 func get_next_move():
-	if path == null:
+	if path == null || path == []:
 		get_next_path()
 		if path == null:
 			return null

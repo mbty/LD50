@@ -117,7 +117,6 @@ func update():
 		if next == null:
 			next = self.position
 			animation_state = CharacterAnimationState.IDLE
-			print("NULL")
 		if next != null:
 			$Tween.interpolate_property(
 				self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT

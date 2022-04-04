@@ -16,6 +16,7 @@ var in_cart = {}
 var money = 30
 
 func _ready():
+	$Sprite.position += Vector2(randi()%9 - 5, randi()%9 - 5)
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)

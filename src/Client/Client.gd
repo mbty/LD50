@@ -97,11 +97,6 @@ func _on_ZenTimer_timeout():
 func is_angry():
 	return zen_timer.time_left == 0
 
-func buy_product(product):
-	$Sounds/GrabSounds.play_sound()
-	zen_timer.time_left += 5
-	emit_signal("buy_product", product)
-
 func get_player_speed():
 	return tick_timer.wait_time
 
@@ -162,6 +157,7 @@ func update():
 			self.animation_state = CharacterAnimationState.IDLE
 
 func add_to_cart(product):
+	$Sounds/GrabSounds.play_sound()
 	emit_signal("add_to_cart", self, product)
 
 func buy_cart():

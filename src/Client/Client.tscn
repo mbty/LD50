@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/Client/Client.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/client1.tres" type="SpriteFrames" id=2]
@@ -7,14 +7,15 @@
 [ext_resource path="res://assets/sounds/angry3.ogg" type="AudioStream" id=5]
 [ext_resource path="res://assets/sounds/furax2.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/sounds/angry1.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/whiff2.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/sounds/whiff1.ogg" type="AudioStream" id=9]
 [ext_resource path="res://assets/sounds/angry5.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/sounds/angry4.ogg" type="AudioStream" id=11]
 [ext_resource path="res://assets/sounds/furax1.ogg" type="AudioStream" id=12]
 [ext_resource path="res://assets/sounds/angry2.ogg" type="AudioStream" id=13]
+[ext_resource path="res://assets/sounds/whiff3.ogg" type="AudioStream" id=14]
 [ext_resource path="res://assets/sounds/furax0.ogg" type="AudioStream" id=15]
-[ext_resource path="res://assets/sounds/woosh1.ogg" type="AudioStream" id=21]
-[ext_resource path="res://assets/sounds/woosh2.ogg" type="AudioStream" id=22]
-[ext_resource path="res://assets/sounds/woosh0.ogg" type="AudioStream" id=23]
+[ext_resource path="res://assets/sounds/whiff0.ogg" type="AudioStream" id=16]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.30116
@@ -51,7 +52,7 @@ sounds = [ ExtResource( 15 ), ExtResource( 12 ), ExtResource( 6 ) ]
 
 [node name="GrabSounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )
-sounds = [ ExtResource( 23 ), ExtResource( 21 ), ExtResource( 22 ) ]
+sounds = [ ExtResource( 16 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 14 ) ]
 
 [node name="ZenTimer" type="Timer" parent="."]
 wait_time = 10.0

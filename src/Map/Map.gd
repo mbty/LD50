@@ -180,7 +180,6 @@ func added_to_cart(client, product):
 		if not client.in_cart.has(product):
 			client.in_cart[product] = 0
 		client.in_cart[product] += 1
-		print("add_to_cart", product)
 		emit_signal("add_to_cart", product)
 
 func bought(client):

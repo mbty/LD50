@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Map/Map.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/products/products_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://src/Map/MapHover.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/AudioBankPlayer.gd" type="Script" id=5]
+[ext_resource path="res://assets/sounds/sliding0.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/sounds/sliding1.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/sounds/sliding2.ogg" type="AudioStream" id=8]
 
 [node name="Map" type="Node2D"]
 script = ExtResource( 2 )
@@ -40,3 +44,9 @@ smoothing_enabled = true
 smoothing_speed = 0.1
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="SlidingDoors" type="AudioStreamPlayer" parent="Sounds"]
+script = ExtResource( 5 )
+sounds = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]

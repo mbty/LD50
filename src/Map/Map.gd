@@ -162,6 +162,7 @@ func remove_product_from_dict(coords, product_id):
 	product_per_location.erase(coords)
 
 func create_client(products):
+	play_door_sound()
 	var client = client_scene.instance()
 	client.build_wishlist(products)
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
@@ -191,7 +192,12 @@ func bought(client):
 	client.in_cart.clear()
 	client_left(client)
 
+func play_door_sound():
+	if not $Sounds/SlidingDoors.playing:
+		$Sounds/SlidingDoors.play_sound()
+
 func client_left(client):
+	play_door_sound()
 	client.in_cart.empty()
 	client.queue_free()
 

@@ -126,3 +126,4 @@ func chargeNextMusic(name):
 		nextIntroMusic = menuMusic[0]
 		nextLoopMusic = menuMusic[1]
 		nextEndMusic = menuMusic[2]
+	nextMusicName = name

@@ -169,6 +169,8 @@ func _on_simulation_ended():
 	map.mode_changed(GameState.GameMode.DESIGN)
 	get_level().next_day()
 	$UI/HUD.update_current_day(get_level().current_day)
+	$Music.chargeNextMusic(Globals.BOSSAX)
+	$Music.cutCurrentMusic()
 
 	$UI/ActionUI.show()
 	$ClientSpawnTimer.stop()

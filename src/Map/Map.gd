@@ -109,6 +109,10 @@ func _process(_delta):
 		elif GameState.selected_tool == GameState.Tool.AISLE:
 			map_hover.show_product = cell == TILE_TYPES.GROUND
 
+func mode_changed(new_gm):
+	emit_signal("cost_changed", 0)
+	save_aisle_setup()
+
 func get_checkout_locations():
 	return checkout_locations
 

@@ -98,6 +98,12 @@ func _input(event):
 			destroy()
 
 func _on_ActionUI_begin_simulation():
+	var cost = map.assess_cost()
+	assert(cost <= money)
+	money -= cost
+	$UI/HUD.update_money(money)
+	$UI/HUD.update_cost(0)
+	
 	drag_build = false
 	drag_destroy = false
 	GameState.game_mode = GameState.GameMode.SIMULATION
@@ -106,10 +112,11 @@ func _on_ActionUI_begin_simulation():
 	$ClientSpawnTimer.start(randf() / clients_per_sec)
 	$Music.chargeNextMusic(Globals.DSOTM)
 	$Music.cutCurrentMusic()
+	map.mode_changed(GameState.GameMode.SIMULATION)
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.DESIGN
-	map.save_aisle_setup()
+	map.mode_changed(GameState.GameMode.DESIGN)
 	$UI/ActionUI.show()
 	$ClientSpawnTimer.stop()
 
@@ -123,6 +130,7 @@ func _on_TickTimer_timeout():
 
 func _on_Map_cost_changed(new_cost):
 	$UI/HUD.update_cost(new_cost)
+	$UI/ActionUI.can_play = new_cost <= money
 
 func _on_ActionUI_reset_map():
 	map.reset_aisles()

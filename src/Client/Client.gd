@@ -64,7 +64,6 @@ func _physics_process(_delta):
 		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
 			buy_cart()
 		elif nei in map.checkout_loc_dic and self.in_cart.empty():
-			print("wouhou")
 			emit_signal("buy", self)
 
 func _on_ZenTimer_timeout():
@@ -84,7 +83,7 @@ func move():
 	var next = self.strategy.path.pop_front()
 	if next != null:
 		$Tween.interpolate_property(
-			self, "position", self.position, next, get_player_speed(), Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+			self, "position", self.position, next, get_player_speed(), Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
 		)
 		$Tween.start()
 	else:

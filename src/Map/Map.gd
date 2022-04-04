@@ -103,10 +103,11 @@ func _process(_delta):
 	$Tween.start()
 	var cell = floor_tile_map.get_cellv(tile_under_cursor)
 
-	if GameState.selected_tool == GameState.Tool.PRODUCT:
-		map_hover.show_product = cell == TILE_TYPES.AISLE
-	elif GameState.selected_tool == GameState.Tool.AISLE:
-		map_hover.show_product = cell == TILE_TYPES.GROUND
+	if GameState.game_mode == GameState.GameMode.DESIGN:
+		if GameState.selected_tool == GameState.Tool.PRODUCT:
+			map_hover.show_product = cell == TILE_TYPES.AISLE
+		elif GameState.selected_tool == GameState.Tool.AISLE:
+			map_hover.show_product = cell == TILE_TYPES.GROUND
 
 func get_checkout_locations():
 	return checkout_locations

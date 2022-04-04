@@ -7,6 +7,9 @@ var target
 func init(client):
 	.init(client)
 
+func get_current_focus():
+	return self.client.map.get_checkout_locations()[0]
+
 func next_move():
 	#var next_product_location = Vector2.ZERO
 	var next_product_location = self.client.map.get_checkout_locations()[0]
@@ -18,4 +21,3 @@ func next_move():
 			next_product_location = next_product_locations[0]
 			break
 	return .get_path_direction_to(next_product_location)
-	

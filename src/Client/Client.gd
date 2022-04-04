@@ -18,7 +18,7 @@ func _ready():
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)
-
+	self.strategy.gen_path(self.strategy.get_current_focus())
 
 func build_wishlist(available_products):
 	self.wishlist = []
@@ -36,8 +36,9 @@ func set_strategy(strategy_type):
 		self.strategy = CheckOutStrategy.new()
 
 func _physics_process(_delta):
-	var move = self.strategy.next_move()
-	move_and_slide(move * _delta)
+#	var move = self.strategy.next_move()
+#	move_and_slide(move * _delta)
+	pass
 
 func enters_range(var product):
 	pass
@@ -53,3 +54,8 @@ func is_angry():
 
 func buy_product(product):
 	emit_signal("buy_product", product)
+
+func move():
+	var next = self.strategy.path.pop_front()
+	if next != null:
+		self.position = next

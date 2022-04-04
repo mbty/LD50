@@ -23,12 +23,9 @@ func _ready():
 	for product in $Products.get_children():
 		product.type = i
 		i+=1
-
 	GameState.selected_product = $Products.get_child(0)
 	map = $Maps/Map1
 	map.show()
-	
-
 
 func build():
 	if GameState.selected_tool == GameState.Tool.AISLE:
@@ -121,3 +118,7 @@ func _on_ClientSpawnTimer_timeout():
 	if GameState.game_mode == GameState.GameMode.SIMULATION:
 		map.create_client($Products.get_children())
 		$ClientSpawnTimer.start(randf() / clients_per_sec)
+
+
+func _on_TickTimer_timeout():
+	map.update_clients()

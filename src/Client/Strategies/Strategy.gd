@@ -24,11 +24,6 @@ func path_pop():
 func gen_path(target_loc):
 	path = client.map.get_path_(self.client.position, target_loc)
 
-# func get_distance_to_node(node):
-# 	var vec_target = node.position - position
-# 	vec_target.y /= 2;
-# 	return vec_target.length_squared()
-
 func next_move():
 	assert(self.client != null)
 

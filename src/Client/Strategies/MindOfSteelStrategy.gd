@@ -11,7 +11,6 @@ func get_current_focus():
 	return self.client.map.get_checkout_locations()[0]
 
 func next_move():
-	#var next_product_location = Vector2.ZERO
 	var next_product_location = self.client.map.get_checkout_locations()[0]
 	for p in self.client.wishlist:
 		if self.client.in_cart.has(p.type):

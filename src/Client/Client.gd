@@ -50,8 +50,7 @@ func update_animation():
 func _ready():
 	var shift = Vector2(randi()%9 - 5, randi()%9 - 5)
 	sprite.position += shift
-	sprite.z_index = 1000 - sprite.position[1]
-	print(sprite.z_index)
+	sprite.z_index = 1000 + position[1] + sprite.position[1]
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)

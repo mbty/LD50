@@ -11,6 +11,7 @@ onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
 onready var map = get_parent().get_parent().get_parent()
 onready var tick_timer = get_parent().get_parent().get_parent().get_parent().get_parent().get_node("TickTimer")
+onready var sprite = $AnimatedSprite
 
 var animated_modulate = MODULATE_WHITE
 
@@ -20,8 +21,26 @@ var strategy
 var in_cart = {}
 var money = 30
 
+enum CharacterDirection { UP, RIGHT, DOWN, LEFT }
+enum CharacterAnimationState { IDLE, WALK }
+
+var direction = CharacterDirection.RIGHT setget set_direction
+var animation_state = CharacterAnimationState.WALK setget set_animation_state
+
+func set_direction(value):
+	direction = value
+	update_animation()
+
+func set_animation_state(value):
+	animation_state = value
+	update_animation()
+
+func update_animation():
+	var animation = ["idle", "walk"][self.animation_state] + "_" + ["up", "right", "down", "left"][self.direction]
+	self.sprite.animation = animation
+
 func _ready():
-	$Sprite.position += Vector2(randi()%9 - 5, randi()%9 - 5)
+	sprite.position += Vector2(randi()%9 - 5, randi()%9 - 5)
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)
@@ -32,7 +51,9 @@ func _ready():
 		zen_timer.wait_time*(2.0/3.0), Tween.TRANS_LINEAR,Tween.EASE_IN_OUT
 	)
 	$Tween.start()
-	
+
+	update_animation()
+
 func _process(delta):
 	self.modulate = animated_modulate
 

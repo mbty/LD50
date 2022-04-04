@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Map/Map.gd" type="Script" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://assets/sounds/argent1.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/sounds/argent2.ogg" type="AudioStream" id=11]
 [ext_resource path="res://assets/sounds/argent3.ogg" type="AudioStream" id=12]
-[ext_resource path="res://assets/sounds/checkout.ogg" type="AudioStream" id=13]
 [ext_resource path="res://assets/sounds/annonce1.ogg" type="AudioStream" id=14]
 [ext_resource path="res://assets/sounds/annonce0.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/sounds/clim0.ogg" type="AudioStream" id=16]
@@ -74,7 +73,7 @@ sounds = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
 [node name="CheckoutSound" type="AudioStreamPlayer" parent="Sounds"]
 bus = "SFX"
 script = ExtResource( 5 )
-sounds = [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ]
+sounds = [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ]
 
 [node name="AmbianceSound" type="AudioStreamPlayer" parent="Sounds"]
 volume_db = -8.0

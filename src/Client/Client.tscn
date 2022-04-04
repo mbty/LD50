@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://src/Client/Client.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/client1.tres" type="SpriteFrames" id=2]
@@ -16,9 +16,26 @@
 [ext_resource path="res://assets/sounds/whiff3.ogg" type="AudioStream" id=14]
 [ext_resource path="res://assets/sounds/furax0.ogg" type="AudioStream" id=15]
 [ext_resource path="res://assets/sounds/whiff0.ogg" type="AudioStream" id=16]
+[ext_resource path="res://assets/sprites/angry.png" type="Texture" id=17]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.30116
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 17 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 17 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
 
 [node name="Client" type="KinematicBody2D"]
 collision_layer = 2
@@ -31,6 +48,13 @@ shape = SubResource( 1 )
 position = Vector2( 0, -16 )
 frames = ExtResource( 2 )
 animation = "idle_right"
+playing = true
+
+[node name="Angryindicator" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 10, -34 )
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 4 )
 playing = true
 
 [node name="Tween" type="Tween" parent="."]

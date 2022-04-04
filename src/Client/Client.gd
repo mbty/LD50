@@ -7,14 +7,13 @@ signal left
 onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
 onready var map = get_parent().get_parent().get_parent()
+onready var tick_timer = get_parent().get_parent().get_parent().get_parent().get_parent().get_node("TickTimer")
 
 var wishlist
 var strategy
 
 var in_cart = {}
 var money = 30
-
-var speed = 1e4
 
 func _ready():
 	assert(wishlist != null)
@@ -52,12 +51,6 @@ func _physics_process(_delta):
 		elif nei in map.checkout_loc_dic and self.in_cart.empty():
 			print('checkout but empty !')
 
-#func enters_range(var product):
-#	pass
-
-#func is_interested(var product):
-#	pass
-
 func _on_ZenTimer_timeout():
 	$Sprite.modulate = Color(255, 0, 0, 1.0)
 	emit_signal("left", self)
@@ -68,10 +61,16 @@ func is_angry():
 func buy_product(product):
 	emit_signal("buy_product", product)
 
+func get_player_speed():
+	return tick_timer.wait_time
+
 func move():
 	var next = self.strategy.path.pop_front()
 	if next != null:
-		self.position = next
+		$Tween.interpolate_property(
+			self, "position", self.position, next, get_player_speed(), Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		)
+		$Tween.start()
 
 func add_to_cart(product):
 	emit_signal("add_to_cart", self, product)

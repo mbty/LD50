@@ -101,7 +101,6 @@ func init_checkout_locations():
 		checkout_locations.append(pos)
 		pos = (pos / 32).floor()
 		checkout_loc_dic[pos] = 1
-		checkout_loc_dic[pos + Vector2.DOWN] = 1
 	
 func init_product_locations():
 	product_locations = {}

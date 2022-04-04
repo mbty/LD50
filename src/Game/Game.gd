@@ -125,3 +125,7 @@ func _on_ClientSpawnTimer_timeout():
 
 func _on_Map_cost_changed(new_cost):
 	$UI/HUD.update_cost(new_cost)
+
+
+func _on_ActionUI_reset_map():
+	map.reset_aisles()

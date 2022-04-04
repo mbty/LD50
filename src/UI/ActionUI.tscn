@@ -23,11 +23,21 @@ margin_top = 19.0
 margin_right = 1024.0
 margin_bottom = 61.0
 
-[node name="PlayBtn" type="Button" parent="VBoxContainer/PlayContainer"]
-margin_left = 483.0
-margin_right = 540.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PlayContainer"]
+margin_left = 447.0
+margin_right = 576.0
+margin_bottom = 42.0
+
+[node name="PlayBtn" type="Button" parent="VBoxContainer/PlayContainer/HBoxContainer"]
+margin_right = 57.0
 margin_bottom = 42.0
 text = "Play"
+
+[node name="ResetBtn" type="Button" parent="VBoxContainer/PlayContainer/HBoxContainer"]
+margin_left = 61.0
+margin_right = 129.0
+margin_bottom = 42.0
+text = "Reset"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 65.0
@@ -103,4 +113,5 @@ margin_right = 1024.0
 margin_bottom = 535.0
 rect_min_size = Vector2( 15, 0 )
 
-[connection signal="button_down" from="VBoxContainer/PlayContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]
+[connection signal="button_down" from="VBoxContainer/PlayContainer/HBoxContainer/PlayBtn" to="." method="_on_PlayBtn_button_down"]
+[connection signal="pressed" from="VBoxContainer/PlayContainer/HBoxContainer/ResetBtn" to="." method="_on_ResetBtn_pressed"]

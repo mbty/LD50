@@ -45,6 +45,27 @@ func assess_cost():
 		Globals.AISLE_COST*(current_aisle_setup.size() - original_aisle_setup.size())
 	)
 
+func _find_extra_aisles():
+	var current_aisle_setup = floor_tile_map.get_used_cells_by_id(TILE_TYPES.AISLE)
+	for tile in original_aisle_setup:
+		var index = current_aisle_setup.find(tile)
+		if index != -1:
+			current_aisle_setup.remove(index)
+	return current_aisle_setup
+
+func reset_aisles():
+	for original_tile in original_aisle_setup:
+		floor_tile_map.set_cellv(original_tile, TILE_TYPES.AISLE)
+	for tile in _find_extra_aisles():
+		floor_tile_map.set_cellv(tile, TILE_TYPES.GROUND)
+		
+	var rect = floor_tile_map.get_used_rect()
+	floor_tile_map.update_bitmask_region(
+		rect.position,
+		rect.end
+	)
+	emit_signal("cost_changed", 0)
+
 func _init_dict():
 	init_checkout_locations()
 	init_product_locations()

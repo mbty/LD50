@@ -1,6 +1,7 @@
 extends Control
 
 signal begin_simulation
+signal reset_map
 
 onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
 onready var aisle_price = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/AislePrice
@@ -18,3 +19,6 @@ func _on_Products_new_product(product):
 
 func _on_PlayBtn_button_down():
 	emit_signal("begin_simulation")
+
+func _on_ResetBtn_pressed():
+	emit_signal("reset_map")

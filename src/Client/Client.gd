@@ -16,8 +16,8 @@ onready var sprite = $AnimatedSprite
 onready var angry_timer = $AngryTimer
 
 var angry_counter = 0
-const patience = 10
-const patience2 = 5
+const patience = 35
+const patience2 = 45
 var anger_stage = 0
 
 const FRAMES_VARIANTS = [

@@ -183,9 +183,11 @@ func added_to_cart(client, product):
 		emit_signal("add_to_cart", product)
 
 func bought(client):
+	var sum = 0
 	for k in client.in_cart:
 		var n = client.in_cart[k]
-		game.money += 1 * n
+		sum += game.get_node("Products").get_child(k).price * n
+	game.add_money(sum)
 	client.in_cart.clear()
 	client_left(client)
 

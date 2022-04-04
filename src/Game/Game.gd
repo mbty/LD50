@@ -100,12 +100,19 @@ func _input(event):
 		elif drag_destroy:
 			destroy()
 
+func add_money(delta):
+	money += delta
+	$UI/HUD.update_money(money)
+
+func update_money(new_value):
+	money = new_value
+	$UI/HUD.update_money(money)
+
 func begin_simulation():
 	var cost = map.assess_cost()
 	if cost > money:
 		return
-	money -= cost
-	$UI/HUD.update_money(money)
+	self.add_money(-cost)
 	$UI/HUD.update_cost(0)
 	
 	drag_build = false

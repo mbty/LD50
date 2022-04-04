@@ -55,13 +55,12 @@ func update_animation():
 func _ready():
 	var shift = Vector2(randi()%9 - 5, randi()%9 - 5)
 	sprite.position += shift
-	sprite.z_index = 1000 + position[1] + sprite.position[1]
+	self.z_index = 1000 + position[1] + sprite.position[1]
 	assert(wishlist != null)
 	assert(strategy != null)
 	self.strategy.init(self)
 	sprite.frames = FRAMES_VARIANTS[randi() % FRAMES_VARIANTS.size()]
 	update_animation()
-	$Emoji.z_index = sprite.z_index + 1
 
 func _process(_delta):
 	self.modulate = animated_modulate
@@ -148,12 +147,10 @@ func update():
 			
 			if next.y > self.position.y:
 				self.direction = CharacterDirection.DOWN
-				sprite.z_index += 16
-				$Emoji.z_index += 16
+				self.z_index += 16
 			elif next.y < self.position.y:
 				self.direction = CharacterDirection.UP
-				sprite.z_index -= 16
-				$Emoji.z_index -= 16
+				self.z_index -= 16
 			
 			if next.x == self.position.x && next.y == self.position.y:
 				self.animation_state = CharacterAnimationState.IDLE

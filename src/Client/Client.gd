@@ -102,9 +102,9 @@ func update():
 	for nei in self.get_neighbours():
 		if map.product_per_location.has(nei):
 			var p = map.product_per_location[nei]
-			if p in self.wishlist and not (p in self.in_cart):
-				self.wishlist.erase(p)
-				self.add_to_cart(p)
+			if p in wishlist and not (p in in_cart):
+				wishlist.erase(p)
+				add_to_cart(p)
 				buy_animation(p, nei)
 				bought = true
 				break
@@ -112,6 +112,8 @@ func update():
 			can_checkout = true
 	# Otherwise, move
 	if !bought:
+		if can_checkout and wishlist.size() == 0:
+			buy_cart()
 		$Sounds/WalkSounds.play_sound()
 		var next = strategy.get_next_move()
 		if next == null:

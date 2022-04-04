@@ -33,6 +33,8 @@ var checkout_loc_dic = {}
 func _ready():
 	self._init_dict()
 	save_aisle_setup()
+	_on_AmbianceSoundTimer_timeout(true)
+	_on_RareAmbianceSoundTimer_timeout(true)
 
 func get_camera_bounds():
 	var bounds = floor_tile_map.get_used_rect()
@@ -314,3 +316,23 @@ func update_clients():
 func _on_Clients_no_more_clients():
 	if GameState.game_mode == GameState.GameMode.DESIGN:
 		emit_signal("simulation_ended")
+
+func handle_ambiance_timer(timer, wait_time):
+	timer.wait_time = wait_time
+	timer.start()
+
+func _on_RareAmbianceSoundTimer_timeout(first_time=false):
+	if not first_time:
+		$Sounds/RareAmbianceSound.play_sound()
+	handle_ambiance_timer(
+		$AmbianceTimers/RareAmbianceSoundTimer,
+		float(randi() % 50 + 50)
+	)
+	
+func _on_AmbianceSoundTimer_timeout(first_time=false):
+	if not first_time:
+		$Sounds/AmbianceSound.play_sound()
+	handle_ambiance_timer(
+		$AmbianceTimers/AmbianceSoundTimer,
+		float(randi() % 30 + 10)
+	)

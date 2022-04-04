@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Map/Map.gd" type="Script" id=2]
@@ -13,7 +13,14 @@
 [ext_resource path="res://assets/sounds/argent2.ogg" type="AudioStream" id=11]
 [ext_resource path="res://assets/sounds/argent3.ogg" type="AudioStream" id=12]
 [ext_resource path="res://assets/sounds/checkout.ogg" type="AudioStream" id=13]
-[ext_resource path="res://src/Map/Clients.gd" type="Script" id=14]
+[ext_resource path="res://assets/sounds/annonce1.ogg" type="AudioStream" id=14]
+[ext_resource path="res://assets/sounds/annonce0.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/sounds/clim0.ogg" type="AudioStream" id=16]
+[ext_resource path="res://assets/sounds/glass2.ogg" type="AudioStream" id=17]
+[ext_resource path="res://assets/sounds/plastic0.ogg" type="AudioStream" id=18]
+[ext_resource path="res://assets/sounds/glass0.ogg" type="AudioStream" id=19]
+[ext_resource path="res://assets/sounds/caddie0.ogg" type="AudioStream" id=20]
+[ext_resource path="res://src/Map/Clients.gd" type="Script" id=21]
 
 [node name="Map" type="Node2D"]
 script = ExtResource( 2 )
@@ -21,7 +28,7 @@ script = ExtResource( 2 )
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
 [node name="Clients" type="Node" parent="Navigation2D"]
-script = ExtResource( 14 )
+script = ExtResource( 21 )
 
 [node name="BackgroundTileMap" type="TileMap" parent="Navigation2D"]
 tile_set = ExtResource( 1 )
@@ -63,4 +70,24 @@ sounds = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
 script = ExtResource( 5 )
 sounds = [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ]
 
+[node name="AmbianceSound" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = -2.0
+script = ExtResource( 5 )
+sounds = [ ExtResource( 16 ), ExtResource( 19 ), ExtResource( 17 ), ExtResource( 20 ), ExtResource( 18 ) ]
+
+[node name="RareAmbianceSound" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = -4.0
+script = ExtResource( 5 )
+sounds = [ ExtResource( 15 ), ExtResource( 14 ) ]
+
+[node name="AmbianceTimers" type="Node" parent="."]
+
+[node name="RareAmbianceSoundTimer" type="Timer" parent="AmbianceTimers"]
+one_shot = true
+
+[node name="AmbianceSoundTimer" type="Timer" parent="AmbianceTimers"]
+one_shot = true
+
 [connection signal="no_more_clients" from="Navigation2D/Clients" to="." method="_on_Clients_no_more_clients"]
+[connection signal="timeout" from="AmbianceTimers/RareAmbianceSoundTimer" to="." method="_on_RareAmbianceSoundTimer_timeout"]
+[connection signal="timeout" from="AmbianceTimers/AmbianceSoundTimer" to="." method="_on_AmbianceSoundTimer_timeout"]

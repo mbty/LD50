@@ -243,10 +243,12 @@ func remove_tile():
 	if product_type != -1:
 		product_tile_map.set_cellv(tile_pos, -1)
 		remove_product_from_dict(tile_pos, product_type)
+		$Sounds/DestroyTileSound.play_sound()
 	elif floor_tile_map.get_cellv(tile_pos) == TILE_TYPES.AISLE:
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.GROUND)
 		re_bake(tile_pos)
 		emit_signal("cost_changed", assess_cost())
+		$Sounds/DestroyTileSound.play_sound()
 
 const diag_factor = 1.4142;
 const diag_avoid_wall_factor = 1.5;

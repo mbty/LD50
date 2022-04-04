@@ -7,13 +7,18 @@ signal left
 const MODULATE_WHITE = Color("ffffff")
 const MODULATE_RED = Color("f73831")
 
-onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
 onready var map = nav.get_parent()
 onready var game = map.get_parent().get_parent()
 onready var tick_timer = game.get_node("TickTimer")
 onready var products = game.get_node("Products")
 onready var sprite = $AnimatedSprite
+onready var angry_timer = $AngryTimer
+
+var angry_counter = 0
+const patience = 30
+const patience2 = 10
+var anger_stage = 0
 
 const FRAMES_VARIANTS = [
 	preload("res://assets/sprites/client1.tres"),
@@ -80,27 +85,29 @@ func get_neighbours():
 	var pos = (self.position / 32).floor() + Vector2(0, 0)
 	return [pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
-var angry_timer = 0
-func _on_ZenTimer_timeout():
-	angry_timer += 1
-	if angry_timer == 1:
+func anger():
+	print(anger_stage)
+	anger_stage += 1
+	if anger_stage == 1:
+		angry_counter -= patience2
 		$Sounds/AngrySounds.play_sound()
 		$Tween.interpolate_property(
 			self, "animated_modulate", animated_modulate, MODULATE_RED,
-			zen_timer.wait_time*(2.0/3.0), Tween.TRANS_LINEAR,Tween.EASE_IN_OUT
+			patience2 * game.get_node("TickTimer").wait_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 		)
 		$Tween.start()
-	elif angry_timer == 2:
+	elif anger_stage == 2:
 		$Sounds/FuraxSounds.play_sound()
 		emit_signal("left", self)
-
-func is_angry():
-	return zen_timer.time_left == 0
 
 func get_player_speed():
 	return tick_timer.wait_time
 
 func update():
+	angry_counter += 1
+	if (angry_counter == patience):
+		anger()
+	
 	# If can buy, buy and don't move
 	var bought = false
 	var can_checkout = false

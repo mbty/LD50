@@ -53,9 +53,3 @@ sounds = [ ExtResource( 15 ), ExtResource( 12 ), ExtResource( 6 ) ]
 [node name="GrabSounds" type="AudioStreamPlayer" parent="Sounds"]
 script = ExtResource( 3 )
 sounds = [ ExtResource( 16 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 14 ) ]
-
-[node name="ZenTimer" type="Timer" parent="."]
-wait_time = 10.0
-autostart = true
-
-[connection signal="timeout" from="ZenTimer" to="." method="_on_ZenTimer_timeout"]

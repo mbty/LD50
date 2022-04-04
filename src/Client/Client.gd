@@ -112,6 +112,7 @@ func update():
 			can_checkout = true
 	# Otherwise, move
 	if !bought:
+		$Sounds/WalkSounds.play_sound()
 		var next = self.strategy.path.pop_front()
 		while next == null:
 			if self.wishlist.empty() and can_checkout:

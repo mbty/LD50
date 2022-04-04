@@ -135,9 +135,9 @@ func buy_animation(product, from):
 	$Emoji.position = from
 	$Emoji.visible = true
 	$Emoji.texture = products.get_child(product).get_texture()
-#	$Tween.interpolate_property(
-#		self, "position", from, , 1, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
-#	)
+	$Tween.interpolate_property(
+		$Emoji, "position", from, $AnimatedSprite.position + Vector2(8, 5), 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+	)
 
 func checkout_animation():
 	pass

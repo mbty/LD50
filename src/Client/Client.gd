@@ -16,8 +16,8 @@ onready var sprite = $AnimatedSprite
 onready var angry_timer = $AngryTimer
 
 var angry_counter = 0
-const patience = 30
-const patience2 = 10
+const patience = 10
+const patience2 = 5
 var anger_stage = 0
 
 const FRAMES_VARIANTS = [
@@ -86,15 +86,15 @@ func get_neighbours():
 	return [pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
 func anger():
-	print(anger_stage)
 	anger_stage += 1
 	if anger_stage == 1:
+		$Angryindicator.show()
 		angry_counter -= patience2
 		$Sounds/AngrySounds.play_sound()
-		$Tween.interpolate_property(
-			self, "animated_modulate", animated_modulate, MODULATE_RED,
-			patience2 * game.get_node("TickTimer").wait_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
-		)
+#		$Tween.interpolate_property(
+#			self, "animated_modulate", animated_modulate, MODULATE_RED,
+#			patience2 * game.get_node("TickTimer").wait_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+#		)
 		$Tween.start()
 	elif anger_stage == 2:
 		$Sounds/FuraxSounds.play_sound()

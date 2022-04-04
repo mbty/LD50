@@ -15,6 +15,7 @@ onready var game = get_parent().get_parent()
 onready var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 
 var hover_position = Vector2(0, 0)
+var dragging_camera = false
 
 enum TILE_TYPES {
 	AISLE = 0,
@@ -26,10 +27,30 @@ enum TILE_TYPES {
 var product_locations
 var product_per_location = {}
 var checkout_locations
+var checkout_loc_dic = {}
 
 func _ready():
 	self._init_dict()
 	save_aisle_setup()
+
+func get_camera_bounds():
+	var bounds = floor_tile_map.get_used_rect()
+	bounds.size *= floor_tile_map.cell_size
+	bounds.position *= floor_tile_map.cell_size
+	return bounds
+
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == BUTTON_MIDDLE:
+		self.dragging_camera = event.is_pressed()
+	if event is InputEventMouseMotion and self.dragging_camera:
+		self._drag_camera(event.relative)
+
+func _drag_camera(relative):
+	camera.offset -= relative * camera.zoom
+	
+	var bounds = get_camera_bounds()
+	camera.offset.x = clamp(camera.offset.x, bounds.position.x, bounds.position.x + bounds.size.x)
+	camera.offset.y = clamp(camera.offset.y, bounds.position.y, bounds.position.y + bounds.size.y)
 
 var original_aisle_setup
 func save_aisle_setup():
@@ -74,8 +95,13 @@ func _init_dict():
 
 func init_checkout_locations():
 	checkout_locations = []
+	checkout_loc_dic = {}
 	for coords in self.floor_tile_map.get_used_cells_by_id(TILE_TYPES.CHECKOUT):
-		checkout_locations.append(floor_tile_map.map_to_world(coords) + global_position)
+		var pos = floor_tile_map.map_to_world(coords) + global_position
+		checkout_locations.append(pos)
+		pos = (pos / 32).floor()
+		checkout_loc_dic[pos] = 1
+		checkout_loc_dic[pos + Vector2.DOWN] = 1
 	
 func init_product_locations():
 	product_locations = {}
@@ -92,12 +118,16 @@ func _process(_delta):
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
 	var cell = floor_tile_map.get_cellv(tile_under_cursor)
-	camera.offset = (get_viewport().get_mouse_position() - get_viewport().size / 2) / 4
 
-	if GameState.selected_tool == GameState.Tool.PRODUCT:
-		map_hover.show_product = cell == TILE_TYPES.AISLE
-	elif GameState.selected_tool == GameState.Tool.AISLE:
-		map_hover.show_product = cell == TILE_TYPES.GROUND
+	if GameState.game_mode == GameState.GameMode.DESIGN:
+		if GameState.selected_tool == GameState.Tool.PRODUCT:
+			map_hover.show_product = cell == TILE_TYPES.AISLE
+		elif GameState.selected_tool == GameState.Tool.AISLE:
+			map_hover.show_product = cell == TILE_TYPES.GROUND
+
+func mode_changed(new_gm):
+	emit_signal("cost_changed", 0)
+	save_aisle_setup()
 
 func get_checkout_locations():
 	return checkout_locations
@@ -125,6 +155,7 @@ func create_client(products):
 	client.set_strategy(Globals.STRATEGY_TYPE.MIND_OF_STEEL)
 	client.connect("add_to_cart", self, "added_to_cart")
 	client.connect("buy", self, "bought")
+	client.connect("left", self, "client_left")
 
 	var cell = door_cells[randi() % door_cells.size()]
 	var to_shift = (floor_tile_map.map_to_world(cell) - global_position)
@@ -145,6 +176,10 @@ func bought(client):
 		var n = client.in_cart[k]
 		game.money += 1 * n
 	client.in_cart.clear()
+
+func client_left(client):
+	client.in_cart.empty()
+	client.queue_free()
 
 func get_mouse_world_coords():
 	return (get_viewport().get_mouse_position() - floor_tile_map.get_global_transform_with_canvas().origin) * camera.zoom

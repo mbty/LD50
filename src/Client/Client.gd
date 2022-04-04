@@ -2,18 +2,18 @@ extends KinematicBody2D
 
 signal add_to_cart
 signal buy
+signal left
 
-onready var in_store_timer = $in_store_timer
+onready var zen_timer = $ZenTimer
 onready var nav = get_parent().get_parent()
 onready var map = get_parent().get_parent().get_parent()
+onready var tick_timer = get_parent().get_parent().get_parent().get_parent().get_parent().get_node("TickTimer")
 
 var wishlist
 var strategy
 
 var in_cart = {}
 var money = 30
-
-var speed = 1e4
 
 func _ready():
 	assert(wishlist != null)
@@ -40,27 +40,37 @@ func get_neighbours():
 	var pos = (self.position / 32).floor()
 	return [pos, pos + Vector2.DOWN, pos + Vector2.UP, pos + Vector2.LEFT, pos + Vector2.RIGHT]
 
+func _physics_process(_delta):
 	for nei in self.get_neighbours():
 		if map.product_per_location.has(nei):
 			var p = map.product_per_location[nei]
 			if p in self.wishlist and not (p in self.in_cart):
 				self.add_to_cart(p)
-		elif nei in map.checkout_locations and not self.in_cart.empty():
+		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
 			buy_cart()
+		elif nei in map.checkout_loc_dic and self.in_cart.empty():
+			print('checkout but empty !')
 
 func _on_ZenTimer_timeout():
 	$Sprite.modulate = Color(255, 0, 0, 1.0)
+	emit_signal("left", self)
 
 func is_angry():
-	return $ZenTimer.time_left == 0
+	return zen_timer.time_left == 0
 
 func buy_product(product):
 	emit_signal("buy_product", product)
 
+func get_player_speed():
+	return tick_timer.wait_time
+
 func move():
 	var next = self.strategy.path.pop_front()
 	if next != null:
-		self.position = next
+		$Tween.interpolate_property(
+			self, "position", self.position, next, get_player_speed(), Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
+		)
+		$Tween.start()
 	else:
 		self.strategy.gen_path(self.strategy.get_next_focus())
 

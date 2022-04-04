@@ -1,9 +1,5 @@
 extends Button
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
 func _process(_delta):
 	self.pressed = GameState.selected_tool == GameState.Tool.AISLE
 

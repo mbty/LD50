@@ -94,7 +94,7 @@ func anger():
 #			self, "animated_modulate", animated_modulate, MODULATE_RED,
 #			patience2 * game.get_node("TickTimer").wait_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
 #		)
-		$Tween.start()
+#		$Tween.start()
 	elif anger_stage == 2:
 		$Sounds/FuraxSounds.play_sound()
 		emit_signal("left", self)

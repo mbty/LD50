@@ -1,7 +1,7 @@
 extends Node
 
 var money = 50
-onready var map = null
+onready var map = $Map
 onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
 onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller
 
@@ -14,9 +14,9 @@ var last_drag_deleted_tile = null
 var clients_per_sec = 4e-1
 
 var levels = [
-	Level.new("Level 1", 1, 50, 100, "Map1"),
-	Level.new("Level 2", 5, 50, 200, "Map2"),
-	Level.new("Level 3", 5, 50, 300, "Map2"),
+	Level.new("Level 1", 1, 50, 100, "Navigation1"),
+	Level.new("Level 2", 5, 50, 200, "Navigation2"),
+	Level.new("Level 3", 5, 50, 300, "Navigation3"),
 ]
 
 var level_index = -1
@@ -30,6 +30,9 @@ func not_dragging():
 func _ready():
 	randomize()
 	on_next_level()
+	map.connect("simulation_ended", self, "_on_simulation_ended")
+	map.connect("cost_changed", self, "_on_Map_cost_changed")
+	map.show()
 
 func on_next_level():
 	level_index += 1
@@ -47,12 +50,7 @@ func on_next_level():
 		product.type = i
 		i+=1
 	GameState.selected_product = $Products.get_child(0)
-	if (map):
-		map.hide()
-	map = get_node('Maps/'+ level.map)
-	map.connect("simulation_ended", self, "_on_simulation_ended")
-	map.connect("cost_changed", self, "_on_Map_cost_changed")
-	map.show()
+	map.load_nav(level.nav)
 
 func on_end_level():
 	# todo end screen
@@ -161,7 +159,7 @@ func _on_ActionUI_begin_simulation():
 
 func _on_SimulationModeTimer_timeout():
 	GameState.game_mode = GameState.GameMode.WAITING
-	if map.get_node("Navigation2D/Clients").n == 0:
+	if map.nav.get_node("Clients").n == 0:
 		_on_simulation_ended()
 
 func _on_simulation_ended():

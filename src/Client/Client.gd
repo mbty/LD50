@@ -8,8 +8,8 @@ const MODULATE_WHITE = Color("ffffff")
 const MODULATE_RED = Color("f73831")
 
 onready var nav = get_parent().get_parent()
-onready var map = nav.get_parent()
-onready var game = map.get_parent().get_parent()
+onready var map = nav.get_parent().get_parent()
+onready var game = map.get_parent()
 onready var tick_timer = game.get_node("TickTimer")
 onready var products = game.get_node("Products")
 onready var sprite = $AnimatedSprite

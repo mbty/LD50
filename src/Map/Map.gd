@@ -5,15 +5,16 @@ signal cost_changed
 signal simulation_ended
 
 onready var client_scene = preload("res://src/Client/Client.tscn")
-onready var nav = $Navigation2D
-onready var floor_tile_map = $Navigation2D/FloorTileMap
-onready var product_tile_map = $Navigation2D/ProductTileMap
-onready var clients = $Navigation2D/Clients
-onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
-onready var game = get_parent().get_parent()
+onready var game = get_parent()
 
-onready var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
+var nav = null
+var floor_tile_map = null
+var product_tile_map = null
+var clients = null
+var map_hover = null
+
+var door_cells = null
 
 var hover_position = Vector2(0, 0)
 var dragging_camera = false
@@ -31,10 +32,23 @@ var checkout_locations
 var checkout_loc_dic = {}
 
 func _ready():
+	load_nav("Navigation1")
 	self._init_dict()
 	save_aisle_setup()
 	_on_AmbianceSoundTimer_timeout(true)
 	_on_RareAmbianceSoundTimer_timeout(true)
+
+func load_nav(nav_name):
+	if nav:
+		nav.hide()
+	nav = get_node("Navigations/" + nav_name)
+	nav.show()
+	floor_tile_map = nav.get_node("FloorTileMap")
+	product_tile_map = nav.get_node("ProductTileMap")
+	clients = nav.get_node("Clients")
+	map_hover = nav.get_node("MapHover")
+	door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
+	clients.connect("no_more_clients", self, "_on_Clients_no_more_clients")
 
 func get_camera_bounds():
 	var bounds = floor_tile_map.get_used_rect()
@@ -325,6 +339,7 @@ func handle_ambiance_timer(timer, wait_time):
 	timer.start()
 
 func _on_RareAmbianceSoundTimer_timeout(first_time=false):
+	$Sounds/RareAmbianceSound.play_exclusive()
 	if (
 		not first_time and
 		randi() % 3 == 0

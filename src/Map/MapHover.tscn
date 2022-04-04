@@ -3,7 +3,7 @@
 [ext_resource path="res://src/Map/MapHover.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/map_hover.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/products/apple.png" type="Texture" id=3]
-[ext_resource path="res://assets/sprites/aisle.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/aisle.tres" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -39,6 +39,7 @@ centered = false
 position = Vector2( -16, -16 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 3 )
+frame = 1
 speed_scale = 0.33
 playing = true
 centered = false

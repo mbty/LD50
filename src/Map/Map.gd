@@ -101,14 +101,14 @@ func init_checkout_locations():
 		checkout_locations.append(pos)
 		pos = (pos / 32).floor()
 		checkout_loc_dic[pos] = 1
-		checkout_loc_dic[pos + Vector2.DOWN] = 1
 	
 func init_product_locations():
 	product_locations = {}
 	for coords in self.product_tile_map.get_used_cells():
 		var id = product_tile_map.get_cellv(coords)
-		if product_locations[id] == null:
+		if !product_locations.has(id):
 			product_locations[id] = []
+		product_per_location[coords] = id
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
 
 func _process(_delta):
@@ -184,9 +184,11 @@ func added_to_cart(client, product):
 		emit_signal("add_to_cart", product)
 
 func bought(client):
+	var sum = 0
 	for k in client.in_cart:
 		var n = client.in_cart[k]
-		game.money += 1 * n
+		sum += game.get_node("Products").get_child(k).price * n
+	game.add_money(sum)
 	client.in_cart.clear()
 	client_left(client)
 
@@ -294,7 +296,7 @@ func get_path_(origin, destination):
 	
 	while not frontier.is_empty():
 		var current = frontier.pop()
-		if (current - destination_tile).length() < 2:
+		if (current - destination_tile).length() < 1.2:
 			return path_from_backtrack_map(backtrack_map, current)
 		for candidate in get_navigable_neighbors(current.x, current.y):
 			var cost = computed_costs[current] + 1

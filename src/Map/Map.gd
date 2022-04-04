@@ -32,6 +32,12 @@ func _ready():
 	self._init_dict()
 	save_aisle_setup()
 
+func get_camera_bounds():
+	var bounds = floor_tile_map.get_used_rect()
+	bounds.size *= floor_tile_map.cell_size
+	bounds.position *= floor_tile_map.cell_size
+	return bounds
+
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_MIDDLE:
 		self.dragging_camera = event.is_pressed()
@@ -40,6 +46,10 @@ func _input(event):
 
 func _drag_camera(relative):
 	camera.offset -= relative * camera.zoom
+	
+	var bounds = get_camera_bounds()
+	camera.offset.x = clamp(camera.offset.x, bounds.position.x, bounds.position.x + bounds.size.x)
+	camera.offset.y = clamp(camera.offset.y, bounds.position.y, bounds.position.y + bounds.size.y)
 
 var original_aisle_setup
 func save_aisle_setup():

@@ -12,7 +12,7 @@ onready var map_hover = $Navigation2D/MapHover
 onready var camera = $Camera2D
 onready var game = get_parent().get_parent()
 
-var door_cells = null
+onready var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 
 var hover_position = Vector2(0, 0)
 
@@ -85,7 +85,7 @@ func init_product_locations():
 			product_locations[id] = []
 		product_locations[id].append(product_tile_map.map_to_world(coords) + global_position)
 
-func _process(delta):
+func _process(_delta):
 	var tile_under_cursor = get_tile_under_cursor()
 	$Tween.interpolate_property(map_hover, "rect_position",
 		map_hover.rect_position, product_tile_map.map_to_world(tile_under_cursor), .05,
@@ -126,7 +126,6 @@ func create_client(products):
 	client.connect("add_to_cart", self, "added_to_cart")
 	client.connect("buy", self, "bought")
 
-	var door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	var cell = door_cells[randi() % door_cells.size()]
 	var to_shift = (floor_tile_map.map_to_world(cell) - global_position)
 	client.position += to_shift + Vector2(16, 16)

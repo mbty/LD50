@@ -25,7 +25,7 @@ func build_wishlist(available_products):
 	self.wishlist = []
 	var available_copy = [] + available_products
 	var n_wishes = min(randi() % 2 + 1, available_copy.size())
-	for i in range(n_wishes):
+	for _i in range(n_wishes):
 		var choice_index = randi() % available_copy.size()
 		self.wishlist.append(available_copy[choice_index].type)
 		available_copy.remove(choice_index)
@@ -49,11 +49,11 @@ func get_neighbours():
 			buy_cart()
 			
 
-func enters_range(var product):
-	pass
+#func enters_range(var product):
+#	pass
 
-func is_interested(var product):
-	pass
+#func is_interested(var product):
+#	pass
 
 func _on_ZenTimer_timeout():
 	$Sprite.modulate = Color(255, 0, 0, 1.0)

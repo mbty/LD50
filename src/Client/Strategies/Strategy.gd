@@ -11,8 +11,8 @@ var path_update_frames_delay = 20
 var path = []
 var path_cp = []
 
-func init(client):
-	self.client = client
+func init(new_client):
+	client = new_client
 	nav = client.get_parent().get_parent()
 
 func find_path():

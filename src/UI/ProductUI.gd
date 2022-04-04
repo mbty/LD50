@@ -9,14 +9,14 @@ onready var product_texture = $ProductTexture
 func _ready():
 	pass # Replace with function body.
 
-func _process(delta):
+func _process(_delta):
 	self.pressed = (
 		GameState.selected_tool == GameState.Tool.PRODUCT and
 		GameState.selected_product == product
 	)
 
-func init(product):
-	self.product = product
+func init(new_product):
+	self.product = new_product
 	product_texture.texture = product.get_texture()
 	self.hint_tooltip = product.get_name()
 

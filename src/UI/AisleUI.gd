@@ -4,7 +4,7 @@ extends Button
 func _ready():
 	pass
 
-func _process(delta):
+func _process(_delta):
 	self.pressed = GameState.selected_tool == GameState.Tool.AISLE
 
 func _on_AisleUI_pressed():	

@@ -18,7 +18,7 @@ func get_next_path():
 	while self.client.wishlist.size() != 0:
 		locations_attempt(self.client.map.get_product_locations(self.client.wishlist[0]))
 		if path == null:
-			client.wishlist.pop()
+			client.wishlist.pop_front()
 		else:
 			return
 	locations_attempt(self.client.map.get_checkout_locations())

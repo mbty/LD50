@@ -311,7 +311,6 @@ func update_clients():
 	for client in clients.get_children():
 		client.update()
 
-
 func _on_Clients_no_more_clients():
 	if GameState.game_mode == GameState.GameMode.DESIGN:
 		emit_signal("simulation_ended")

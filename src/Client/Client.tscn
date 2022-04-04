@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/Client/Client.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/client1.tres" type="SpriteFrames" id=2]

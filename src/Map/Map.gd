@@ -188,6 +188,7 @@ func bought(client):
 		var n = client.in_cart[k]
 		game.money += 1 * n
 	client.in_cart.clear()
+	client_left(client)
 
 func client_left(client):
 	client.in_cart.empty()

@@ -64,7 +64,8 @@ func _physics_process(_delta):
 		elif nei in map.checkout_loc_dic and not self.in_cart.empty():
 			buy_cart()
 		elif nei in map.checkout_loc_dic and self.in_cart.empty():
-			print('checkout but empty !')
+			print("wouhou")
+			emit_signal("buy", self)
 
 func _on_ZenTimer_timeout():
 	emit_signal("left", self)

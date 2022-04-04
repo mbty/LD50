@@ -47,8 +47,11 @@ func on_next_level():
 		product.type = i
 		i+=1
 	GameState.selected_product = $Products.get_child(0)
+	if (map):
+		map.hide()
 	map = get_node('Maps/'+ level.map)
 	map.connect("simulation_ended", self, "_on_simulation_ended")
+	map.connect("cost_changed", self, "_on_Map_cost_changed")
 	map.show()
 
 func on_end_level():

@@ -97,12 +97,14 @@ color = Color( 0.172549, 0.490196, 0.388235, 1 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Credits" type="TextureRect" parent="CanvasLayer"]
+anchor_left = 0.25
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = -581.0
-margin_right = 182.0
-margin_bottom = -240.0
+margin_left = -222.0
+margin_top = -572.0
+margin_right = -56.0
+margin_bottom = -231.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 stretch_mode = 5
@@ -119,8 +121,8 @@ text = "    - CREDITS -
 LUDUM DARONS TEAM
 ------------------
 Matthieu Baty
-Nicolas Busser
 Antoine Brûlé
+Nicolas Busser
 Valérian Coulon
 Louis Mouhat
 ------------------

@@ -33,7 +33,6 @@ var checkout_loc_dic = {}
 
 func _ready():
 	load_nav("Navigation1")
-	self._init_dict()
 	save_aisle_setup()
 	_on_AmbianceSoundTimer_timeout(true)
 	_on_RareAmbianceSoundTimer_timeout(true)
@@ -50,6 +49,7 @@ func load_nav(nav_name):
 	map_hover = nav.get_node("MapHover")
 	door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	clients.connect("no_more_clients", self, "_on_Clients_no_more_clients")
+	self._init_dict()
 
 func get_camera_bounds():
 	var bounds = floor_tile_map.get_used_rect()
@@ -120,6 +120,7 @@ func init_checkout_locations():
 	
 func init_product_locations():
 	product_locations = {}
+	product_per_location = {}
 	for coords in self.product_tile_map.get_used_cells():
 		var id = product_tile_map.get_cellv(coords)
 		if !product_locations.has(id):

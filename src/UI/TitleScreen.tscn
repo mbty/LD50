@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/title_screen.tres" type="Theme" id=1]
 [ext_resource path="res://src/UI/TitleScreen.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=4]
 [ext_resource path="res://assets/ui/ticket.png" type="Texture" id=5]
 [ext_resource path="res://assets/fonts/PixelOperatorMono.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://assets/sprites/step1.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/step2.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 6 )
@@ -129,6 +131,24 @@ Ludum Dare 50 game jam
 ------------------
 Thanks for playing!"
 scroll_active = false
+
+[node name="Tuto1" type="TextureRect" parent="."]
+visible = false
+margin_left = 162.0
+margin_top = 87.0
+margin_right = 1187.0
+margin_bottom = 690.0
+rect_scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 7 )
+
+[node name="Tuto2" type="TextureRect" parent="."]
+visible = false
+margin_left = 162.0
+margin_top = 87.0
+margin_right = 1187.0
+margin_bottom = 690.0
+rect_scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 8 )
 
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/CreditsButton" to="." method="_on_CreditsButton_pressed"]

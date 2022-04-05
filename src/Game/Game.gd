@@ -59,6 +59,7 @@ func _on_EndLevel_next_level():
 	on_next_level()
 
 func _on_EndLevel_restart():
+	GameState.gui_rects = []
 	get_tree().change_scene("res://src/UI/TitleScreen.tscn")
 
 func build():

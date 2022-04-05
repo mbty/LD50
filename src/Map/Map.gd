@@ -325,7 +325,7 @@ func get_path_(origin, destination):
 				computed_costs[candidate] = cost
 				backtrack_map[candidate] = current
 				frontier.push(candidate, cost + heuristic(current, destination_tile))
-	return []
+	return null
 
 func update_clients():
 	for client in clients.get_children():

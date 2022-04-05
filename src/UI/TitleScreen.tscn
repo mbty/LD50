@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/title_screen.tres" type="Theme" id=1]
 [ext_resource path="res://src/UI/TitleScreen.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/products/products_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://assets/sprites/tileset.tres" type="TileSet" id=4]
+[ext_resource path="res://assets/ui/ticket.png" type="Texture" id=5]
+[ext_resource path="res://assets/fonts/PixelOperatorMono.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 6 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -62,9 +67,9 @@ size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Node2D/VBoxContainer/CenterContainer2"]
 margin_left = 412.0
-margin_top = 202.0
+margin_top = 159.0
 margin_right = 612.0
-margin_bottom = 283.0
+margin_bottom = 325.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="PlayButton" type="Button" parent="Node2D/VBoxContainer/CenterContainer2/VBoxContainer"]
@@ -74,10 +79,43 @@ focus_mode = 0
 enabled_focus_mode = 0
 text = "Play"
 
+[node name="CreditsButton" type="Button" parent="Node2D/VBoxContainer/CenterContainer2/VBoxContainer"]
+margin_top = 85.0
+margin_right = 200.0
+margin_bottom = 166.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+text = "Credits"
+
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.172549, 0.490196, 0.388235, 1 )
 
+[node name="Credits" type="TextureRect" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -581.0
+margin_right = 182.0
+margin_bottom = -240.0
+rect_scale = Vector2( 2, 2 )
+texture = ExtResource( 5 )
+stretch_mode = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credits"]
+margin_left = 8.0
+margin_top = 10.0
+margin_right = 158.0
+margin_bottom = 337.0
+custom_colors/default_color = Color( 0.101961, 0.109804, 0.14902, 1 )
+custom_fonts/normal_font = SubResource( 1 )
+text = "CREDITS
+-------
+"
+scroll_active = false
+
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/CreditsButton" to="." method="_on_CreditsButton_pressed"]

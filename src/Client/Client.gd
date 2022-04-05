@@ -30,6 +30,7 @@ var animated_modulate = MODULATE_WHITE
 
 var wishlist
 var strategy
+var rot = Vector2.RIGHT
 
 var in_cart = {}
 var money = 30
@@ -43,10 +44,14 @@ var animation_state = CharacterAnimationState.WALK setget set_animation_state
 func set_direction(value):
 	direction = value
 	update_animation()
+	update_rot()
 
 func set_animation_state(value):
 	animation_state = value
 	update_animation()
+
+func update_rot():
+	rot = [Vector2.UP, Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT][self.direction]
 
 func update_animation():
 	var animation = ["idle", "walk"][self.animation_state] + "_" + ["up", "right", "down", "left"][self.direction]
@@ -103,7 +108,17 @@ func update():
 	angry_counter += 1
 	if (angry_counter == patience):
 		anger()
-	
+
+	var pos = (self.position / 32).floor() + Vector2(0, 0)
+	var d = 4
+	for k in map.product_per_location:
+		var dir = k - pos
+		if k.distance_to(pos) <= d and dir.angle_to(rot) < PI * .38:
+			var p = map.product_per_location[k]
+			if not (p in wishlist) and not (p in in_cart):
+				if randf() < products.get_child(p).attractivity:
+					wishlist.append(p)
+
 	# If can buy, buy and don't move
 	var bought = false
 	var can_checkout = false
@@ -116,12 +131,6 @@ func update():
 				buy_animation(p, nei)
 				bought = true
 				break
-			elif not (p in self.in_cart):
-				if randf() < products.get_child(p).attractivity:
-					self.add_to_cart(p)
-					buy_animation(p, nei)
-					bought = true
-					break
 		elif nei in map.checkout_loc_dic:
 			can_checkout = true
 	# Otherwise, move

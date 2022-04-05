@@ -2,8 +2,8 @@ extends Node
 
 var money = 50
 onready var map = $Map
-onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
-onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/VBoxContainer/Scroller
+onready var product_ui_list = $UI/ActionUI/VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer/Scroller/ProductList
+onready var scroller = $UI/ActionUI/VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer/Scroller
 
 var drag_build = false
 var drag_destroy = false

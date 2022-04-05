@@ -5,8 +5,8 @@ signal reset_map
 
 var can_play = true
 
-onready var product_list = $VBoxContainer/HBoxContainer/VBoxContainer/Scroller/ProductList
-onready var aisle_price = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/AislePrice
+onready var product_list = $VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer/Scroller/ProductList
+onready var aisle_price = $VBoxContainer/HBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/AislePrice
 onready var play_btn = $VBoxContainer/BottomBar/PlayContainer/HBoxContainer/PlayBtn
 onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 
@@ -14,7 +14,7 @@ onready var product_ui_scene = preload("res://src/UI/ProductUI.tscn")
 func _ready():
 	aisle_price.text = str(Globals.AISLE_COST)
 	GameState.add_gui_rect($VBoxContainer/BottomBar)
-	GameState.add_gui_rect($VBoxContainer/HBoxContainer/VBoxContainer)
+	GameState.add_gui_rect($VBoxContainer/HBoxContainer/PanelContainer)
 
 func _process(_delta):
 	play_btn.disabled = !can_play

@@ -94,7 +94,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.172549, 0.490196, 0.388235, 1 )
 
-[node name="Credits" type="TextureRect" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Credits" type="TextureRect" parent="CanvasLayer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 16.0
@@ -105,16 +107,26 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 stretch_mode = 5
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Credits"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Credits"]
 margin_left = 8.0
 margin_top = 10.0
-margin_right = 158.0
+margin_right = 168.0
 margin_bottom = 337.0
 custom_colors/default_color = Color( 0.101961, 0.109804, 0.14902, 1 )
 custom_fonts/normal_font = SubResource( 1 )
-text = "CREDITS
--------
-"
+text = "    - CREDITS -
+------------------
+LUDUM DARONS TEAM
+------------------
+Matthieu Baty
+Nicolas Busser
+Antoine Brûlé
+Valérian Coulon
+Louis Mouhat
+------------------
+Ludum Dare 50 game jam
+------------------
+Thanks for playing!"
 scroll_active = false
 
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]

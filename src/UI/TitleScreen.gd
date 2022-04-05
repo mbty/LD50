@@ -1,6 +1,6 @@
 extends Control
 
-onready var credits = $Credits
+onready var credits = $CanvasLayer/Credits
 onready var credits_button = $Node2D/VBoxContainer/CenterContainer2/VBoxContainer/CreditsButton
 
 func _ready():

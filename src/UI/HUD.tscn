@@ -8,78 +8,79 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_right = 165.0
+margin_bottom = 130.0
 
-[node name="Dollar" type="Label" parent="HBoxContainer"]
-margin_top = 5.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 149.0
+margin_bottom = 114.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_right = 133.0
+margin_bottom = 30.0
+
+[node name="Dollar" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 margin_right = 11.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 theme = ExtResource( 1 )
 text = "$"
 
-[node name="Ammount" type="Label" parent="HBoxContainer"]
+[node name="Ammount" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 margin_left = 15.0
-margin_top = 5.0
 margin_right = 28.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 theme = ExtResource( 1 )
 text = "/"
 
-[node name="Cost" type="Label" parent="HBoxContainer"]
+[node name="Cost" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 margin_left = 32.0
-margin_top = 5.0
 margin_right = 49.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 text = "()"
 
-[node name="GoalDisplay" type="HBoxContainer" parent="."]
-margin_top = 32.0
+[node name="GoalDisplay" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 34.0
 margin_right = 133.0
-margin_bottom = 72.0
+margin_bottom = 64.0
 
-[node name="Goal" type="Label" parent="GoalDisplay"]
-margin_top = 5.0
+[node name="Goal" type="Label" parent="PanelContainer/VBoxContainer/GoalDisplay"]
 margin_right = 100.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 text = "Objective : "
 
-[node name="Dollar" type="Label" parent="GoalDisplay"]
+[node name="Dollar" type="Label" parent="PanelContainer/VBoxContainer/GoalDisplay"]
 margin_left = 104.0
-margin_top = 5.0
 margin_right = 115.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 text = "$"
 
-[node name="Objective" type="Label" parent="GoalDisplay"]
+[node name="Objective" type="Label" parent="PanelContainer/VBoxContainer/GoalDisplay"]
 margin_left = 119.0
-margin_top = 5.0
 margin_right = 133.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 text = "X"
 
-[node name="DaysDisplay" type="HBoxContainer" parent="."]
-margin_top = 67.0
-margin_right = 115.0
-margin_bottom = 107.0
+[node name="DaysDisplay" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 68.0
+margin_right = 133.0
+margin_bottom = 98.0
 
-[node name="Day" type="Label" parent="DaysDisplay"]
-margin_top = 5.0
+[node name="Day" type="Label" parent="PanelContainer/VBoxContainer/DaysDisplay"]
 margin_right = 55.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 text = "Day : "
 
-[node name="CurrentDay" type="Label" parent="DaysDisplay"]
+[node name="CurrentDay" type="Label" parent="PanelContainer/VBoxContainer/DaysDisplay"]
 margin_left = 59.0
-margin_top = 5.0
 margin_right = 73.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 text = "X"
 
-[node name="NbDaysTotal" type="Label" parent="DaysDisplay"]
+[node name="NbDaysTotal" type="Label" parent="PanelContainer/VBoxContainer/DaysDisplay"]
 margin_left = 77.0
-margin_top = 5.0
 margin_right = 102.0
-margin_bottom = 35.0
+margin_bottom = 30.0
 text = "/5"

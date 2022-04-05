@@ -1,14 +1,15 @@
 extends Control
 
-onready var ammount = $HBoxContainer/Ammount
-onready var cost = $HBoxContainer/Cost
+onready var ammount = $PanelContainer/VBoxContainer/HBoxContainer/Ammount
+onready var cost = $PanelContainer/VBoxContainer/HBoxContainer/Cost
 
-onready var goal = $GoalDisplay/Objective
-onready var current_day = $DaysDisplay/CurrentDay
-onready var total_days = $DaysDisplay/NbDaysTotal
+onready var goal = $PanelContainer/VBoxContainer/GoalDisplay/Objective
+onready var current_day = $PanelContainer/VBoxContainer/DaysDisplay/CurrentDay
+onready var total_days = $PanelContainer/VBoxContainer/DaysDisplay/NbDaysTotal
 
 func _ready():
 	update_cost(0)
+	GameState.add_gui_rect($PanelContainer)
 
 func update_money(new_ammount):
 	ammount.text = str(new_ammount)

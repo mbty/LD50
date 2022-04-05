@@ -1,7 +1,6 @@
 extends Control
 
 onready var credits = $CanvasLayer/Credits
-onready var credits_button = $Node2D/VBoxContainer/CenterContainer2/VBoxContainer/CreditsButton
 onready var btn = $Node2D/VBoxContainer/CenterContainer2/VBoxContainer/PlayButton
 onready var tuto1 = $Tuto1
 onready var tuto2 = $Tuto2
@@ -10,7 +9,10 @@ func _ready():
 	credits.visible = false
 
 func _on_CreditsButton_pressed():
-	credits.visible = credits_button.pressed
+	credits.visible = true
+
+func _on_CloseCreditsButton_pressed():
+	credits.visible = false
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:

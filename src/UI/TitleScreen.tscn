@@ -41,6 +41,7 @@ tile_data = PoolIntArray( 65560, 7, 0, 65562, 7, 0, 65564, 7, 0, 131073, 8, 0, 1
 
 [node name="Camera2D" type="Camera2D" parent="Node2D"]
 position = Vector2( 512, 304 )
+current = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Node2D"]
 anchor_right = 1.0
@@ -85,7 +86,6 @@ margin_top = 85.0
 margin_right = 200.0
 margin_bottom = 166.0
 focus_mode = 0
-toggle_mode = true
 enabled_focus_mode = 0
 text = "Credits"
 
@@ -97,24 +97,41 @@ color = Color( 0.172549, 0.490196, 0.388235, 1 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Credits" type="TextureRect" parent="CanvasLayer"]
+[node name="Credits" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Credits"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0352941, 0.0352941, 0.054902, 0.741176 )
+
+[node name="Credits" type="TextureRect" parent="CanvasLayer/Credits"]
 anchor_left = 0.25
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -222.0
-margin_top = -572.0
-margin_right = -56.0
-margin_bottom = -231.0
+margin_left = -224.0
+margin_top = -573.0
+margin_right = -58.0
+margin_bottom = -232.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 stretch_mode = 5
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Credits"]
+[node name="CloseCreditsButton" type="Button" parent="CanvasLayer/Credits/Credits"]
+margin_left = 132.5
+margin_top = -14.0
+margin_right = 173.5
+margin_bottom = 28.0
+text = "X"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Credits/Credits"]
 margin_left = 8.0
 margin_top = 10.0
 margin_right = 168.0
 margin_bottom = 337.0
+mouse_filter = 2
 custom_colors/default_color = Color( 0.101961, 0.109804, 0.14902, 1 )
 custom_fonts/normal_font = SubResource( 1 )
 text = "    - CREDITS -
@@ -152,3 +169,4 @@ texture = ExtResource( 8 )
 
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/CreditsButton" to="." method="_on_CreditsButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Credits/Credits/CloseCreditsButton" to="." method="_on_CloseCreditsButton_pressed"]

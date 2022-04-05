@@ -15,8 +15,9 @@ var clients_per_sec = 4e-1
 
 var levels = [
 	Level.new("Level 1", 1, 5, 50, "Navigation1"),
-	Level.new("Level 2", 5, 5, 450, "Navigation2"),
-	Level.new("Level 3", 5, 50, 300, "Navigation3"),
+	Level.new("Level 2", 5, 5, 350, "Navigation2"),
+	Level.new("Level 3", 5, 5, 500, "Navigation3"),
+	Level.new("Level 3", 5, 7, 1000, "Navigation4")
 ]
 
 var level_index = -1

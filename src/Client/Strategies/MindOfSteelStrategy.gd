@@ -28,4 +28,6 @@ func get_next_move():
 		get_next_path()
 		if path == null:
 			return null
+		if path == []:
+			return client.position
 	return path.pop_front()

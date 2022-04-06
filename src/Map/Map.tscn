@@ -156,6 +156,7 @@ script = ExtResource( 5 )
 sounds = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
 
 [node name="CheckoutSound" type="AudioStreamPlayer" parent="Sounds"]
+volume_db = 2.0
 bus = "SFX"
 script = ExtResource( 5 )
 sounds = [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ]
@@ -166,7 +167,7 @@ script = ExtResource( 5 )
 sounds = [ ExtResource( 16 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 23 ), ExtResource( 17 ), ExtResource( 17 ), ExtResource( 18 ) ]
 
 [node name="RareAmbianceSound" type="AudioStreamPlayer" parent="Sounds"]
-volume_db = -10.0
+volume_db = -8.0
 script = ExtResource( 5 )
 sounds = [ ExtResource( 15 ), ExtResource( 14 ), ExtResource( 22 ) ]
 

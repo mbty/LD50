@@ -3,11 +3,11 @@ extends Control
 signal next_level
 signal restart
 
-onready var next_level_btn = $CenterContainer3/VBoxContainer/NextLevelButton
-onready var restart_btn = $CenterContainer3/VBoxContainer/RestartButton
-onready var money_label = $CenterContainer3/VBoxContainer/CenterContainer2/HBoxContainer/Money
-onready var objective_label = $CenterContainer3/VBoxContainer/CenterContainer2/HBoxContainer/Objective
-onready var outcome_label = $CenterContainer3/VBoxContainer/CenterContainer3/Outcome
+onready var next_level_btn = $Center/VBoxContainer/NextLevelButton
+onready var restart_btn = $Center/VBoxContainer/RestartButton
+onready var money_label = $Center/VBoxContainer/CenterContainer2/HBoxContainer/Money
+onready var objective_label = $Center/VBoxContainer/CenterContainer2/HBoxContainer/Objective
+onready var outcome_label = $Center/VBoxContainer/CenterContainer3/Outcome
 
 func display_screen(money, objective):
 	self.show()

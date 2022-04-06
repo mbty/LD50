@@ -32,8 +32,6 @@ var checkout_locations
 var checkout_loc_dic = {}
 
 func _ready():
-	load_nav("Navigation1")
-	save_aisle_setup()
 	_on_AmbianceSoundTimer_timeout(true)
 	_on_RareAmbianceSoundTimer_timeout(true)
 

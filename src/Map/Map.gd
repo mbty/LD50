@@ -49,6 +49,7 @@ func load_nav(nav_name):
 	map_hover = nav.get_node("MapHover")
 	door_cells = floor_tile_map.get_used_cells_by_id(TILE_TYPES.DOOR)
 	clients.connect("no_more_clients", self, "_on_Clients_no_more_clients")
+	save_aisle_setup()
 	self._init_dict()
 
 func get_camera_bounds():

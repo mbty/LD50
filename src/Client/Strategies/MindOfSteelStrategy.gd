@@ -10,7 +10,7 @@ func init(client):
 func locations_attempt(locations):
 	for location in locations:
 		var cpath = client.map.get_path_(client.position, location)
-		if path == null || cpath.size() < path.size():
+		if cpath != null && (path == null || cpath.size() < path.size()):
 			path = cpath
 
 func get_next_path():

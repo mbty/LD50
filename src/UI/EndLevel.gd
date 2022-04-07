@@ -9,21 +9,26 @@ onready var money_label = $Center/VBoxContainer/CenterContainer2/HBoxContainer/M
 onready var objective_label = $Center/VBoxContainer/CenterContainer2/HBoxContainer/Objective
 onready var outcome_label = $Center/VBoxContainer/CenterContainer3/Outcome
 
-func display_screen(money, objective):
+func display_screen(money, objective, last_level):
 	self.show()
-	money_label.text = str(money) + "$"
-	objective_label.text = str(objective) + "$"
+	money_label.text = "$" + str(money)
+	objective_label.text = "$" + str(objective)
 	
-	if money >= objective:
-		next_level_btn.show()
-		restart_btn.hide()
-		outcome_label.text = "Level complete !"
-		outcome_label.modulate = Color(0.0, 1.0, 0.0, 1.0)
-	else:
+	if money < objective:
 		next_level_btn.hide()
 		restart_btn.show()
 		outcome_label.text = "Level failed ! Bankrupt !"
 		outcome_label.modulate = Color(1.0, 0.0, 0.0, 1.0)
+	elif last_level:
+		next_level_btn.hide()
+		restart_btn.show()
+		outcome_label.text = "Congratulations ! You won the game !"
+		outcome_label.modulate = Color(0.0, 1.0, 0.0, 1.0)
+	else:
+		next_level_btn.show()
+		restart_btn.hide()
+		outcome_label.text = "Level complete !"
+		outcome_label.modulate = Color(0.0, 1.0, 0.0, 1.0)
 
 
 func _on_NextLevelButton_pressed():

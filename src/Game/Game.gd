@@ -54,7 +54,7 @@ func on_next_level():
 	map.load_nav(level.nav)
 
 func on_end_level():
-	$UI/EndLevel.display_screen(money, get_level().goal, level_index == levels.size() - 1)
+	$UI/EndLevel.display_screen(money, get_level().goal, level_index, levels.size())
 
 func _on_EndLevel_next_level():
 	on_next_level()

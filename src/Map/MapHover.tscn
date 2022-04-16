@@ -30,7 +30,7 @@ aisle_texture = ExtResource( 4 )
 
 [node name="ProductSprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.392157 )
-position = Vector2( 0, -9 )
+position = Vector2( 0, -10 )
 texture = ExtResource( 3 )
 centered = false
 

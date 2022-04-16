@@ -119,13 +119,6 @@ rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 stretch_mode = 5
 
-[node name="CloseCreditsButton" type="Button" parent="CanvasLayer/Credits/Credits"]
-margin_left = 132.5
-margin_top = -14.0
-margin_right = 173.5
-margin_bottom = 28.0
-text = "X"
-
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Credits/Credits"]
 margin_left = 8.0
 margin_top = 10.0
@@ -144,10 +137,23 @@ Nicolas Busser
 Valérian Coulon
 Louis Mouhat
 ------------------
-Ludum Dare 50 game jam
+Made under 72h for Ludum Dare 50
 ------------------
-Thanks for playing!"
+Thanks for playing!
+
+       v1.0.2"
 scroll_active = false
+
+[node name="CloseCreditsButton" type="Button" parent="CanvasLayer/Credits"]
+anchor_left = 0.25
+anchor_top = 1.0
+anchor_right = 0.25
+anchor_bottom = 1.0
+margin_left = 71.0
+margin_top = -573.0
+margin_right = 113.0
+margin_bottom = -531.0
+text = "X"
 
 [node name="Tuto1" type="TextureRect" parent="."]
 visible = false
@@ -169,4 +175,4 @@ texture = ExtResource( 8 )
 
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Node2D/VBoxContainer/CenterContainer2/VBoxContainer/CreditsButton" to="." method="_on_CreditsButton_pressed"]
-[connection signal="pressed" from="CanvasLayer/Credits/Credits/CloseCreditsButton" to="." method="_on_CloseCreditsButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Credits/CloseCreditsButton" to="." method="_on_CloseCreditsButton_pressed"]

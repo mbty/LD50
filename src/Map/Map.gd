@@ -91,11 +91,10 @@ func _find_extra_aisles():
 	return current_aisle_setup
 
 func reset_aisles():
-	for original_tile in original_aisle_setup:
-		floor_tile_map.set_cellv(original_tile, TILE_TYPES.AISLE)
+	for tile in original_aisle_setup:
+		summon_aisle(tile)
 	for tile in _find_extra_aisles():
-		floor_tile_map.set_cellv(tile, TILE_TYPES.GROUND)
-		product_tile_map.set_cellv(tile, -1)
+		remove_tile(tile, true)
 		
 	var rect = floor_tile_map.get_used_rect()
 	floor_tile_map.update_bitmask_region(
@@ -232,8 +231,8 @@ func re_bake(changed_tile):
 		Vector2(changed_tile.x+1, changed_tile.y+1)
 	)
 
-func summon_aisle():
-	var tile_pos = get_tile_under_cursor()
+func summon_aisle(tile = null):
+	var tile_pos = get_tile_under_cursor() if tile == null else tile
 	var current_tile = floor_tile_map.get_cellv(tile_pos)
 	if current_tile == TILE_TYPES.GROUND:
 		$Sounds/BuildAisleSound.play_sound()
@@ -252,14 +251,19 @@ func summon_product(product):
 		product_tile_map.set_cellv(tile_pos, product.type)
 		add_product_to_dict(tile_pos, product)
 
-func remove_tile():
-	var tile_pos = get_tile_under_cursor()
+func remove_tile(tile = null, until_ground = false):
+	var tile_pos = get_tile_under_cursor() if tile == null else tile
 	var product_type = product_tile_map.get_cellv(tile_pos)
 	if product_type != -1:
+		# product
 		product_tile_map.set_cellv(tile_pos, -1)
 		remove_product_from_dict(tile_pos, product_type)
+		if until_ground:
+			remove_tile(tile_pos)
+			return
 		$Sounds/DestroyTileSound.play_sound()
 	elif floor_tile_map.get_cellv(tile_pos) == TILE_TYPES.AISLE:
+		# aisle
 		floor_tile_map.set_cellv(tile_pos, TILE_TYPES.GROUND)
 		re_bake(tile_pos)
 		emit_signal("cost_changed", assess_cost())
